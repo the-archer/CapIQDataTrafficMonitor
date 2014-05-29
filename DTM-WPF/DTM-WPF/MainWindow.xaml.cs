@@ -27,7 +27,14 @@ namespace DTM_WPF
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            getCurrentInfo();
+            DTMClass dtmclass = new DTMClass();
+            
+             Dictionary<int, Tuple<string, int, int, double, string>> data = dtmclass.getStats(DateTime.Now);
+        }
+
+        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
