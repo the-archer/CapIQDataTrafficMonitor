@@ -57,6 +57,7 @@ namespace DataTrafficMonitor
         }
         void getStats(DateTime time, string metric)
         {
+            //comment
             Debug.Write(DateTime.Now.ToString());
 
             int m_id = getMetricId(metric);
