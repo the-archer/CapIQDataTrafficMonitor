@@ -17,14 +17,7 @@ namespace DataTrafficMonitor
 
 
     [Serializable]
-    public class fields
-    {
-        public string servicename { get; set; }
-        public int value { get; set; }
-        public string colour { get; set; }
-        
-
-    }
+   
 
     public partial class _Default : System.Web.UI.Page
     {
