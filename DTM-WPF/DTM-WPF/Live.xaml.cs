@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Data;
+using System.Windows.Threading;
 
 namespace DTM_WPF
 {
@@ -26,9 +27,25 @@ namespace DTM_WPF
         {
             InitializeComponent();
             InitializeComboBox();
-           
+
+            DTimer dtimer = new DTimer();
+            
+
+            dtimer.Start(10);
+            
+            Debug.Write("Hello");
+            
+            //Debug.Write(dtimer.DoSomething);
+            
+            
           
         }
+        public void Testing()
+        {
+            Debug.WriteLine("testing");
+        }
+
+
 
         private void InitializeComboBox()
         {
@@ -40,14 +57,17 @@ namespace DTM_WPF
             comboBox1.DisplayMemberPath = ds.Tables[0].Columns["metric_name"].ToString();
             comboBox1.SelectedValuePath = ds.Tables[0].Columns["metric_id"].ToString();
             comboBox1.SelectedIndex = 0;
+
+
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            updateLiveData(Convert.ToInt32(comboBox1.SelectedValue));
+            updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
+            
         }
 
-        private void updateLiveData(int metric)
+        private void updateLiveData(int metric, string metric_name)
         {
             Debug.Write(metric);
             DateTime time = DateTime.Now;
@@ -111,8 +131,12 @@ namespace DTM_WPF
                rd.Close();
 
                dataGrid1.ItemsSource = data.Values;
-              
-            
+               dataGrid1.Columns[0].Header = "Service Name";
+               dataGrid1.Columns[1].Header = metric_name;
+               dataGrid1.Columns[2].Header = "Baseline Value";
+               dataGrid1.Columns[3].Header = "Percentage";
+               dataGrid1.Columns[4].Header = "Colour";
+
             }
 
 
@@ -123,5 +147,43 @@ namespace DTM_WPF
 
         }
 
+
+        public class DTimer
+        {
+            private DispatcherTimer timer;
+            public event Action<int> DoSomething;
+
+            private int _timesCalled = 0;
+
+            public DTimer()
+            {
+                timer = new DispatcherTimer();
+            }
+            public void Start(int PeriodInSeconds)
+            {
+                timer.Interval = TimeSpan.FromSeconds(PeriodInSeconds);
+                timer.Tick += timer_Task;
+                _timesCalled = 0;
+                timer.Start();
+            }
+
+            public void Stop()
+            {
+                timer.Stop();
+            }
+            private void timer_Task(object sender, EventArgs e)
+            {
+                _timesCalled++;
+                //Debug.WriteLine("testing");
+                DoSomething(_timesCalled);
+
+            }
+            
+
+        }
+
+         
     }
+
+
 }
