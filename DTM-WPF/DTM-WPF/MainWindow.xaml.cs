@@ -16,7 +16,9 @@ using System.Data.SqlClient;
 
 namespace DTM_WPF
 {
-    /// <summary>
+         
+       
+     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
@@ -28,7 +30,15 @@ namespace DTM_WPF
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
+            //Live livepage = new Live();
+           
+            
+
+            contentControl1.Content = new UserControl1();
+          
             DTMClass dtmclass = new DTMClass();
+
+
 
             //caller();
             
@@ -98,6 +108,11 @@ namespace DTM_WPF
                         cur = cur.AddMinutes(1);
                     }
                 }
+        }
+
+        private void dataGrid1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
 
 
