@@ -55,10 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="UserControl1.xaml.cs">
-      <DependentUpon>UserControl1.xaml</DependentUpon>
+    <Compile Include="Analysis.xaml.cs">
+      <DependentUpon>Analysis.xaml</DependentUpon>
     </Compile>
-    <Page Include="Live.xaml">
+    <Compile Include="Live.xaml.cs">
+      <DependentUpon>Live.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Analysis.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -71,14 +74,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DTMClass.cs" />
-    <Compile Include="Live.xaml.cs">
-      <DependentUpon>Live.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UserControl1.xaml">
+    <Page Include="Live.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

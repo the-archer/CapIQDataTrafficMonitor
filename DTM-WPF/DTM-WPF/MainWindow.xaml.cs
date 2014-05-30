@@ -16,7 +16,13 @@ using System.Data.SqlClient;
 
 namespace DTM_WPF
 {
-         
+
+    public class MyGlobal
+    {
+        public static string connstring = @"Data Source=CIQGUR-ATD133\sqlexpress;Initial Catalog=dtm;Integrated Security=True;Pooling=False";
+        public static System.Data.SqlClient.SqlConnection sqlConnection1 =
+              new System.Data.SqlClient.SqlConnection(MyGlobal.connstring);
+    }
        
      /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -26,24 +32,10 @@ namespace DTM_WPF
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            //Live livepage = new Live();
            
-            
-
-            contentControl1.Content = new UserControl1();
-          
-            DTMClass dtmclass = new DTMClass();
-
-
-
-            //caller();
-            
-             Dictionary<int, Tuple<string, int, int, double, string>> data = dtmclass.getStats(DateTime.Now);
         }
+
+   
 
         private void caller()
         {
@@ -115,6 +107,32 @@ namespace DTM_WPF
 
         }
 
+        private void button1_Click_1(object sender, RoutedEventArgs e)
+        {
+            //Live livepage = new Live();
+
+
+
+            contentControl1.Content = new UserControl1();
+
+            //DTMClass dtmclass = new DTMClass();
+
+
+
+            //caller();
+
+           // Dictionary<int, Tuple<string, int, int, double, string>> data = dtmclass.getStats(DateTime.Now);
+
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            contentControl1.Content = new Analysis();
+        }
+
+       
+
+      
 
 
     }

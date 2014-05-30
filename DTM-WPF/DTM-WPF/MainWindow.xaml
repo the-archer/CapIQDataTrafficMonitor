@@ -6,12 +6,12 @@
     <Grid Height="429">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="156*" />
-            <ColumnDefinition Width="563*" />
+            <ColumnDefinition Width="74*" />
+            <ColumnDefinition Width="188*" />
+            <ColumnDefinition Width="301*" />
         </Grid.ColumnDefinitions>
-        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="19,41,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" Grid.Column="1" />
-        <ComboBox Height="23" HorizontalAlignment="Left" Margin="65,41,0,0" Name="comboBox1" VerticalAlignment="Top" Width="120" SelectionChanged="comboBox1_SelectionChanged" ItemsSource="{Binding}" />
-        <ContentControl Height="347" HorizontalAlignment="Left" Margin="12,57,0,0" Name="contentControl1" VerticalAlignment="Top" Width="816" Content="{Binding Path=Content, ElementName=button1}" Grid.ColumnSpan="2">
-            
-        </ContentControl>
+        <ContentControl Grid.ColumnSpan="4" Height="350" HorizontalAlignment="Left" Margin="24,52,0,0" Name="contentControl1" VerticalAlignment="Top" Width="670"></ContentControl>
+        <Button Content="Live" Height="23" Name="button1" Width="75" Margin="81,12,0,394" Click="button1_Click_1" />
+        <Button Content="Analysis" Height="23" Margin="50,12,137,394" Name="button2" Width="75" Grid.Column="1" Grid.ColumnSpan="2" Click="button2_Click" />
     </Grid>
 </Window>

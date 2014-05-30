@@ -11,17 +11,36 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace DTM_WPF
 {
     /// <summary>
-    /// Interaction logic for Live.xaml
+    /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class Live : Page
+    public partial class UserControl1 : UserControl
     {
-        public Live()
+        public UserControl1()
         {
             InitializeComponent();
+            InitializeComboBox();
+           
+          
         }
+
+        private void InitializeComboBox()
+        {
+            SqlDataAdapter da = new SqlDataAdapter("Select metric_name, metric_id from metrics_tbl", MyGlobal.sqlConnection1);
+            DataSet ds = new DataSet();
+
+            da.Fill(ds, "Metric");
+            comboBox1.ItemsSource = ds.Tables[0].DefaultView;
+            comboBox1.DisplayMemberPath = ds.Tables[0].Columns["metric_name"].ToString();
+            comboBox1.SelectedValuePath = ds.Tables[0].Columns["metric_id"].ToString();
+            comboBox1.SelectedIndex = 0;
+        }
+
     }
 }

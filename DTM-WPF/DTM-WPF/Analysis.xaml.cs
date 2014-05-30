@@ -15,13 +15,14 @@ using System.Windows.Shapes;
 namespace DTM_WPF
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for Analysis.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class Analysis : UserControl
     {
-        public UserControl1()
+        public Analysis()
         {
             InitializeComponent();
+            
         }
     }
 }
