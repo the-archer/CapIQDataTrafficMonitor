@@ -110,7 +110,8 @@ namespace DTM_WPF
                }
                rd.Close();
 
-
+               dataGrid1.ItemsSource = data.Values;
+              
             
             }
 
