@@ -15,31 +15,74 @@ using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Threading;
+using System.Timers;
 
 namespace DTM_WPF
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
+    /// 
+
+    public class GlobalClass
+    {
+            
+    }
+
+
     public partial class UserControl1 : UserControl
     {
+
+
+        class AutoRefresh
+        {
+
+              System.Timers.Timer myTimer = new System.Timers.Timer();
+
+              public void StartTimer(ElapsedEventHandler myEvent, double time)
+              {
+
+                  myTimer.Elapsed += new ElapsedEventHandler(myEvent);
+                  myTimer.Interval = time*1000;
+                  myTimer.Enabled = true;
+              }
+
+        }
         public UserControl1()
         {
             InitializeComponent();
             InitializeComboBox();
-
-            DTimer dtimer = new DTimer();
+             AutoRefresh AR = new AutoRefresh();
+            //DTimer dtimer = new DTimer();
             
+            //DelayedExecutionService.DelayedExecute(() => Debug.Write("Hello"));
+            //dtimer.Start(10);
 
-            dtimer.Start(10);
-            
-            Debug.Write("Hello");
+            //AutoRefresh AR = new AutoRefresh();
+            //AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+          
             
             //Debug.Write(dtimer.DoSomething);
             
             
           
         }
+
+        public void myEvent(object source, ElapsedEventArgs e)
+        {
+
+            Debug.WriteLine("Timer working");
+            int arg1=0;
+            string arg2="10";
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+
+                arg1 = Convert.ToInt32(comboBox1.SelectedValue);
+                arg2 = (comboBox1.Text.ToString());
+            }));
+            updateLiveData(arg1, arg2);
+        }
+
         public void Testing()
         {
             Debug.WriteLine("testing");
@@ -63,11 +106,16 @@ namespace DTM_WPF
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
+
+
+           
+           
+
+            AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
             
         }
 
-        private void updateLiveData(int metric, string metric_name)
+        public void updateLiveData(int metric, string metric_name)
         {
             Debug.Write(metric);
             DateTime time = DateTime.Now;
@@ -130,17 +178,26 @@ namespace DTM_WPF
                }
                rd.Close();
 
-               dataGrid1.ItemsSource = data.Values;
-               dataGrid1.Columns[0].Header = "Service Name";
-               dataGrid1.Columns[1].Header = metric_name;
-               dataGrid1.Columns[2].Header = "Baseline Value";
-               dataGrid1.Columns[3].Header = "Percentage";
-               dataGrid1.Columns[4].Header = "Colour";
+
+               this.Dispatcher.Invoke((Action)(() =>
+               {
+
+
+                   dataGrid1.ItemsSource = data.Values;
+                   dataGrid1.Columns[0].Header = "Service Name";
+                   dataGrid1.Columns[1].Header = metric_name;
+                   dataGrid1.Columns[2].Header = "Baseline Value";
+                   dataGrid1.Columns[3].Header = "Percentage";
+                   dataGrid1.Columns[4].Header = "Colour";
+               }));
+
 
             }
 
 
 
+
+            Debug.WriteLine("CLosing");
             MyGlobal.sqlConnection1.Close();
             
             
@@ -148,39 +205,9 @@ namespace DTM_WPF
         }
 
 
-        public class DTimer
-        {
-            private DispatcherTimer timer;
-            public event Action<int> DoSomething;
+        
 
-            private int _timesCalled = 0;
-
-            public DTimer()
-            {
-                timer = new DispatcherTimer();
-            }
-            public void Start(int PeriodInSeconds)
-            {
-                timer.Interval = TimeSpan.FromSeconds(PeriodInSeconds);
-                timer.Tick += timer_Task;
-                _timesCalled = 0;
-                timer.Start();
-            }
-
-            public void Stop()
-            {
-                timer.Stop();
-            }
-            private void timer_Task(object sender, EventArgs e)
-            {
-                _timesCalled++;
-                //Debug.WriteLine("testing");
-                DoSomething(_timesCalled);
-
-            }
-            
-
-        }
+        
 
          
     }
