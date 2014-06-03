@@ -16,6 +16,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Threading;
 using System.Timers;
+using System.Collections.ObjectModel;
 
 namespace DTM_WPF
 {
@@ -106,9 +107,9 @@ namespace DTM_WPF
         private void button1_Click(object sender, RoutedEventArgs e)
         {
 
-
+            //updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
            
-           
+          
 
 
 
@@ -117,14 +118,27 @@ namespace DTM_WPF
 
         public void updateLiveData(int metric, string metric_name)
         {
+            Debug.WriteLine(metric);
+            Debug.WriteLine("Is it here?");
+
+           
+
+            GlobalClass.data.Clear();
 
             this.Dispatcher.Invoke((Action)(() =>
             {
 
 
-                BindingOperations.ClearAllBindings(dataGrid1);
+                dataGrid1.ItemsSource = null;
+                dataGrid1.Items.Refresh();
+                // dataGrid1.Items.Refresh();
             }));
+            //this.Dispatcher.Invoke((Action)(() =>
+            //{
 
+            
+            //    dataGrid1.Items.Refresh();
+            //}));
            
             Debug.Write(metric);
             DateTime time = DateTime.Now;
@@ -188,30 +202,31 @@ namespace DTM_WPF
                rd.Close();
 
 
-               this.Dispatcher.Invoke((Action)(() =>
-               {
-
-
-                   dataGrid1.ItemsSource = GlobalClass.data.Values;
-                   dataGrid1.Columns[0].Header = "Service Name";
-                   dataGrid1.Columns[1].Header = metric_name;
-                   dataGrid1.Columns[2].Header = "Baseline Value";
-                   dataGrid1.Columns[3].Header = "Percentage";
-                   dataGrid1.Columns[4].Header = "Colour";
-               }));
+              
 
 
             }
+            
+            this.Dispatcher.Invoke((Action)(() =>
+            {
 
-
+                Debug.WriteLine("Start");
+                ObservableCollection<Tuple<string, int, int, float, string>> list = new ObservableCollection<Tuple<string, int, int, float, string>>((from item in GlobalClass.data select item.Value));
+                dataGrid1.ItemsSource = list;
+                dataGrid1.Columns[0].Header = "Service Name";
+                dataGrid1.Columns[1].Header = metric_name;
+                dataGrid1.Columns[2].Header = "Baseline Value";
+                dataGrid1.Columns[3].Header = "Percentage";
+                dataGrid1.Columns[4].Header = "Colour";
+                dataGrid1.Items.Refresh();
+            }));
          
-
+           
             Debug.WriteLine("CLosing");
             
             MyGlobal.sqlConnection1.Close();
-            GlobalClass.data.Clear();
 
-            
+           
 
         }
 
@@ -232,7 +247,16 @@ namespace DTM_WPF
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+           
+
+
+           BindingOperations.ClearAllBindings(dataGrid1);
+            
+            GlobalClass.data.Clear();
+        
         }
+
+        
 
 
         
@@ -246,7 +270,7 @@ namespace DTM_WPF
     {
         public static System.Timers.Timer myTimer = new System.Timers.Timer();
         public static Dictionary<int, Tuple<string, int, int, float, string>> data = new Dictionary<int, Tuple<string, int, int, float, string>>();
-
+        public static ObservableCollection<Tuple<int, string, int, int, float, string>> dataobs = new ObservableCollection<Tuple<int,string,int,int,float,string>>();
     }
 
 
