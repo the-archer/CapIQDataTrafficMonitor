@@ -26,6 +26,7 @@ namespace DTM_WPF
 
 
 
+
     public partial class UserControl1 : UserControl
     {
 
@@ -38,10 +39,9 @@ namespace DTM_WPF
               public void StartTimer(ElapsedEventHandler myEvent, double time)
               {
 
-
-                  GlobalClass.myTimer.Elapsed += new ElapsedEventHandler(myEvent);
-                  GlobalClass.myTimer.Interval = time*1000*60;
-                  GlobalClass.myTimer.Enabled = true;
+                  myTimer.Elapsed += new ElapsedEventHandler(myEvent);
+                  myTimer.Interval = time*1000;
+                  myTimer.Enabled = true;
 
               }
 
@@ -109,6 +109,7 @@ namespace DTM_WPF
 
            
            
+
 
 
             
