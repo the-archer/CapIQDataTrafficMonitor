@@ -22,39 +22,39 @@ namespace DTM_WPF
 
    
        
-     /// <summary>
+     /// <summary>  
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
+            Debug.WriteLine("Before init");
             InitializeComponent();
 
-            caller();
+        //caller();
         }
 
    
 
         private void caller()
         {
-            Console.Write("Hello sd!");
-
-            SqlConnection sqlConnection1 =
-              new System.Data.SqlClient.SqlConnection(@"Data Source=CIQGUR-ATD133\SQLEXPRESS;Initial Catalog=dtm;Integrated Security=True");
+            Debug.Write("Hello sd!");
 
 
-            SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
 
+
+
+            MyGlobal.sqlConnection1.Open();
             //cmd.CommandType = System.Data.CommandType.Text;
             //cmd.Parameters.AddWithValue("@id1", 10);
             //cmd.Parameters.AddWithValue("@name1", "hello");
             //cmd.CommandText = "insert into baseline_tbl values ('Monday','0:0:00.0000000','0:00:0.0000000',1,1,1000);";
             //cmd.CommandText = "select count(*) from display_colour_tbl";
             //cmd.CommandText = "select * from service_metrics_tbl; ";
-            cmd.Connection = sqlConnection1;
+           
             Debug.WriteLine("Success");
-            sqlConnection1.Open();
+            
             Debug.WriteLine("Success");
             //Console.Write(cmd.ExecuteNonQuery());
 
@@ -66,11 +66,11 @@ namespace DTM_WPF
             Console.WriteLine("Success");*/
 
             //genRandom(sqlConnection1);
-            fillServiceMetricsTbl(sqlConnection1);
+            fillServiceMetricsTbl(MyGlobal.sqlConnection1);
             //fillDisplayColourTbl(sqlConnection1);
             //randomQueries(sqlConnection1);
            // Console.WriteLine("Success1");
-            sqlConnection1.Close();
+            MyGlobal.sqlConnection1.Close();
            // Console.Read();
         }
 
@@ -83,6 +83,7 @@ namespace DTM_WPF
         static void fillServiceMetricsTbl(SqlConnection sql1)
         {
             SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
+            
             cmd.Connection = sql1;
             DateTime cur = new DateTime(2014, 5, 30);
             Random r = new Random();

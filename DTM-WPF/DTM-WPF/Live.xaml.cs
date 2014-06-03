@@ -40,7 +40,7 @@ namespace DTM_WPF
               {
 
                   myTimer.Elapsed += new ElapsedEventHandler(myEvent);
-                  myTimer.Interval = time*1000;
+                  myTimer.Interval = time*1000*60;
                   myTimer.Enabled = true;
 
               }
@@ -117,19 +117,28 @@ namespace DTM_WPF
 
         public void updateLiveData(int metric, string metric_name)
         {
+
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+
+
+                BindingOperations.ClearAllBindings(dataGrid1);
+            }));
+
+           
             Debug.Write(metric);
             DateTime time = DateTime.Now;
-            Dictionary<int, Tuple<string, int, int, float, string>> data = new Dictionary<int, Tuple<string, int, int, float, string>>();
+            
             MyGlobal.sqlConnection1.Open();
             SqlCommand cmd = new SqlCommand("get_service_tbl", MyGlobal.sqlConnection1);
             cmd.CommandType=CommandType.StoredProcedure;
             SqlDataReader rd = cmd.ExecuteReader();
             while (rd.Read())
             {
-                data.Add(Convert.ToInt32(rd[0]), Tuple.Create(rd[1].ToString(), -1, -1, 0.0F, ""));
+                GlobalClass.data.Add(Convert.ToInt32(rd[0]), Tuple.Create(rd[1].ToString(), -1, -1, 0.0F, ""));
             }
             rd.Close();
-            List<int> keys = new List<int>(data.Keys);
+            List<int> keys = new List<int>(GlobalClass.data.Keys);
             string day = time.DayOfWeek.ToString();
             foreach (var item in keys)
             {
@@ -143,7 +152,7 @@ namespace DTM_WPF
                while (rd.Read())
                {
                    Debug.WriteLine("{0} {1}", rd[0], rd[1]);
-                   data[item] = Tuple.Create(data[item].Item1, Convert.ToInt32(rd[0]), data[item].Item3, data[item].Item4, data[item].Item5);
+                   GlobalClass.data[item] = Tuple.Create(GlobalClass.data[item].Item1, Convert.ToInt32(rd[0]), GlobalClass.data[item].Item3, GlobalClass.data[item].Item4, GlobalClass.data[item].Item5);
                }
                rd.Close();
                cmd = new SqlCommand("getvalue_baseline_tbl", MyGlobal.sqlConnection1);
@@ -156,9 +165,9 @@ namespace DTM_WPF
                float per = 0.0F;
                while (rd.Read())
                {
-                   per = (float)(data[item].Item2) / (Convert.ToInt32(rd[0])) * 100;
+                   per = (float)(GlobalClass.data[item].Item2) / (Convert.ToInt32(rd[0])) * 100;
                    Debug.WriteLine("{0} {1}", rd[0], rd[1]);
-                   data[item] = Tuple.Create(data[item].Item1, data[item].Item2, Convert.ToInt32(rd[0]), per, data[item].Item5);
+                   GlobalClass.data[item] = Tuple.Create(GlobalClass.data[item].Item1, GlobalClass.data[item].Item2, Convert.ToInt32(rd[0]), per, GlobalClass.data[item].Item5);
                }
                rd.Close();
 
@@ -174,7 +183,7 @@ namespace DTM_WPF
                while (rd.Read())
                {
                    Debug.WriteLine("{0} {1}", rd[0], rd[1]);
-                   data[item] = Tuple.Create(data[item].Item1, data[item].Item2, data[item].Item3, data[item].Item4, rd[0].ToString());
+                   GlobalClass.data[item] = Tuple.Create(GlobalClass.data[item].Item1, GlobalClass.data[item].Item2, GlobalClass.data[item].Item3, GlobalClass.data[item].Item4, rd[0].ToString());
                }
                rd.Close();
 
@@ -183,7 +192,7 @@ namespace DTM_WPF
                {
 
 
-                   dataGrid1.ItemsSource = data.Values;
+                   dataGrid1.ItemsSource = GlobalClass.data.Values;
                    dataGrid1.Columns[0].Header = "Service Name";
                    dataGrid1.Columns[1].Header = metric_name;
                    dataGrid1.Columns[2].Header = "Baseline Value";
@@ -195,11 +204,13 @@ namespace DTM_WPF
             }
 
 
-
+         
 
             Debug.WriteLine("CLosing");
-            MyGlobal.sqlConnection1.Close();
             
+            MyGlobal.sqlConnection1.Close();
+            GlobalClass.data.Clear();
+
             
 
         }
@@ -234,6 +245,7 @@ namespace DTM_WPF
     public class GlobalClass
     {
         public static System.Timers.Timer myTimer = new System.Timers.Timer();
+        public static Dictionary<int, Tuple<string, int, int, float, string>> data = new Dictionary<int, Tuple<string, int, int, float, string>>();
 
     }
 
