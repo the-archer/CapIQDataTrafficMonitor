@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 
 using System.Diagnostics;
 
-using System.Diagnostics;
+
 using System.Data.SqlClient;
 
 namespace DTM_WPF
@@ -143,9 +143,6 @@ namespace DTM_WPF
               new System.Data.SqlClient.SqlConnection(MyGlobal.connstring);
     }
 }
-
-
-
 
 
 
