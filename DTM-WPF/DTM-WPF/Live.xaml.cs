@@ -25,12 +25,8 @@ namespace DTM_WPF
     /// </summary>
     /// 
 
-
-
-
     public partial class UserControl1 : UserControl
     {
-
 
         class AutoRefresh
         {
@@ -39,37 +35,20 @@ namespace DTM_WPF
 
               public void StartTimer(ElapsedEventHandler myEvent, double time)
               {
-
                   myTimer.Elapsed += new ElapsedEventHandler(myEvent);
                   myTimer.Interval = time*1000*60;
                   myTimer.Enabled = true;
-
               }
-
         }
         public UserControl1()
         {
             InitializeComponent();
             InitializeComboBox();
-             AutoRefresh AR = new AutoRefresh();
-            //DTimer dtimer = new DTimer();
-            
-            //DelayedExecutionService.DelayedExecute(() => Debug.Write("Hello"));
-            //dtimer.Start(10);
-
-            //AutoRefresh AR = new AutoRefresh();
-            //AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
-          
-            
-            //Debug.Write(dtimer.DoSomething);
-            
-            
-          
+            new AutoRefresh();
         }
 
         public void myEvent(object source, ElapsedEventArgs e)
         {
-
             Debug.WriteLine("Timer working");
             int arg1=0;
             string arg2="10";
@@ -79,16 +58,14 @@ namespace DTM_WPF
                 arg1 = Convert.ToInt32(comboBox1.SelectedValue);
                 arg2 = (comboBox1.Text.ToString());
             }));
+
             updateLiveData(arg1, arg2);
         }
 
         public void Testing()
         {
             Debug.WriteLine("testing");
-            
         }
-
-
 
         private void InitializeComboBox()
         {
@@ -100,20 +77,11 @@ namespace DTM_WPF
             comboBox1.DisplayMemberPath = ds.Tables[0].Columns["metric_name"].ToString();
             comboBox1.SelectedValuePath = ds.Tables[0].Columns["metric_id"].ToString();
             comboBox1.SelectedIndex = 0;
-
-
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-
             //updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
-           
-          
-
-
-
-            
         }
 
         public void updateLiveData(int metric, string metric_name)
@@ -121,26 +89,14 @@ namespace DTM_WPF
             Debug.WriteLine(metric);
             Debug.WriteLine("Is it here?");
 
-           
-
             GlobalClass.data.Clear();
 
             this.Dispatcher.Invoke((Action)(() =>
             {
-
-
                 dataGrid1.ItemsSource = null;
                 dataGrid1.Items.Refresh();
-                // dataGrid1.Items.Refresh();
             }));
-            //this.Dispatcher.Invoke((Action)(() =>
-            //{
-
-            
-            //    dataGrid1.Items.Refresh();
-            //}));
            
-            Debug.Write(metric);
             DateTime time = DateTime.Now;
             
             MyGlobal.sqlConnection1.Open();
@@ -200,16 +156,10 @@ namespace DTM_WPF
                    GlobalClass.data[item] = Tuple.Create(GlobalClass.data[item].Item1, GlobalClass.data[item].Item2, GlobalClass.data[item].Item3, GlobalClass.data[item].Item4, rd[0].ToString());
                }
                rd.Close();
-
-
-              
-
-
             }
             
             this.Dispatcher.Invoke((Action)(() =>
             {
-
                 Debug.WriteLine("Start");
                 ObservableCollection<Tuple<string, int, int, float, string>> list = new ObservableCollection<Tuple<string, int, int, float, string>>((from item in GlobalClass.data select item.Value));
                 dataGrid1.ItemsSource = list;
@@ -221,13 +171,8 @@ namespace DTM_WPF
                 dataGrid1.Items.Refresh();
             }));
          
-           
-            Debug.WriteLine("CLosing");
-            
+            Debug.WriteLine("Closing");
             MyGlobal.sqlConnection1.Close();
-
-           
-
         }
 
         private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
@@ -237,7 +182,6 @@ namespace DTM_WPF
             {
                 if (time > 0)
                 {
-
                     AutoRefresh AR = new AutoRefresh();
                     AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
                 }
@@ -246,23 +190,11 @@ namespace DTM_WPF
 
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-           
-
-
-           BindingOperations.ClearAllBindings(dataGrid1);
-            
-            GlobalClass.data.Clear();
-        
+           BindingOperations.ClearAllBindings(dataGrid1); 
+           GlobalClass.data.Clear();
+           AutoRefresh AR = new AutoRefresh();
+           AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
         }
-
-
-
-
-        
-
-        
-
     }
 
     public class GlobalClass
@@ -271,7 +203,5 @@ namespace DTM_WPF
         public static Dictionary<int, Tuple<string, int, int, float, string>> data = new Dictionary<int, Tuple<string, int, int, float, string>>();
         public static ObservableCollection<Tuple<int, string, int, int, float, string>> dataobs = new ObservableCollection<Tuple<int,string,int,int,float,string>>();
     }
-
-
 
 }
