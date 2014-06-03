@@ -21,12 +21,7 @@ using System.Data.SqlClient;
 namespace DTM_WPF
 {
 
-    public class MyGlobal
-    {
-        public static string connstring = @"Data Source=CIQGUR-ATD133\sqlexpress;Initial Catalog=dtm;Integrated Security=True;Pooling=False";
-        public static System.Data.SqlClient.SqlConnection sqlConnection1 =
-              new System.Data.SqlClient.SqlConnection(MyGlobal.connstring);
-    }
+   
        
      /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -141,59 +136,13 @@ namespace DTM_WPF
 
 
     }
-}
 
-
-namespace GraphDemo
-{
-    [DebuggerDisplay("{ID}-{IsMale}")]
-    public class PocVertex
+    public class MyGlobal
     {
-        public string ID { get; private set; }
-        public bool IsMale { get; private set; }
-
-        public PocVertex(string id, bool isMale)
-        {
-            ID = id;
-            IsMale = isMale;
-        }
-
-        public override string ToString()
-        {
-            return string.Format("{0}-{1}", ID, IsMale);
-        }
+        public static string connstring = @"Data Source=CIQGUR-ATD133\sqlexpress;Initial Catalog=dtm;Integrated Security=True;Pooling=False";
+        public static System.Data.SqlClient.SqlConnection sqlConnection1 =
+              new System.Data.SqlClient.SqlConnection(MyGlobal.connstring);
     }
-
-    [DebuggerDisplay("{Source.ID} -> {Target.ID}")]
-    public class PocEdge : Edge<PocVertex>
-    {
-        public string ID
-        {
-            get;
-            private set;
-        }
-
-        public PocEdge(string id, PocVertex source, PocVertex target)
-            : base(source, target)
-        {
-            ID = id;
-        }
-    }
-
-    public class PocGraph : BidirectionalGraph<PocVertex, PocEdge>
-    {
-        public PocGraph() { }
-
-        public PocGraph(bool allowParallelEdges)
-            : base(allowParallelEdges) { }
-
-        public PocGraph(bool allowParallelEdges, int vertexCapacity)
-            : base(allowParallelEdges, vertexCapacity) { }
-    }
-
-    public class PocGraphLayout : GraphLayout<PocVertex, PocEdge, PocGraph> { }
-
-
 }
 
 

@@ -84,6 +84,7 @@ namespace DTM_WPF
         public void Testing()
         {
             Debug.WriteLine("testing");
+            
         }
 
 
@@ -205,6 +206,11 @@ namespace DTM_WPF
         {
             AutoRefresh AR = new AutoRefresh();
             AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+        }
+
+        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
 
 
