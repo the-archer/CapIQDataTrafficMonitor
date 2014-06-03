@@ -26,6 +26,7 @@ namespace DTM_WPF
 
     public class GlobalClass
     {
+       public static System.Timers.Timer myTimer = new System.Timers.Timer();
             
     }
 
@@ -36,15 +37,17 @@ namespace DTM_WPF
 
         class AutoRefresh
         {
+            
 
-              System.Timers.Timer myTimer = new System.Timers.Timer();
-
-              public void StartTimer(ElapsedEventHandler myEvent, double time)
+              //System.Timers.Timer myTimer = new System.Timers.Timer();
+               //Dictionary<Timer, Label> 
+              public void   StartTimer(ElapsedEventHandler myEvent, double time)
               {
+                  //System.Timers.Timer myTimer = new System.Timers.Timer();
 
-                  myTimer.Elapsed += new ElapsedEventHandler(myEvent);
-                  myTimer.Interval = time*1000;
-                  myTimer.Enabled = true;
+                  GlobalClass.myTimer.Elapsed += new ElapsedEventHandler(myEvent);
+                  GlobalClass.myTimer.Interval = time*1000;
+                  GlobalClass.myTimer.Enabled = true;
               }
 
         }
@@ -52,7 +55,7 @@ namespace DTM_WPF
         {
             InitializeComponent();
             InitializeComboBox();
-             AutoRefresh AR = new AutoRefresh();
+             
             //DTimer dtimer = new DTimer();
             
             //DelayedExecutionService.DelayedExecute(() => Debug.Write("Hello"));
@@ -108,9 +111,9 @@ namespace DTM_WPF
         {
 
 
-           
-           
 
+
+            AutoRefresh AR = new AutoRefresh();
             AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
             
         }
