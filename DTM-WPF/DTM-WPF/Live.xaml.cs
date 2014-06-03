@@ -24,7 +24,7 @@ namespace DTM_WPF
     /// </summary>
     /// 
 
-   
+
 
     public partial class UserControl1 : UserControl
     {
@@ -32,17 +32,17 @@ namespace DTM_WPF
 
         class AutoRefresh
         {
-            
 
-              //System.Timers.Timer myTimer = new System.Timers.Timer();
-               //Dictionary<Timer, Label> 
-              public void   StartTimer(ElapsedEventHandler myEvent, double time)
+              System.Timers.Timer myTimer = new System.Timers.Timer();
+
+              public void StartTimer(ElapsedEventHandler myEvent, double time)
               {
-                  //System.Timers.Timer myTimer = new System.Timers.Timer();
+
 
                   GlobalClass.myTimer.Elapsed += new ElapsedEventHandler(myEvent);
                   GlobalClass.myTimer.Interval = time*1000*60;
                   GlobalClass.myTimer.Enabled = true;
+
               }
 
         }
@@ -50,7 +50,7 @@ namespace DTM_WPF
         {
             InitializeComponent();
             InitializeComboBox();
-             
+             AutoRefresh AR = new AutoRefresh();
             //DTimer dtimer = new DTimer();
             
             //DelayedExecutionService.DelayedExecute(() => Debug.Write("Hello"));
@@ -107,9 +107,10 @@ namespace DTM_WPF
         {
 
 
-
-
            
+           
+
+
             
         }
 
