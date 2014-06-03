@@ -24,12 +24,7 @@ namespace DTM_WPF
     /// </summary>
     /// 
 
-    public class GlobalClass
-    {
-       public static System.Timers.Timer myTimer = new System.Timers.Timer();
-            
-    }
-
+   
 
     public partial class UserControl1 : UserControl
     {
@@ -46,7 +41,7 @@ namespace DTM_WPF
                   //System.Timers.Timer myTimer = new System.Timers.Timer();
 
                   GlobalClass.myTimer.Elapsed += new ElapsedEventHandler(myEvent);
-                  GlobalClass.myTimer.Interval = time*1000;
+                  GlobalClass.myTimer.Interval = time*1000*60;
                   GlobalClass.myTimer.Enabled = true;
               }
 
@@ -113,8 +108,7 @@ namespace DTM_WPF
 
 
 
-            AutoRefresh AR = new AutoRefresh();
-            AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+           
             
         }
 
@@ -207,6 +201,12 @@ namespace DTM_WPF
 
         }
 
+        private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            AutoRefresh AR = new AutoRefresh();
+            AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+        }
+
 
         
 
@@ -214,6 +214,13 @@ namespace DTM_WPF
 
          
     }
+
+    public class GlobalClass
+    {
+        public static System.Timers.Timer myTimer = new System.Timers.Timer();
+
+    }
+
 
 
 }

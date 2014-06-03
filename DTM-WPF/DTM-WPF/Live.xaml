@@ -9,7 +9,7 @@
         <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,35,438,0" Name="comboBox1" VerticalAlignment="Top" Width="120" ItemsSource="{Binding}" />
         <Label Content="Metric" Height="23" HorizontalAlignment="Left" Margin="12,33,0,0" Name="label1" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center" />
         <Label Content="Refresh after every " Height="28" Margin="335,33,229,0" Name="label2" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="452,35,0,0" Name="textBox1" VerticalAlignment="Top" Width="39" Text="1" HorizontalContentAlignment="Center" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="452,35,0,0" Name="textBox1" VerticalAlignment="Top" Width="39" Text="1" HorizontalContentAlignment="Center" TextChanged="textBox1_TextChanged" />
         <Label Content="min(s)" Height="28" Margin="503,33,61,0" Name="label3" VerticalAlignment="Top" />
         <DataGrid AutoGenerateColumns="True" Height="200" Margin="127,104,156,0" Name="dataGrid1" VerticalAlignment="Stretch" ItemsSource="{Binding}" CanUserSortColumns="False" />
         <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="567,33,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />

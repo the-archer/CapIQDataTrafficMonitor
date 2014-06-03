@@ -32,6 +32,7 @@ namespace DTM_WPF
         public MainWindow()
         {
             InitializeComponent();
+          
            
         }
 
@@ -54,9 +55,9 @@ namespace DTM_WPF
             //cmd.CommandText = "select count(*) from display_colour_tbl";
             //cmd.CommandText = "select * from service_metrics_tbl; ";
             cmd.Connection = sqlConnection1;
-            Console.WriteLine("Success");
+            Debug.WriteLine("Success");
             sqlConnection1.Open();
-            Console.WriteLine("Success");
+            Debug.WriteLine("Success");
             //Console.Write(cmd.ExecuteNonQuery());
 
             /*SqlDataReader a = cmd.ExecuteReader();
@@ -90,7 +91,7 @@ namespace DTM_WPF
             for (int i = 1; i <= 3; i++)
                 for (int j = 1; j <= 2; j++)
                 {
-                    cur = new DateTime(2014, 5, 30);
+                    cur = new DateTime(2014, 6, 2);
 
                     for (int t = 0; t < 2880; t++)
                     {
