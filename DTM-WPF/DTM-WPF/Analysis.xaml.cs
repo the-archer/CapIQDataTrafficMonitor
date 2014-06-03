@@ -53,6 +53,33 @@ namespace DTM_WPF
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine(datePicker1.Text);
+            DateTime start = Convert.ToDateTime(datePicker1.SelectedDate);
+            start=start.AddHours(timePicker1.SelectedHour);
+            start=start.AddMinutes(timePicker1.SelectedMinute);
+            start=start.AddSeconds(timePicker1.SelectedSecond);
+            Debug.WriteLine(start.ToString());
+           
+            
+            
+            Debug.WriteLine(datePicker2.Text);
+            DateTime end = Convert.ToDateTime(datePicker2.SelectedDate);
+            end = end.AddHours(timePicker2.SelectedHour);
+            end = end.AddMinutes(timePicker2.SelectedMinute);
+            end = end.AddSeconds(timePicker2.SelectedSecond);
+
+
+
+            Debug.WriteLine(end.ToString());
+            DateTime interval = new DateTime();
+            interval = interval.AddMinutes(30);
+            displayHistory(start, end, Convert.ToInt32(comboBox1.SelectedValue), comboBox1.Text.ToString(), interval);
+
+        }
+
+        private void displayHistory(DateTime start, DateTime end, int metric, string metric_name, DateTime interval)
+        {
+           
+
         }
     }
 }
