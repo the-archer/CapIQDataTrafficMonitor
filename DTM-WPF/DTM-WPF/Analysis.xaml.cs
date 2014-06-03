@@ -78,8 +78,10 @@ namespace DTM_WPF
 
         private void displayHistory(DateTime start, DateTime end, int metric, string metric_name, DateTime interval)
         {
-           
 
+            
+            
+            //UserControl1.getStats(metric, start);
         }
     }
 }
