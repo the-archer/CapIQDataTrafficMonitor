@@ -203,8 +203,16 @@ namespace DTM_WPF
 
         private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
-            AutoRefresh AR = new AutoRefresh();
-            AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+            double time;
+            if (Double.TryParse(textBox1.Text, out time))
+            {
+                if (time > 0)
+                {
+
+                    AutoRefresh AR = new AutoRefresh();
+                    AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+                }
+            }
         }
 
 
