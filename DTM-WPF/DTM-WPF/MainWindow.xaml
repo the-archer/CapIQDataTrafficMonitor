@@ -12,6 +12,6 @@
         </Grid.ColumnDefinitions>
         <ContentControl Grid.ColumnSpan="4" Height="350" HorizontalAlignment="Left" Margin="24,52,0,0" Name="contentControl1" VerticalAlignment="Top" Width="670"></ContentControl>
         <Button Content="Live" Height="23" Name="button1" Width="75" Margin="81,12,0,394" Click="button1_Click_1" />
-        <Button Content="Analysis" Height="23" Margin="50,12,137,394" Name="button2" Width="75" Grid.Column="1" Grid.ColumnSpan="2" Click="button2_Click" />
+        <Button Content="Analysis" Height="23" Margin="53,12,134,394" Name="button2" Width="75" Grid.Column="1" Click="button2_Click" Grid.ColumnSpan="2" />
     </Grid>
 </Window>
