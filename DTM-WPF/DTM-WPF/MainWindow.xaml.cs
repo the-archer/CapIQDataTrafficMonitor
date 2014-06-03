@@ -12,10 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using QuickGraph;
-using System.Diagnostics;
 
 using System.Diagnostics;
+
+
 using System.Data.SqlClient;
 
 namespace DTM_WPF
@@ -144,56 +144,6 @@ namespace DTM_WPF
 }
 
 
-namespace GraphDemo
-{
-    [DebuggerDisplay("{ID}-{IsMale}")]
-    public class PocVertex
-    {
-        public string ID { get; private set; }
-        public bool IsMale { get; private set; }
 
-        public PocVertex(string id, bool isMale)
-        {
-            ID = id;
-            IsMale = isMale;
-        }
-
-        public override string ToString()
-        {
-            return string.Format("{0}-{1}", ID, IsMale);
-        }
-    }
-
-    [DebuggerDisplay("{Source.ID} -> {Target.ID}")]
-    public class PocEdge : Edge<PocVertex>
-    {
-        public string ID
-        {
-            get;
-            private set;
-        }
-
-        public PocEdge(string id, PocVertex source, PocVertex target)
-            : base(source, target)
-        {
-            ID = id;
-        }
-    }
-
-    public class PocGraph : BidirectionalGraph<PocVertex, PocEdge>
-    {
-        public PocGraph() { }
-
-        public PocGraph(bool allowParallelEdges)
-            : base(allowParallelEdges) { }
-
-        public PocGraph(bool allowParallelEdges, int vertexCapacity)
-            : base(allowParallelEdges, vertexCapacity) { }
-    }
-
-    public class PocGraphLayout : GraphLayout<PocVertex, PocEdge, PocGraph> { }
-
-
-}
 
 
