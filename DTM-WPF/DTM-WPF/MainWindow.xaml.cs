@@ -31,8 +31,8 @@ namespace DTM_WPF
         public MainWindow()
         {
             InitializeComponent();
-          
-           
+
+            caller();
         }
 
    
@@ -90,7 +90,7 @@ namespace DTM_WPF
             for (int i = 1; i <= 3; i++)
                 for (int j = 1; j <= 2; j++)
                 {
-                    cur = new DateTime(2014, 6, 2);
+                    cur = new DateTime(2014, 6, 3);
 
                     for (int t = 0; t < 2880; t++)
                     {
