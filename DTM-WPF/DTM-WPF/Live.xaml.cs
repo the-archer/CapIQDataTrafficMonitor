@@ -221,12 +221,6 @@ namespace DTM_WPF
 
         }
 
-
-        
-
-        
-
-         
     }
 
     public class GlobalClass
