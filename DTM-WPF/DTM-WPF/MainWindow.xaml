@@ -1,8 +1,17 @@
 ﻿<Window x:Class="DTM_WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="MainWindow" Height="519" Width="741">
+    
+    <Grid Height="429">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="156*" />
+            <ColumnDefinition Width="74*" />
+            <ColumnDefinition Width="188*" />
+            <ColumnDefinition Width="301*" />
+        </Grid.ColumnDefinitions>
+        <ContentControl Grid.ColumnSpan="4" Height="350" HorizontalAlignment="Left" Margin="24,52,0,0" Name="contentControl1" VerticalAlignment="Top" Width="670"></ContentControl>
+        <Button Content="Live" Height="23" Name="button1" Width="75" Margin="81,12,0,394" Click="button1_Click_1" />
+        <Button Content="Analysis" Height="23" Margin="50,12,137,394" Name="button2" Width="75" Grid.Column="1" Grid.ColumnSpan="2" Click="button2_Click" />
     </Grid>
 </Window>
