@@ -30,7 +30,6 @@ namespace DTM_WPF
 
         class AutoRefresh
         {
-
               System.Timers.Timer myTimer = new System.Timers.Timer();
 
               public void StartTimer(ElapsedEventHandler myEvent, double time)
