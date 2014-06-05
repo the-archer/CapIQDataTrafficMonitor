@@ -18,8 +18,9 @@
         <Label Content="Metric" Height="23" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="51,83,0,0" Name="label3" VerticalAlignment="Top" Width="94" />
         <chartingToolkit:Chart  Name="lineSeries1" Title="Line Series Demo" 
 		VerticalAlignment="Top" Margin="51,127,80,0" Height="210">
-            <chartingToolkit:LineSeries  DependentValuePath="Value" 
-		IndependentValuePath="Key" ItemsSource="{Binding}" 
+            <chartingToolkit:LineSeries   DependentValuePath="Value" 
+		IndependentValuePath="Key"
+		 ItemsSource="{Binding}" 
 		IsSelectionEnabled="True"/>
         </chartingToolkit:Chart>
     </Grid>

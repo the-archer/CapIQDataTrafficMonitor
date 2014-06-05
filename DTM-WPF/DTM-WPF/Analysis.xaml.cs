@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Data;
 using Microsoft.Windows.Controls;
+using System.Windows.Controls.DataVisualization.Charting;
 
 namespace DTM_WPF
 {
@@ -79,14 +80,14 @@ namespace DTM_WPF
 
         private void displayHistory(DateTime start, DateTime end, int metric, string metric_name, DateTime interval)
         {
-            List<int> test = new List<int>();
+            List<KeyValuePair<int, int>> test = new List<KeyValuePair<int, int>>();
            
-            test.Insert(0, 4);
-            test.Insert(1, 5);
-            test.Insert(2, 1);
-            test.Insert(3, 2);
-            lineSeries1.DataContext = test;
-            
+            test.Add(new KeyValuePair<int,int>(2, 3));
+            test.Add(new KeyValuePair<int,int>(4, 1));
+            test.Add(new KeyValuePair<int,int>(5, 2));
+             test.Add(new KeyValuePair<int,int>(6, 7));
+            (lineSeries1.Series[0] as DataPointSeries).ItemsSource = test;
+           
             Debug.Write("here");
             
         }
