@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Data;
+using Microsoft.Windows.Controls;
 
 namespace DTM_WPF
 {
@@ -78,10 +79,16 @@ namespace DTM_WPF
 
         private void displayHistory(DateTime start, DateTime end, int metric, string metric_name, DateTime interval)
         {
-
+            List<int> test = new List<int>();
+           
+            test.Insert(0, 4);
+            test.Insert(1, 5);
+            test.Insert(2, 1);
+            test.Insert(3, 2);
+            lineSeries1.DataContext = test;
             
+            Debug.Write("here");
             
-            //UserControl1.getStats(metric, start);
         }
     }
 }
