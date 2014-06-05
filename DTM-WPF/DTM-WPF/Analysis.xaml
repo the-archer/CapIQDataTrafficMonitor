@@ -17,9 +17,8 @@
         <ComboBox Height="23" HorizontalAlignment="Right" ItemsSource="{Binding}" Margin="0,85,399,0" Name="comboBox1" VerticalAlignment="Top" Width="120" />
         <Label Content="Metric" Height="23" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="51,83,0,0" Name="label3" VerticalAlignment="Top" Width="94" />
         <chartingToolkit:Chart  Name="lineSeries1" Title="Line Series Demo" 
-		VerticalAlignment="Top" Margin="51,127,80,0" Height="210">
-            <chartingToolkit:LineSeries   DependentValuePath="Value" 
-		IndependentValuePath="Key"
+		VerticalAlignment="Top" Margin="51,127,73,0" Height="211">
+            <chartingToolkit:LineSeries  
 		 ItemsSource="{Binding}" 
 		IsSelectionEnabled="True"/>
         </chartingToolkit:Chart>

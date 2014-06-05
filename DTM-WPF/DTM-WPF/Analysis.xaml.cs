@@ -72,24 +72,69 @@ namespace DTM_WPF
 
 
             Debug.WriteLine(end.ToString());
-            DateTime interval = new DateTime();
-            interval = interval.AddMinutes(30);
+            TimeSpan interval = new TimeSpan(0, 30, 0);
+            
             displayHistory(start, end, Convert.ToInt32(comboBox1.SelectedValue), comboBox1.Text.ToString(), interval);
 
         }
 
-        private void displayHistory(DateTime start, DateTime end, int metric, string metric_name, DateTime interval)
+        private void displayHistory(DateTime start, DateTime end, int metric, string metric_name, TimeSpan interval)
         {
-            List<KeyValuePair<int, int>> test = new List<KeyValuePair<int, int>>();
-           
-            test.Add(new KeyValuePair<int,int>(2, 3));
-            test.Add(new KeyValuePair<int,int>(4, 1));
-            test.Add(new KeyValuePair<int,int>(5, 2));
-             test.Add(new KeyValuePair<int,int>(6, 7));
-            (lineSeries1.Series[0] as DataPointSeries).ItemsSource = test;
+
+            Dictionary<int, List<KeyValuePair<DateTime, float>>> test = new Dictionary<int, List<KeyValuePair<DateTime, float>>>();
+
+            Dictionary<int, string> service_names = new Dictionary<int, string>();
+            for (DateTime dt = start; dt <= end; dt = dt.Add(interval))
+            {
+                Dictionary<int, Tuple<string, int, int, float, string>> data = UserControl1.getStats(metric, dt);
+                foreach (var item in data)
+                {
+                    if(test.ContainsKey(item.Key))
+                    {
+                        test[item.Key].Add(new KeyValuePair<DateTime, float>(dt, item.Value.Item4));
+                    }
+                    else
+                    {
+
+                        test.Add(item.Key, new List<KeyValuePair<DateTime, float>>());
+                        test[item.Key].Add(new KeyValuePair<DateTime, float>(dt, item.Value.Item4));
+                        service_names.Add(item.Key, item.Value.Item1);
+
+                    }
+                   
+
+
+                }
+                
+                
+
+            }
+            //  test.Add(new KeyValuePair<int,int>(2, 3));
+            //test.Add(new KeyValuePair<int,int>(4, 1));
+            //test.Add(new KeyValuePair<int,int>(5, 2));
+            // test.Add(new KeyValuePair<int,int>(6, 7));
+
+            var set = test.Keys; int i = 0;
+            foreach(var key in set)
+            {
+                LineSeries t = new LineSeries();
+                t.ItemsSource=test[key];
+                t.Title = service_names[key];
+                t.DependentValuePath = "Value";
+                t.IndependentValuePath = "Key";
+                //(lineSeries1.Series[1] as DataPointSeries).ItemsSource = test[key];
+                lineSeries1.Series.Add(t);
+            }
+            
+            //lineSeries1.Series[1] as DataPointSeries).ItemsSource = test;
            
             Debug.Write("here");
             
+        }
+
+        private object var(DateTime dt, float p)
+        {
+            throw new NotImplementedException();
         }
     }
 }
