@@ -72,7 +72,9 @@ namespace DTM_WPF
 
 
             Debug.WriteLine(end.ToString());
-            TimeSpan interval = new TimeSpan(0, 30, 0);
+
+            TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20) );
+            
             
             displayHistory(start, end, Convert.ToInt32(comboBox1.SelectedValue), comboBox1.Text.ToString(), interval);
 
