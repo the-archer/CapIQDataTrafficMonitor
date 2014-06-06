@@ -13,14 +13,14 @@ namespace DTM_WPF{
     {
         public int serviceId { get; set; }
         public string serviceName { get; set; }
-        public float perc { get; set; }
+        public int perc { get; set; }
         public string color { get; set; }
 
         public PocVertex(string servicename, int serviceid, float p, string Color)
         {
             serviceName = servicename;
             serviceId = serviceid;
-            perc = p;
+            perc = (int)p;
             color = Color;
         }
 

@@ -100,8 +100,16 @@ namespace DTM_WPF
         {
             Dispatcher.BeginInvoke((Action)(() =>
             {
-               GlobalClass.win1 = new MainWindow1(GlobalClass.metric1, GlobalClass.time1);
-               GlobalClass.win1.Show();
+                try
+                {
+                    if (GlobalClass.win1.IsEnabled)
+                        GlobalClass.win1.vm.ReLayoutGraph(GlobalClass.metric1, GlobalClass.time1);
+                }
+                catch (Exception e)
+                {
+                    GlobalClass.win1 = new MainWindow1(GlobalClass.metric1, GlobalClass.time1);
+                }
+                GlobalClass.win1.Show();
             }));
             
         }
@@ -122,7 +130,6 @@ namespace DTM_WPF
             DateTime time = DateTime.Now;
 
             GlobalClass.data = getStats(metric, time); GlobalClass.metric1 = metric; GlobalClass.time1 = time;
-            //newThread();
             try
             {
                 if (GlobalClass.win1.IsEnabled) GlobalClass.win1.Close();
