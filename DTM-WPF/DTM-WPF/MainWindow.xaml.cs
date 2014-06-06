@@ -32,7 +32,7 @@ namespace DTM_WPF
             Debug.WriteLine("Before init");
             InitializeComponent();
 
-        //caller();
+                //caller();
         }
 
    
@@ -65,8 +65,8 @@ namespace DTM_WPF
             }
             Console.WriteLine("Success");*/
 
-            //genRandom(sqlConnection1);
-            fillServiceMetricsTbl(MyGlobal.sqlConnection1);
+            genRandom(MyGlobal.sqlConnection1);
+            //fillServiceMetricsTbl(MyGlobal.sqlConnection1);
             //fillDisplayColourTbl(sqlConnection1);
             //randomQueries(sqlConnection1);
            // Console.WriteLine("Success1");
@@ -79,6 +79,37 @@ namespace DTM_WPF
 
 
         }
+
+        static void genRandom(SqlConnection sql1)
+        {
+            SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
+            cmd.Connection = sql1;
+            string[] days = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            Random r = new Random();
+            for (int i = 1; i <= 3; i++)
+                for (int j = 1; j <= 2; j++)
+                {
+                    for (int d = 0; d < 7; d++)
+                        for (int h = 0; h < 24; h++)
+                            for (int m = 0; m <= 50; m += 10)
+                            {
+                                if (m == 50)
+                                    cmd.CommandText = "insert into baseline_tbl values( \'" + days[d] + "\'" +
+                                        ",\'" + h + ":" + m + ":" + "00.0000000\', \'" + (h + 1) % 24 + ":" + "00:00.0000000\'," + i + "," + j + "," + (r.Next(10000) + 10000) + ");";
+                                else
+                                    cmd.CommandText = "insert into baseline_tbl values( \'" + days[d] + "\'" +
+                                        ",\'" + h + ":" + m + ":" + "00.0000000\',\'" + h + ":" + (m + 10) + ":00.0000000\'," + i + "," + j + "," + (r.Next(10000) + 10000) + ");";
+                                cmd.ExecuteNonQuery();
+                                //Console.WriteLine(cmd.CommandText); 
+                                //cmd.ExecuteReader();
+                                //Console.WriteLine(cmd.CommandText);
+                                //Console.ReadLine();
+                                //Environment.Exit(0);
+                            }
+                }
+            Console.Read();
+        }
+
 
         static void fillServiceMetricsTbl(SqlConnection sql1)
         {
