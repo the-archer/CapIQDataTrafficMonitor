@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using QuickGraph;
 
-namespace DTM_WPF.GraphBits
+namespace DTM_WPF
 {
     public class PocGraph : BidirectionalGraph<PocVertex, PocEdge>
     {

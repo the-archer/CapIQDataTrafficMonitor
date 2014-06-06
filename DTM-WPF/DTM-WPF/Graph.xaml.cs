@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GraphSharp.Controls;
-using DTM_WPF.GraphBits;
 
 namespace DTM_WPF
 {
@@ -30,9 +29,9 @@ namespace DTM_WPF
 
 
 
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    vm.ReLayoutGraph();
-        //}
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //vm.ReLayoutGraph();
+        }
     }
 }

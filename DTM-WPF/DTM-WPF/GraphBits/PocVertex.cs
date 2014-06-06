@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace DTM_WPF.GraphBits{
+namespace DTM_WPF{
     /// <summary>
     /// A simple identifiable vertex.
     /// </summary>

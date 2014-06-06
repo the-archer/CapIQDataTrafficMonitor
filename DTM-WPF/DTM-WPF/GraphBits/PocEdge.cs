@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System;
 
-namespace DTM_WPF.GraphBits
+namespace DTM_WPF
 {
     /// <summary>
     /// A simple identifiable edge.

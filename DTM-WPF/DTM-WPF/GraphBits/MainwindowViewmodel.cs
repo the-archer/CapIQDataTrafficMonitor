@@ -6,10 +6,9 @@ using System.ComponentModel;
 using System.Collections;
 using GraphSharp.Controls;
 using System.Data.SqlClient;
-using DTM_WPF;
 
 
-namespace DTM_WPF.GraphBits
+namespace DTM_WPF
 {
     public class PocGraphLayout : GraphLayout<PocVertex, PocEdge, PocGraph> { }
 
@@ -90,7 +89,7 @@ namespace DTM_WPF.GraphBits
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "select * from edges_tbl";
 
-            SqlDataReader reader = new SqlDataReader();
+            SqlDataReader reader=cmd.ExecuteReader();
             while (reader.Read())
             {
                 AddNewGraphEdge
