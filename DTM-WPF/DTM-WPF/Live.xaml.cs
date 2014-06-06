@@ -59,6 +59,7 @@ namespace DTM_WPF
             }));
 
             updateLiveData(arg1, arg2);
+            
         }
 
         public void Testing()
@@ -99,6 +100,8 @@ namespace DTM_WPF
             DateTime time = DateTime.Now;
 
             GlobalClass.data = getStats(metric, time);
+            MainWindow1 win1 = new MainWindow1(metric, time);
+            win1.Show();
 
             
             
