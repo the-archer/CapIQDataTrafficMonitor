@@ -87,7 +87,7 @@ namespace DTM_WPF
         public void updateLiveData(int metric, string metric_name)
         {
             Debug.WriteLine(metric);
-            Debug.WriteLine("Is it here?");
+            //Debug.WriteLine("Is it here?");
 
             GlobalClass.data.Clear();
 

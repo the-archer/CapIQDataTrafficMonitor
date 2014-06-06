@@ -80,6 +80,7 @@ namespace DTM_WPF
 
         private void displayHistory(DateTime start, DateTime end, int metric, string metric_name, TimeSpan interval)
         {
+            lineSeries1.Series.Clear();
 
             Dictionary<int, List<KeyValuePair<DateTime, float>>> test = new Dictionary<int, List<KeyValuePair<DateTime, float>>>();
 
