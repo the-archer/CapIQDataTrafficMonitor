@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Collections;
 using GraphSharp.Controls;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 
 namespace DTM_WPF
@@ -93,8 +94,9 @@ namespace DTM_WPF
             SqlDataReader reader=cmd.ExecuteReader();
             while (reader.Read())
             {
+                //Debug.WriteLine();
                 AddNewGraphEdge
-                    (existingVertices[serviceHash[Convert.ToInt32(reader[0])]], existingVertices[serviceHash[Convert.ToInt32(reader[0])]]);
+                    (existingVertices[serviceHash[Convert.ToInt32(reader[0])]], existingVertices[serviceHash[Convert.ToInt32(reader[1])]]);
             }
             reader.Close();
             MyGlobal.sqlConnection1.Close();

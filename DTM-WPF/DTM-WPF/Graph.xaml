@@ -4,7 +4,7 @@
         xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
         xmlns:local="clr-namespace:DTM_WPF"
         xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"        
-        Title="GraphSharpDemo" Height="350" Width="525">
+        Title="Graph" Height="350" Width="525">
     <Window.Resources>
 
         <Style TargetType="{x:Type graphsharp:VertexControl}">

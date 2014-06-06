@@ -15,16 +15,15 @@ using GraphSharp.Controls;
 
 namespace DTM_WPF
 {
-
-
-
     public partial class MainWindow1 : Window
     {
         private MainWindowViewModel vm;
+
         public MainWindow1(int metricId, DateTime time)
         {
             vm = new MainWindowViewModel(metricId, time);
             this.DataContext = vm;
+            InitializeComponent();
         }
 
 

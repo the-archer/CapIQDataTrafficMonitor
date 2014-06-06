@@ -16,6 +16,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Threading;
 using System.Timers;
+using System.Threading;
 using System.Collections.ObjectModel;
 
 
@@ -87,6 +88,24 @@ namespace DTM_WPF
            // updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
         }
 
+        public void newThread()
+        {
+            Thread otherWindowHostingThread = new Thread(new ThreadStart(newWindow));
+            otherWindowHostingThread.SetApartmentState(ApartmentState.STA);
+            otherWindowHostingThread.Start();
+        }
+
+        
+        public void newWindow()
+        {
+            Dispatcher.BeginInvoke((Action)(() =>
+            {
+               GlobalClass.win1 = new MainWindow1(GlobalClass.metric1, GlobalClass.time1);
+               GlobalClass.win1.Show();
+            }));
+            
+        }
+
         public void updateLiveData(int metric, string metric_name)
         {
             Debug.WriteLine(metric);
@@ -102,10 +121,18 @@ namespace DTM_WPF
            
             DateTime time = DateTime.Now;
 
-            GlobalClass.data = getStats(metric, time);
-            MainWindow1 win1 = new MainWindow1(metric, time);
-            win1.Show();
-
+            GlobalClass.data = getStats(metric, time); GlobalClass.metric1 = metric; GlobalClass.time1 = time;
+            //newThread();
+            try
+            {
+                if (GlobalClass.win1.IsEnabled) GlobalClass.win1.Close();
+            }
+            catch (Exception e)
+            {
+                newWindow();
+            }
+            
+            
             
             
             this.Dispatcher.Invoke((Action)(() =>
@@ -217,6 +244,9 @@ namespace DTM_WPF
         public static System.Timers.Timer myTimer = new System.Timers.Timer();
         public static Dictionary<int, Tuple<string, int, int, float, string>> data = new Dictionary<int, Tuple<string, int, int, float, string>>();
         public static ObservableCollection<Tuple<int, string, int, int, float, string>> dataobs = new ObservableCollection<Tuple<int,string,int,int,float,string>>();
+        public static int metric1;
+        public static DateTime time1;
+        public static MainWindow1 win1;
     }
 
 }
