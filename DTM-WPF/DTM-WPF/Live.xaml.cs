@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using System.Timers;
 using System.Collections.ObjectModel;
 
+
 namespace DTM_WPF
 {
     /// <summary>
@@ -30,14 +31,16 @@ namespace DTM_WPF
 
         class AutoRefresh
         {
-              System.Timers.Timer myTimer = new System.Timers.Timer();
+            System.Timers.Timer myTimer = new System.Timers.Timer();
 
-              public void StartTimer(ElapsedEventHandler myEvent, double time)
-              {
-                  myTimer.Elapsed += new ElapsedEventHandler(myEvent);
-                  myTimer.Interval = time*1000*60;
-                  myTimer.Enabled = true;
-              }
+            public void StartTimer(ElapsedEventHandler myEvent, double time)
+            {
+                myTimer.Elapsed += new ElapsedEventHandler(myEvent);
+                myTimer.Interval = time * 1000 * 60;
+                myTimer.Enabled = true;
+            }
+
+          
         }
         public UserControl1()
         {
@@ -81,7 +84,7 @@ namespace DTM_WPF
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            //updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
+           // updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
         }
 
         public void updateLiveData(int metric, string metric_name)

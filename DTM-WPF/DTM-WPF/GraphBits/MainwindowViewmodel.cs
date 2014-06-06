@@ -88,6 +88,7 @@ namespace DTM_WPF
             MyGlobal.sqlConnection1.Open();
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "select * from edges_tbl";
+            cmd.Connection = MyGlobal.sqlConnection1;
 
             SqlDataReader reader=cmd.ExecuteReader();
             while (reader.Read())
