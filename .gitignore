@@ -172,3 +172,4 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+DTM-WPF/DTM-WPF/DTM-WPF.csproj
