@@ -17,7 +17,7 @@ namespace DTM_WPF
 {
     public partial class MainWindow1 : Window
     {
-        private MainWindowViewModel vm;
+        public MainWindowViewModel vm;
 
         public MainWindow1(int metricId, DateTime time)
         {
