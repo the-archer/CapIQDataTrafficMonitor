@@ -85,23 +85,23 @@ namespace DTM_WPF
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-           // updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
+             updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
         }
-
-        public void newThread()
-        {
-            Thread otherWindowHostingThread = new Thread(new ThreadStart(newWindow));
-            otherWindowHostingThread.SetApartmentState(ApartmentState.STA);
-            otherWindowHostingThread.Start();
-        }
-
         
         public void newWindow()
         {
             Dispatcher.BeginInvoke((Action)(() =>
             {
-               GlobalClass.win1 = new MainWindow1(GlobalClass.metric1, GlobalClass.time1);
-               GlobalClass.win1.Show();
+                try
+                {
+                    GlobalClass.win1.vm.ReLayoutGraph(GlobalClass.metric1, GlobalClass.time1);
+                }
+                catch (Exception e)
+                {
+                    GlobalClass.win1 = new MainWindow1(GlobalClass.metric1, GlobalClass.time1);
+                    GlobalClass.win1.Show();
+                }
+                
             }));
             
         }
@@ -122,7 +122,6 @@ namespace DTM_WPF
             DateTime time = DateTime.Now;
 
             GlobalClass.data = getStats(metric, time); GlobalClass.metric1 = metric; GlobalClass.time1 = time;
-            //newThread();
             try
             {
                 if (GlobalClass.win1.IsEnabled) GlobalClass.win1.Close();
@@ -237,6 +236,7 @@ namespace DTM_WPF
            AutoRefresh AR = new AutoRefresh();
            AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
         }
+
     }
 
     public class GlobalClass

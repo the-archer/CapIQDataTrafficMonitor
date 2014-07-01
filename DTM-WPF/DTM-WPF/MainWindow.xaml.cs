@@ -32,6 +32,8 @@ namespace DTM_WPF
         {
             Debug.WriteLine("Before init");
             InitializeComponent();
+           
+           
 
                 //caller();
         }
@@ -77,8 +79,7 @@ namespace DTM_WPF
 
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-
+            
         }
 
         static void genRandom(SqlConnection sql1)
@@ -142,8 +143,7 @@ namespace DTM_WPF
         private void button1_Click_1(object sender, RoutedEventArgs e)
         {
             //Live livepage = new Live();
-
-
+            
 
             contentControl1.Content = new UserControl1();
 
