@@ -151,6 +151,13 @@ namespace DTM_WPF
             
         }
 
+        public void GetDetails(int service_id)
+        {
+
+
+            return;
+        }
+
         public static Dictionary<int, Tuple<string, int, int, float, string>> getStats(int metric, DateTime time)
         {
             Dictionary<int, Tuple<string, int, int, float, string>> localdata = new Dictionary<int, Tuple<string, int, int, float, string>>();
