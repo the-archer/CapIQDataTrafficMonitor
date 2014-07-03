@@ -154,7 +154,7 @@ namespace DTM_WPF
         public void GetDetails(int service_id)
         {
 
-            contentControl1.Content = new Details(service_id);
+            //contentControl1.Content = new Details(service_id);
 
             return;
         }
