@@ -80,6 +80,7 @@ namespace DTM_WPF
                 per = (float)(rd[0]);
 
             }
+            rd.Close();
             return per;
             
         }
@@ -101,6 +102,7 @@ namespace DTM_WPF
                 Debug.WriteLine("Failed to get metric_id");
                 
             }
+            rd.Close();
             MyGlobal.sqlConnection1.Open();
             return metric_id;
         }

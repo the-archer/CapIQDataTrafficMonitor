@@ -16,6 +16,7 @@ using System.Diagnostics;
 
 
 using System.Data.SqlClient;
+using System.Data;
 
 namespace DTM_WPF
 {
@@ -160,6 +161,63 @@ namespace DTM_WPF
         private void button2_Click(object sender, RoutedEventArgs e)
         {
             contentControl1.Content = new Analysis();
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            fillRandomDataintoBaseline();
+        }
+
+        private void fillRandomDataintoBaseline()
+        {
+            Random r = new Random();
+
+            int baseline = 2000;
+
+            MyGlobal.sqlConnection1.Open();
+            DateTime dt = new DateTime();
+            //
+            
+
+            int service_id = 1;
+            int metric_id = 2;
+
+            string[] days = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            for (int i = 5; i < 7; i++)
+            {
+
+                for (int j = 0; j < (24 * 12); j++)
+                {
+                    SqlCommand cmd = new SqlCommand("BAM_AddBaseline_prc", MyGlobal.sqlConnection1);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@day", SqlDbType.NChar)).Value = days[i];
+                    cmd.Parameters.Add(new SqlParameter("@start_time", SqlDbType.Time)).Value = dt.TimeOfDay;
+                    cmd.Parameters.Add(new SqlParameter("@end_time", SqlDbType.Time)).Value = dt.AddMinutes(5).TimeOfDay;
+                    cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = service_id;
+                    cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric_id;
+                    cmd.Parameters.Add(new SqlParameter("@baseline", SqlDbType.Int)).Value = (baseline-(baseline%100));
+
+                    cmd.ExecuteNonQuery();
+                    baseline += (r.Next(-50,50)) ;
+                    if (baseline < 0)
+                        baseline = 0;
+
+                    
+                    dt = dt.AddMinutes(5);
+                }
+
+
+            }
+            
+
+
+            MyGlobal.sqlConnection1.Close();
+
+
+
+                   
+
+            
         }
 
        
