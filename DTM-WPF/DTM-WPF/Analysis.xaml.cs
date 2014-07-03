@@ -34,7 +34,7 @@ namespace DTM_WPF
 
         private void InitializeComboBox()
         {
-            SqlDataAdapter da = new SqlDataAdapter("Select metric_name, metric_id from metrics_tbl", MyGlobal.sqlConnection1);
+            SqlDataAdapter da = new SqlDataAdapter("SELECT metric_name, metric_id from BAM_Metric_tbl", MyGlobal.sqlConnection1);
             DataSet ds = new DataSet();
 
             da.Fill(ds, "Metric");
