@@ -9,6 +9,6 @@
 
         <Button Content="Analysis" Height="23" Margin="53,12,134,394" Name="button2" Width="75" Grid.Column="1" Click="button2_Click" Grid.ColumnSpan="2" />
         <Button Content="Button" Grid.Column="3" Height="23" HorizontalAlignment="Left" Margin="130,24,0,0" Name="button3" VerticalAlignment="Top" Width="75" Click="button3_Click" />
-    </Grid>
+    </Canvas>
 
 </Window>
