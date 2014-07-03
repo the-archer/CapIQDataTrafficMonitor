@@ -35,11 +35,16 @@ namespace DTM_WPF
         {
 
             TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
-            metric_id = GetMetricID(metric_name);
+            int metric_id = GetMetricID(metric_name);
 
             
 
                 
+        }
+
+        private int GetMetricID(string metric_name)
+        {
+            throw new NotImplementedException();
         }
     }
 }
