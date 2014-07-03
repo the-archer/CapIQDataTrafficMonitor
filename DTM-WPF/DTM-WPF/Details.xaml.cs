@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
+using System.Windows.Controls.DataVisualization.Charting;
 
 namespace DTM_WPF
 {
@@ -37,18 +38,28 @@ namespace DTM_WPF
         public void UpdateGraph(int service_id, string metric_name, DateTime start, DateTime end)
         {
 
-            TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
             int metric_id = GetMetricID(metric_name);
+            MyGlobal.sqlConnection1.Open();
+            TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
+            
             List<KeyValuePair<DateTime, float>> data = new List<KeyValuePair<DateTime, float>>();
             for (DateTime dt = start; dt <= end; dt = dt.Add(interval))
             {
                 float per = GetPerformance(service_id, metric_id, dt);
-
+                data.Add(new KeyValuePair<DateTime, float>(dt, per));
 
             }
 
+            LineSeries t = new LineSeries();
+            t.ItemsSource = data;
+            //t.Title = service_names[key];
+            t.DependentValuePath = "Value";
+            t.IndependentValuePath = "Key";
+            //(lineSeries1.Series[1] as DataPointSeries).ItemsSource = test[key];
+            lineSeries1.Series.Add(t);
 
-            
+
+            MyGlobal.sqlConnection1.Close();
 
                 
         }
@@ -56,7 +67,19 @@ namespace DTM_WPF
         public float GetPerformance(int service_id, int metric_id, DateTime dt)
         {
             float per = 0;
+            
+            SqlCommand cmd = new SqlCommand("BAM_GetPercentage_prc", MyGlobal.sqlConnection1);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = service_id;
+            cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric_id;
+            cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = dt;
+            SqlDataReader rd = cmd.ExecuteReader();
+            while (rd.Read())
+            {
 
+                per = (float)(rd[0]);
+
+            }
             return per;
             
         }
@@ -67,6 +90,7 @@ namespace DTM_WPF
             MyGlobal.sqlConnection1.Open();
             SqlCommand cmd = new SqlCommand("BAM_GetMetricID_prc", MyGlobal.sqlConnection1);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@metric_name", SqlDbType.VarChar)).Value = metric_name;
             SqlDataReader rd = cmd.ExecuteReader();
             while (rd.Read())
             {
@@ -77,7 +101,7 @@ namespace DTM_WPF
                 Debug.WriteLine("Failed to get metric_id");
                 
             }
-
+            MyGlobal.sqlConnection1.Open();
             return metric_id;
         }
 
