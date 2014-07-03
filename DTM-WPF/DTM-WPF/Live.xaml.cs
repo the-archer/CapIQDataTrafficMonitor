@@ -62,10 +62,69 @@ namespace DTM_WPF
                 arg2 = (comboBox1.Text.ToString());
             }));
 
-            updateLiveData(arg1, arg2);
+            //updateLiveData(arg1, arg2);
+            RefreshGraph();
             
         }
 
+        public void RefreshGraph()
+        {
+            RefreshQueues();
+        }
+
+        public void RefreshQueues()
+        {
+            for (int s_id = 1; s_id < 6; s_id++)
+            {
+                Tuple<float, int> pending =  GetPending(s_id);
+
+                if (pending.Item2 == -1)
+                {
+                    this.Dispatcher.Invoke((Action)(() =>
+                    {
+
+                        pb_contentsearch.Background = System.Windows.Media.Brushes.Gray;
+                    }));
+                   
+                }
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+
+                    pb_contentsearch.Value = pending.Item1;
+                }));
+               
+
+
+            }
+
+            return;
+        }
+
+        public Tuple<float, int> GetPending(int s_id)
+        {
+
+            int metric_id = Details.GetMetricID("Pending");
+            MyGlobal.sqlConnection1.Open();
+            float per = 0;
+
+            SqlCommand cmd = new SqlCommand("BAM_GetPercentage_prc", MyGlobal.sqlConnection1);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = s_id;
+            cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric_id;
+            cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
+            SqlDataReader rd = cmd.ExecuteReader();
+            int value = -1;
+            while (rd.Read())
+            {
+
+                per = (float)(rd[0]);
+                value = Convert.ToInt32(rd[1]);
+
+            }
+            rd.Close();
+            MyGlobal.sqlConnection1.Close();
+            return new Tuple<float, int>(per, value);
+        }
         public void Testing()
         {
             Debug.WriteLine("testing");

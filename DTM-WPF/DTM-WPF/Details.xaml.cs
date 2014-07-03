@@ -85,7 +85,7 @@ namespace DTM_WPF
             
         }
 
-        public int GetMetricID(string metric_name)
+        public static int GetMetricID(string metric_name)
         {
             int metric_id=0;
             MyGlobal.sqlConnection1.Open();
