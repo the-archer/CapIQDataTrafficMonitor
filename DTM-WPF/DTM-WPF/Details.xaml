@@ -3,9 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="750" d:DesignWidth="750">
+             d:DesignHeight="750" d:DesignWidth="750" xmlns:my="http://schemas.AvalonControls/AvalonControlsLibrary/Controls" xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit">
     <Grid>
-            
+
+        <chartingToolkit:Chart  Name="lineSeries1" VerticalAlignment="Top" Margin="51,127,64,0" Height="232">
+            <chartingToolkit:LineSeries  
+		 ItemsSource="{Binding}" 
+		IsSelectionEnabled="True"/>
+        </chartingToolkit:Chart>
+
     </Grid>
 </UserControl>

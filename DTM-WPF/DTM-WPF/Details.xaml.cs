@@ -19,9 +19,25 @@ namespace DTM_WPF
     /// </summary>
     public partial class Details : UserControl
     {
-        public Details()
+        public Details(int service_id)
         {
             InitializeComponent();
+
+            DateTime end = DateTime.Now;
+            DateTime start = DateTime.Now;
+            start = start.AddDays(-1);
+            UpdateGraph(service_id, "Processed", start, end);
+
+
+        }
+
+        public void UpdateGraph(int service_id, string metric_name, DateTime start, DateTime end)
+        {
+
+            TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
+
+
+                
         }
     }
 }

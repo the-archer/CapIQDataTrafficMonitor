@@ -171,7 +171,7 @@ namespace DTM_WPF
 
     public class MyGlobal
     {
-        public static string connstring = @"Data Source=CIQGUR-ATD133\sqlexpress;Initial Catalog=dtm;Integrated Security=True;Pooling=False";
+        public static string connstring = @"Data Source=figo\ford;Initial Catalog=Dashboard;Integrated Security=True";
         public static System.Data.SqlClient.SqlConnection sqlConnection1 =
               new System.Data.SqlClient.SqlConnection(MyGlobal.connstring);
     }
