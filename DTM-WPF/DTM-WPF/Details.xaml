@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="750" d:DesignWidth="750" xmlns:my="http://schemas.AvalonControls/AvalonControlsLibrary/Controls" xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit">
+             d:DesignHeight="750" d:DesignWidth="750" xmlns:my="http://schemas.AvalonControls/AvalonControlsLibrary/Controls" xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit" xmlns:my1="clr-namespace:DTM_WPF">
     <Grid>
 
         <chartingToolkit:Chart  Name="lineSeries1" VerticalAlignment="Top" Margin="51,127,64,0" Height="232">
@@ -13,6 +13,10 @@
 		 ItemsSource="{Binding}" 
 		IsSelectionEnabled="True"/>
         </chartingToolkit:Chart>
-
+        
+        <ProgressBar Height="23" HorizontalAlignment="Left" Margin="231,56,0,0" Name="progressBar1" VerticalAlignment="Top" Width="160" FlowDirection="LeftToRight" IsIndeterminate="False" Orientation="Horizontal" LargeChange="1" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="468,56,0,0" Name="textBox1" VerticalAlignment="Top" Width="120" TextChanged="textBox1_TextChanged" />
+        <my1:MyProgressBar HorizontalAlignment="Left" Margin="74,56,0,0" x:Name="myProgressBar1" VerticalAlignment="Top" Height="23" Width="81"/>
+        <my1:MyProgressBar HorizontalAlignment="Left" Margin="255,21,0,0" x:Name="myProgressBar2" VerticalAlignment="Top" Height="29" Width="106" />
     </Grid>
 </UserControl>

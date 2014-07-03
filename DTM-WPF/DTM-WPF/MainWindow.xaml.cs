@@ -319,6 +319,11 @@ namespace DTM_WPF
             
         }
 
+        private void button4_Click(object sender, RoutedEventArgs e)
+        {
+            contentControl1.Content = new Details(2);
+        }
+
        
 
       

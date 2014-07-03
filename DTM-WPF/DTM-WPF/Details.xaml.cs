@@ -30,7 +30,7 @@ namespace DTM_WPF
             DateTime end = DateTime.Now;
             DateTime start = DateTime.Now;
             start = start.AddDays(-1);
-            UpdateGraph(service_id, "Processed", start, end);
+            //UpdateGraph(service_id, "Processed", start, end);
 
 
         }
@@ -103,8 +103,14 @@ namespace DTM_WPF
                 
             }
             rd.Close();
-            MyGlobal.sqlConnection1.Open();
+            MyGlobal.sqlConnection1.Close();
             return metric_id;
+        }
+
+        private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            progressBar1.Value = Convert.ToDouble(textBox1.Text);
+            myProgressBar1.Value = Convert.ToDouble(textBox1.Text);
         }
 
         
