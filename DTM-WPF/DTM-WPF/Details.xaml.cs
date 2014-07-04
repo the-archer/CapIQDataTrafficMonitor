@@ -23,16 +23,18 @@ namespace DTM_WPF
     /// </summary>
     public partial class Details : UserControl
     {
+
+        int s_id;
         public Details(int service_id)
         {
             InitializeComponent();
-
+            s_id = service_id;
             DateTime end = DateTime.Now;
             DateTime start = DateTime.Now;
             start = start.AddDays(-1);
             UpdateGraph(service_id, "Processed", start, end);
 
-
+            
         }
 
         public void UpdateGraph(int service_id, string metric_name, DateTime start, DateTime end)
@@ -54,7 +56,7 @@ namespace DTM_WPF
             SqlCommand cmd = new SqlCommand("SELECT service_name FROM BAM_Service_tbl WHERE service_id="+service_id.ToString()+";", MyGlobal.sqlConnection1);
             SqlDataReader rd = cmd.ExecuteReader();
             rd.Read();
-
+            lineSeries1.Series.Clear();
             LineSeries t = new LineSeries();
             t.ItemsSource = data;
             t.Title = rd[0].ToString();
@@ -119,11 +121,45 @@ namespace DTM_WPF
             return metric_id;
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            this.Visibility = System.Windows.Visibility.Collapsed;
+       
 
+        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, RoutedEventArgs e)
+        {
             
+            DateTime end = DateTime.Now;
+            DateTime start = DateTime.Now;
+            start = start.AddDays(-1);
+            UpdateGraph(s_id, "Processed", start, end);
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime end = DateTime.Now;
+            DateTime start = DateTime.Now;
+            start = start.AddDays(-7);
+            UpdateGraph(s_id, "Processed", start, end);
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime end = DateTime.Now;
+            DateTime start = DateTime.Now;
+            start = start.AddMonths(-1);
+            UpdateGraph(s_id, "Processed", start, end); 
+        
+        }
+
+        private void button4_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime end = DateTime.Now;
+            DateTime start = DateTime.Now;
+            start = start.AddYears(-1);
+            UpdateGraph(s_id, "Processed", start, end); 
         }
 
       
