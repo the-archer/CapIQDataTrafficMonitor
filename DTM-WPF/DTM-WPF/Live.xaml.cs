@@ -374,16 +374,15 @@ namespace DTM_WPF
 
         public void GetDetails(int service_id)
         {
-<<<<<<< HEAD
-           contentControl1.Content = new Details(service_id);
-=======
-            //AutoRefresh AR = new AutoRefresh();
             GlobalClass.AR.StopTimer();
+           contentControl1.Content = new Details(service_id);
+
+            //AutoRefresh AR = new AutoRefresh();
+          
             //AR.(myEvent, Convert.ToDouble(textBox1.Text));
 
 
-            contentControl1.Content = new Details(service_id);
->>>>>>> origin/master
+
 
             return;
         }
