@@ -23,13 +23,13 @@
                 <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Document_Metadata_Replication" Canvas.Left="542" Canvas.Top="437" Content="NA"/>
                 <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Workflow_Loader" Canvas.Left="741" Canvas.Top="303" Click="service_Click" Content="NA"/>
                 <my:MyProgressBar Canvas.Left="31" Canvas.Top="351" x:Name="pb_versioncreation" Height="10" Width="40" />
-                <my:MyProgressBar Canvas.Left="168" Canvas.Top="351" Height="10" x:Name="myProgressBar2" Width="40"  />
-                <my:MyProgressBar Canvas.Left="339" Canvas.Top="221" Height="10" x:Name="myProgressBar3" Width="40"  />
+                <my:MyProgressBar Canvas.Left="168" Canvas.Top="351" Height="10" x:Name="myProgressBar2" Width="40" Value="0" />
+                <my:MyProgressBar Canvas.Left="339" Canvas.Top="221" Height="10" x:Name="myProgressBar3" Width="40" Value="0" Background="#FF302727" BorderBrush="#FF241E1E" OpacityMask="#FF020101" OverridesDefaultStyle="True" IsManipulationEnabled="False" />
                 <my:MyProgressBar Canvas.Left="542" Canvas.Top="221" Height="10" x:Name="pb_physicalfilerep" Width="40" />
                 <my:MyProgressBar Canvas.Left="339" Canvas.Top="351" Height="10" x:Name="pb_contentsearch" Width="40" />
                 <my:MyProgressBar Canvas.Left="542" Canvas.Top="351" Height="10" x:Name="pb_contentsearchrep" Width="40" />
-                <my:MyProgressBar Canvas.Left="339" Canvas.Top="483" Height="10" x:Name="myProgressBar7" Width="40" />
-                <my:MyProgressBar Canvas.Left="542" Canvas.Top="483" Height="10" x:Name="myProgressBar8" Width="40" />
+                <my:MyProgressBar Canvas.Left="339" Canvas.Top="483" Height="10" x:Name="myProgressBar7" Width="40" Value="0" />
+                <my:MyProgressBar Canvas.Left="542" Canvas.Top="483" Height="10" x:Name="myProgressBar8" Width="40" Value="0" />
                 <my:MyProgressBar Canvas.Left="741" Canvas.Top="351" Height="10" x:Name="pb_workflowloader" Width="40" />
             </Canvas>
         </ContentControl>
