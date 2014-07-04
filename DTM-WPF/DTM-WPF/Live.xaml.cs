@@ -295,58 +295,61 @@ namespace DTM_WPF
             return;
         }
 
-        public static Dictionary<int, Tuple<string, int, int, float, string>> getStats(int metric, DateTime time)
+        public static Dictionary<int, Tuple<string, int, int, double, string>> getStats(int metric, DateTime time)
         {
-            Dictionary<int, Tuple<string, int, int, float, string>> localdata = new Dictionary<int, Tuple<string, int, int, float, string>>();
+            Dictionary<int, Tuple<string, int, int, double, string>> localdata = new Dictionary<int, Tuple<string, int, int, double, string>>();
             MyGlobal.sqlConnection1.Open();
-            SqlCommand cmd = new SqlCommand("get_service_tbl", MyGlobal.sqlConnection1);
+            SqlCommand cmd = new SqlCommand("BAM_GetAllServices_prc", MyGlobal.sqlConnection1);
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataReader rd = cmd.ExecuteReader();
             while (rd.Read())
             {
-                localdata.Add(Convert.ToInt32(rd[0]), Tuple.Create(rd[1].ToString(), -1, -1, 0.0F, ""));
+                localdata.Add(Convert.ToInt32(rd[0]), Tuple.Create(rd[1].ToString(), -1, -1, 0.0, ""));
             }
             rd.Close();
             List<int> keys = new List<int>(localdata.Keys);
             string day = time.DayOfWeek.ToString();
             foreach (var item in keys)
             {
-                cmd = new SqlCommand("getvalue_service_metrics_tbl", MyGlobal.sqlConnection1);
+                cmd = new SqlCommand("BAM_GetPercentage_prc", MyGlobal.sqlConnection1);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
-                cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = item;
-                cmd.Parameters.Add(new SqlParameter("@first", SqlDbType.DateTime)).Value = time;
-
+                cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric;
+                cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = item;
+                cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = time;
+                double per = 0;
                 rd = cmd.ExecuteReader();
                 while (rd.Read())
                 {
                     Debug.WriteLine("{0} {1}", rd[0], rd[1]);
-                    localdata[item] = Tuple.Create(localdata[item].Item1, Convert.ToInt32(rd[0]), localdata[item].Item3, localdata[item].Item4, localdata[item].Item5);
+                    localdata[item] = Tuple.Create(localdata[item].Item1, Convert.ToInt32(rd[1]), localdata[item].Item3, Convert.ToDouble(rd[0]), localdata[item].Item5);
+                    per = Convert.ToDouble(rd[0]);
                 }
+                
+                
                 rd.Close();
-                cmd = new SqlCommand("getvalue_baseline_tbl", MyGlobal.sqlConnection1);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
-                cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = item;
-                cmd.Parameters.Add(new SqlParameter("@first", SqlDbType.DateTime)).Value = time;
-                cmd.Parameters.Add(new SqlParameter("@day", SqlDbType.Text)).Value = day;
-                rd = cmd.ExecuteReader();
-                float per = 0.0F;
-                while (rd.Read())
-                {
-                    per = (float)(localdata[item].Item2) / (Convert.ToInt32(rd[0])) * 100;
-                    Debug.WriteLine("{0} {1}", rd[0], rd[1]);
-                    localdata[item] = Tuple.Create(localdata[item].Item1, localdata[item].Item2, Convert.ToInt32(rd[0]), per, localdata[item].Item5);
-                }
-                rd.Close();
+                //cmd = new SqlCommand("getvalue_baseline_tbl", MyGlobal.sqlConnection1);
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
+                //cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = item;
+                //cmd.Parameters.Add(new SqlParameter("@first", SqlDbType.DateTime)).Value = time;
+                //cmd.Parameters.Add(new SqlParameter("@day", SqlDbType.Text)).Value = day;
+                //rd = cmd.ExecuteReader();
+                //float per = 0.0F;
+                //while (rd.Read())
+                //{
+                //    per = (float)(localdata[item].Item2) / (Convert.ToInt32(rd[0])) * 100;
+                //    Debug.WriteLine("{0} {1}", rd[0], rd[1]);
+                //    localdata[item] = Tuple.Create(localdata[item].Item1, localdata[item].Item2, Convert.ToInt32(rd[0]), per, localdata[item].Item5);
+                //}
+                //rd.Close();
 
 
-                cmd = new SqlCommand("getcolour_display_colour_tbl", MyGlobal.sqlConnection1);
+                cmd = new SqlCommand("BAM_GetDisplayColour_prc", MyGlobal.sqlConnection1);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
                 cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = item;
                 cmd.Parameters.Add(new SqlParameter("@per", SqlDbType.Float)).Value = per;
-
+                cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
                 rd = cmd.ExecuteReader();
 
                 while (rd.Read())

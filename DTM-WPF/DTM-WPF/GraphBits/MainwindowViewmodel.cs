@@ -55,7 +55,7 @@ namespace DTM_WPF
             graph = new PocGraph(true);
             count++;
 
-            List<PocVertex> existingVertices = loadData(UserControl1.getStats(metricId,time));
+            //List<PocVertex> existingVertices = loadData(UserControl1.getStats(metricId,time));
 
             NotifyPropertyChanged("Graph");
 
