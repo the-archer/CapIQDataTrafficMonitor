@@ -9,5 +9,6 @@
     <Grid>
 
         <chartingToolkit:Chart  Name="lineSeries1" VerticalAlignment="Top" Margin="51,127,64,0" Height="232"></chartingToolkit:Chart>
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="105,402,0,0" Name="comboBox1" VerticalAlignment="Top" Width="120" />
     </Grid>
 </UserControl>
