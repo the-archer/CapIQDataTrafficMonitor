@@ -184,17 +184,17 @@ namespace DTM_WPF
 
 
             int service_id = 1;
-            int metric_id = 2;
+            int metric_id = 1;
             bool flag = false;
 
-            for (int s_id = 3; s_id < 6; s_id++)
+            for (int s_id =1; s_id < 6; s_id++)
             {
-                int baseline = 10000;
+                int baseline = 1000;
                 int per = 50;
                 dt = DateTime.Now;
-                dt = dt.AddDays(-15);
+                dt = dt.AddDays(-5);
                 int value = (per * baseline) / 100;
-                for (int i = 0; i < 30; i++)
+                for (int i = 0; i < 10; i++)
                 {
 
                     for (int j = 0; j < (24 * 12); j++)
@@ -217,7 +217,7 @@ namespace DTM_WPF
                         if (j % 12 == 0)
                         {
 
-                            baseline += (r.Next(-500, 500));
+                            baseline += (r.Next(-50, 50));
                             if (baseline < 0)
                                 baseline = 0;
                         }
@@ -239,7 +239,7 @@ namespace DTM_WPF
                             if (dt.DayOfWeek == DayOfWeek.Saturday || dt.DayOfWeek == DayOfWeek.Sunday)
                             {
                                 flag = true;
-                                baseline = 2000;
+                                baseline = 200;
                             }
                         }
                         else
@@ -247,7 +247,7 @@ namespace DTM_WPF
                             if (dt.DayOfWeek != DayOfWeek.Saturday && dt.DayOfWeek != DayOfWeek.Sunday)
                             {
                                 flag = false;
-                                baseline = 10000;
+                                baseline = 1000;
                             }
 
                         }

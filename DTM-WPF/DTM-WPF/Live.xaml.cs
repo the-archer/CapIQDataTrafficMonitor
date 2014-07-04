@@ -108,9 +108,12 @@ namespace DTM_WPF
         {
             for (int s_id = 1; s_id < 6; s_id++)
             {
-                Tuple<float, int> pending =  GetPending(s_id);
+                Tuple<double, int> pending = GetPending(s_id);
+                if(GlobalClass.glob_pending.Count<=s_id)
+                    GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1))));
+                else
                 GlobalClass.glob_pending[s_id] = new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1)));
-                //GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int) (((pending.Item2)*100)/(pending.Item1))));
+                //
                 if (pending.Item2 == -1)
                 {
                     this.Dispatcher.Invoke((Action)(() =>
@@ -159,12 +162,12 @@ namespace DTM_WPF
             return;
         }
 
-        public Tuple<float, int> GetPending(int s_id)
+        public Tuple<double, int> GetPending(int s_id)
         {
 
             int metric_id = Details.GetMetricID("Pending");
             MyGlobal.sqlConnection1.Open();
-            float per = 0;
+            double per = 0;
 
             SqlCommand cmd = new SqlCommand("BAM_GetPercentage_prc", MyGlobal.sqlConnection1);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -176,13 +179,13 @@ namespace DTM_WPF
             while (rd.Read())
             {
 
-                per = (float)(rd[0]);
+                per = (double)(rd[0]);
                 value = Convert.ToInt32(rd[1]);
 
             }
             rd.Close();
             MyGlobal.sqlConnection1.Close();
-            return new Tuple<float, int>(per, value);
+            return new Tuple<double, int>(per, value);
         }
         public void Testing()
         {
@@ -255,7 +258,7 @@ namespace DTM_WPF
         public void GetDetails(int service_id)
         {
 
-            //contentControl1.Content = new Details(service_id);
+            contentControl1.Content = new Details(service_id);
 
             return;
         }
@@ -357,7 +360,6 @@ namespace DTM_WPF
             GetDetails(id);
         }
 
-
         public static T FindChild<T>(DependencyObject parent, string childName)
    where T : DependencyObject
         {
@@ -401,6 +403,11 @@ namespace DTM_WPF
 
             return foundChild;
         }
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            GetDetails(Convert.ToInt32(textBox2.Text));
+
+        }
 
     }
 
@@ -412,7 +419,8 @@ namespace DTM_WPF
         public static int metric1;
         public static DateTime time1;
         public static MainWindow1 win1;
-        public static List<Tuple<int, int>> glob_pending=new List<Tuple<int,int>>(6);
+        public static List<Tuple<int, int>> glob_pending = new List<Tuple<int, int>>(){new Tuple<int, int>(0,0)};
+        //public static List<int> test = new List<int>(){2, 3, 4, 5, 23, 43, 43, 43};
     }
 
 }

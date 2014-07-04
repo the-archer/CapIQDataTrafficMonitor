@@ -36,6 +36,8 @@
                 <my:MyProgressBar Canvas.Left="741" Canvas.Top="351" Height="10" x:Name="pb_workflowloader" Width="40" />
             </Canvas>
         </ContentControl>
+        <Button Canvas.Left="717" Canvas.Top="33" Content="Test" Height="23" Name="button2" Width="76" Click="button2_Click" />
+        <TextBox Canvas.Left="800" Canvas.Top="35" Height="20" Name="textBox2" Width="38" />
     </Canvas>
 
     <UserControl.Resources>
