@@ -77,8 +77,11 @@ namespace DTM_WPF
             for (int s_id = 1; s_id < 6; s_id++)
             {
                 Tuple<double, int> pending = GetPending(s_id);
+                if(GlobalClass.glob_pending.Count<=s_id)
+                    GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1))));
+                else
                 GlobalClass.glob_pending[s_id] = new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1)));
-                //GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int) (((pending.Item2)*100)/(pending.Item1))));
+                //
                 if (pending.Item2 == -1)
                 {
                     this.Dispatcher.Invoke((Action)(() =>
@@ -340,7 +343,8 @@ namespace DTM_WPF
         public static int metric1;
         public static DateTime time1;
         public static MainWindow1 win1;
-        public static List<Tuple<int, int>> glob_pending=new List<Tuple<int,int>>(7);
+        public static List<Tuple<int, int>> glob_pending = new List<Tuple<int, int>>(){new Tuple<int, int>(0,0)};
+        //public static List<int> test = new List<int>(){2, 3, 4, 5, 23, 43, 43, 43};
     }
 
 }

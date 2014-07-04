@@ -47,7 +47,7 @@ namespace DTM_WPF
             {
                 
                 double per = GetPerformance(service_id, metric_id, dt);
-                Debug.WriteLine(dt);
+                //Debug.WriteLine(dt);
                 data.Add(new KeyValuePair<DateTime, double>(dt, per));
 
             }

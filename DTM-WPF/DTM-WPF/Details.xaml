@@ -8,10 +8,6 @@
              d:DesignHeight="750" d:DesignWidth="750" xmlns:my="http://schemas.AvalonControls/AvalonControlsLibrary/Controls" xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit" xmlns:my1="clr-namespace:DTM_WPF">
     <Grid>
 
-        <chartingToolkit:Chart  Name="lineSeries1" VerticalAlignment="Top" Margin="51,127,64,0" Height="232">
-            <chartingToolkit:LineSeries  
-		 ItemsSource="{Binding}" 
-		IsSelectionEnabled="True"/>
-        </chartingToolkit:Chart>
+        <chartingToolkit:Chart  Name="lineSeries1" VerticalAlignment="Top" Margin="51,127,64,0" Height="232"></chartingToolkit:Chart>
     </Grid>
 </UserControl>
