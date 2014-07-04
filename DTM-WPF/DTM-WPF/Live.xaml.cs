@@ -30,6 +30,7 @@ namespace DTM_WPF
     public partial class UserControl1 : UserControl
     {
 
+<<<<<<< HEAD
         class AutoRefresh
         {
             System.Timers.Timer myTimer = new System.Timers.Timer();
@@ -43,33 +44,27 @@ namespace DTM_WPF
             
           
         }
+
         public UserControl1()
         {
             InitializeComponent();
            // InitializeComboBox();
-            new AutoRefresh();
+            GlobalClass.AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+           
         }
 
         public void myEvent(object source, ElapsedEventArgs e)
         {
             Debug.WriteLine("Timer working");
-            int arg1=0;
-            string arg2="10";
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-
-                arg1 = Convert.ToInt32(comboBox1.SelectedValue);
-                arg2 = (comboBox1.Text.ToString());
-            }));
-
-            //updateLiveData(arg1, arg2);
+            
             RefreshGraph();
         }
 
         public void RefreshGraph()
         {
+            Debug.WriteLine(DateTime.Now);
             RefreshServices();
-            //RefreshQueues();
+            RefreshQueues();
         }
 
         public void RefreshServices()
@@ -107,6 +102,8 @@ namespace DTM_WPF
                     reader = cmd.ExecuteReader(); reader.Read();
                     button.Background = reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals                    ("Green") ? System.Windows.Media.Brushes.Red : System.Windows.Media.Brushes.Orange);
                     reader.Close();
+                   // Debug.WriteLine(key + " " + metric +  "  " + DateTime.Now);
+                    reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; reader.Close();
                 }));
             }
             MyGlobal.sqlConnection1.Close();
@@ -208,22 +205,9 @@ namespace DTM_WPF
             Debug.WriteLine("testing");
         }
 
-        private void InitializeComboBox()
-        {
-            SqlDataAdapter da = new SqlDataAdapter("Select metric_name, metric_id from metrics_tbl", MyGlobal.sqlConnection1);
-            DataSet ds = new DataSet();
+       
 
-            da.Fill(ds, "Metric");
-            comboBox1.ItemsSource = ds.Tables[0].DefaultView;
-            comboBox1.DisplayMemberPath = ds.Tables[0].Columns["metric_name"].ToString();
-            comboBox1.SelectedValuePath = ds.Tables[0].Columns["metric_id"].ToString();
-            comboBox1.SelectedIndex = 0;
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-             updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
-        }
+       
 
 
         
@@ -273,6 +257,10 @@ namespace DTM_WPF
 
         public void GetDetails(int service_id)
         {
+            AutoRefresh AR = new AutoRefresh();
+            AR.StopTimer();
+            //AR.(myEvent, Convert.ToDouble(textBox1.Text));
+
 
             contentControl1.Content = new Details(service_id);
 
@@ -351,8 +339,10 @@ namespace DTM_WPF
             {
                 if (time > 0)
                 {
-                    AutoRefresh AR = new AutoRefresh();
-                    AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+                    //AutoRefresh AR = new AutoRefresh();
+                   
+                    //GlobalClass.AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+                    GlobalClass.AR.ChangeTime(Convert.ToDouble(textBox1.Text));
                 }
             }
         }
@@ -361,8 +351,7 @@ namespace DTM_WPF
         {
            BindingOperations.ClearAllBindings(dataGrid1); 
            GlobalClass.data.Clear();
-           AutoRefresh AR = new AutoRefresh();
-           AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+           
         }
 
         private void service_Click(object sender, RoutedEventArgs e)
@@ -427,8 +416,32 @@ namespace DTM_WPF
 
     }
 
+
+    public class AutoRefresh
+    {
+        //System.Timers.Timer myTimer = new System.Timers.Timer();
+
+        public void StartTimer(ElapsedEventHandler myEvent, double time)
+        {
+            GlobalClass.myTimer.Elapsed += new ElapsedEventHandler(myEvent);
+            GlobalClass.myTimer.Interval = time * 1000 * 60;
+            GlobalClass.myTimer.Enabled = true;
+        }
+        public void ChangeTime(double time)
+        {
+            GlobalClass.myTimer.Interval = time * 1000 * 60;
+        }
+        public void StopTimer()
+        {
+            GlobalClass.myTimer.Enabled = false;
+        }
+
+
+    }
+
     public class GlobalClass
     {
+        public static AutoRefresh AR = new AutoRefresh();
         public static System.Timers.Timer myTimer = new System.Timers.Timer();
         public static Dictionary<int, Tuple<string, int, int, float, string>> data = new Dictionary<int, Tuple<string, int, int, float, string>>();
         public static ObservableCollection<Tuple<int, string, int, int, float, string>> dataobs = new ObservableCollection<Tuple<int,string,int,int,float,string>>();
@@ -437,6 +450,7 @@ namespace DTM_WPF
         public static MainWindow1 win1;
         public static List<Tuple<int, int>> glob_pending = new List<Tuple<int, int>>(){new Tuple<int, int>(0,0)};
         //public static List<int> test = new List<int>(){2, 3, 4, 5, 23, 43, 43, 43};
+        
     }
 
 }

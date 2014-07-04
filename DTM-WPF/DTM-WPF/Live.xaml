@@ -6,13 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="750" d:DesignWidth="850" xmlns:my="clr-namespace:DTM_WPF">
     <Canvas>
-        <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,35,438,0" Name="comboBox1" VerticalAlignment="Top" Width="120" ItemsSource="{Binding}" SelectionChanged="comboBox1_SelectionChanged" Canvas.Left="141" Canvas.Top="-2" />
-        <Label Content="Metric" Height="23" HorizontalAlignment="Left" Margin="12,33,0,0" Name="label1" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center" Canvas.Left="138" Canvas.Top="-1" />
         <Label Content="Refresh after every " Height="28" Margin="0,33,229,0" Name="label2" VerticalAlignment="Top" HorizontalAlignment="Right" Width="186" Canvas.Left="328" Canvas.Top="-1" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="452,35,0,0" Name="textBox1" VerticalAlignment="Top" Width="39" Text="1" HorizontalContentAlignment="Center" TextChanged="textBox1_TextChanged" />
         <Label Content="min(s)" Height="28" Margin="503,33,61,0" Name="label3" VerticalAlignment="Top" />
         <DataGrid AutoGenerateColumns="True" Height="0" Margin="127,104,156,0" Name="dataGrid1" VerticalAlignment="Stretch" ItemsSource="{Binding}" CanUserSortColumns="False" Width="0" />
-        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="567,33,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
         <Grid Height="0" HorizontalAlignment="Left" Margin="616,149,0,0" Name="grid1" VerticalAlignment="Top" Width="0" />
         <ContentControl Height="671" HorizontalAlignment="Left" Margin="107,204,0,0" Name="contentControl1" VerticalAlignment="Top" Width="826" Canvas.Left="-95" Canvas.Top="-137">
             <Canvas Height="572" Canvas.Left="127" Canvas.Top="112" Width="826">
