@@ -40,7 +40,7 @@ namespace DTM_WPF
                 myTimer.Interval = time * 1000 * 60;
                 myTimer.Enabled = true;
             }
-
+            
           
         }
         public UserControl1()
@@ -64,7 +64,6 @@ namespace DTM_WPF
 
             //updateLiveData(arg1, arg2);
             RefreshGraph();
-            
         }
 
         public void RefreshGraph()
@@ -88,7 +87,7 @@ namespace DTM_WPF
 
             foreach (int key in services.Keys)
             {
-                var name = services[key];
+                var name = services[key]; var per=0D;
                 
                 this.Dispatcher.Invoke((Action)(() =>
                 {
@@ -97,8 +96,17 @@ namespace DTM_WPF
                     cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = key;
                     cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric;
                     cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
-                    Debug.WriteLine(key + " " + metric +  "  " + DateTime.Now);
-                    reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; reader.Close();
+                    reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; per=Convert.ToInt32(reader[0]); reader.Close();
+
+                    cmd = new SqlCommand("BAM_GetDisplayColour_prc", MyGlobal.sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
+                    cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = key;
+                    cmd.Parameters.Add(new SqlParameter("@per", SqlDbType.Int)).Value = per;
+                    cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
+
+                    reader = cmd.ExecuteReader(); reader.Read();
+                    button.Background = reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals                    ("Green") ? System.Windows.Media.Brushes.Red : System.Windows.Media.Brushes.Orange);
+                    reader.Close();
                 }));
             }
             MyGlobal.sqlConnection1.Close();
