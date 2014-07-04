@@ -82,17 +82,43 @@ namespace DTM_WPF
                 {
                     this.Dispatcher.Invoke((Action)(() =>
                     {
-
-                        pb_contentsearch.Background = System.Windows.Media.Brushes.Gray;
+                        //pb_contentsearch.Foreground=S
+                        //pb_contentsearch.Background = System.Windows.Media.Brushes.Blue;
                     }));
                    
                 }
                 this.Dispatcher.Invoke((Action)(() =>
                 {
+                    switch (s_id)
+                    {
+                        case 1:
+                            pb_contentsearch.Value = pending.Item1;
+                            break;
+                        case 2:
+                          pb_workflowloader.Value = pending.Item1;
+                          break;
+                        case 3:
+                          pb_contentsearchrep.Value = pending.Item1;
+                          break;
+                        case 4:
+                          pb_physicalfilerep.Value = pending.Item1;
+                          break;
+                        case 5:
+                          pb_versioncreation.Value = pending.Item1;
+                          break;
 
-                    pb_contentsearch.Value = pending.Item1;
+
+                            
+
+
+                    }
+                    
+
+
+                    
                 }));
                
+
 
 
             }
