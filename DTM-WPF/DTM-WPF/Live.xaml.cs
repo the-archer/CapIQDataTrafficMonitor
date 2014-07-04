@@ -30,7 +30,7 @@ namespace DTM_WPF
     public partial class UserControl1 : UserControl
     {
 
-<<<<<<< HEAD
+
         class AutoRefresh
         {
             System.Timers.Timer myTimer = new System.Timers.Timer();
@@ -257,8 +257,8 @@ namespace DTM_WPF
 
         public void GetDetails(int service_id)
         {
-            AutoRefresh AR = new AutoRefresh();
-            AR.StopTimer();
+            //AutoRefresh AR = new AutoRefresh();
+            GlobalClass.AR.StopTimer();
             //AR.(myEvent, Convert.ToDouble(textBox1.Text));
 
 
