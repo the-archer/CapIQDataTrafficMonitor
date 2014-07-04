@@ -42,16 +42,7 @@ namespace DTM_WPF
         public void myEvent(object source, ElapsedEventArgs e)
         {
             Debug.WriteLine("Timer working");
-            int arg1=0;
-            string arg2="10";
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-
-                arg1 = Convert.ToInt32(comboBox1.SelectedValue);
-                arg2 = (comboBox1.Text.ToString());
-            }));
-
-            //updateLiveData(arg1, arg2);
+            
             RefreshGraph();
             
         }
@@ -190,22 +181,9 @@ namespace DTM_WPF
             Debug.WriteLine("testing");
         }
 
-        private void InitializeComboBox()
-        {
-            SqlDataAdapter da = new SqlDataAdapter("Select metric_name, metric_id from metrics_tbl", MyGlobal.sqlConnection1);
-            DataSet ds = new DataSet();
+       
 
-            da.Fill(ds, "Metric");
-            comboBox1.ItemsSource = ds.Tables[0].DefaultView;
-            comboBox1.DisplayMemberPath = ds.Tables[0].Columns["metric_name"].ToString();
-            comboBox1.SelectedValuePath = ds.Tables[0].Columns["metric_id"].ToString();
-            comboBox1.SelectedIndex = 0;
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-             updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
-        }
+       
 
 
         
