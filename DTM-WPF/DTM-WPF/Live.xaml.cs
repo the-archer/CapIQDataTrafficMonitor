@@ -49,7 +49,10 @@ namespace DTM_WPF
         {
             InitializeComponent();
            // InitializeComboBox();
-            GlobalClass.AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+            //GetInitialGraph();
+            GlobalClass.AR.StartTimer(myEvent, 0.05);
+          
+           
            
         }
 
@@ -65,6 +68,18 @@ namespace DTM_WPF
             Debug.WriteLine(DateTime.Now);
             RefreshServices();
             RefreshQueues();
+            if (GlobalClass.first)
+            {
+                GlobalClass.AR.ChangeTime(1);
+                GlobalClass.first = false;
+            }
+        }
+
+        public void GetInitialGraph()
+        {
+            Debug.WriteLine(DateTime.Now);
+            GetInitialServices();
+            GetInitialQueues();
         }
 
         public void RefreshServices()
@@ -91,7 +106,7 @@ namespace DTM_WPF
                     cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = key;
                     cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric;
                     cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
-                    reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; per=Convert.ToInt32(reader[0]); reader.Close();
+                    reader = cmd.ExecuteReader(); reader.Read();  button.Content = reader[0]; per = Convert.ToInt32(reader[0]); reader.Close();
 
                     cmd = new SqlCommand("BAM_GetDisplayColour_prc", MyGlobal.sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
@@ -109,7 +124,113 @@ namespace DTM_WPF
             MyGlobal.sqlConnection1.Close();
         }
 
+        public void GetInitialServices()
+        {
+            Dictionary<int, string> services = new Dictionary<int, string>();
+
+            MyGlobal.sqlConnection1.Open();
+            SqlCommand cmd = new SqlCommand("select * from BAM_service_tbl", MyGlobal.sqlConnection1);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read()) services.Add(Convert.ToInt32(reader[0]), reader[1].ToString().Replace(" ", "_")); reader.Close();
+
+            cmd = new SqlCommand("BAM_GetMetricId_prc", MyGlobal.sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@metric_name", SqlDbType.VarChar)).Value = "Processed";
+            reader = cmd.ExecuteReader(); reader.Read(); int metric = Convert.ToInt32(reader[0]); reader.Close();
+
+            foreach (int key in services.Keys)
+            {
+                var name = services[key]; var per = 0D;
+
+                
+                
+                    var button = FindChild<Button>(Application.Current.MainWindow, name);
+                    cmd = new SqlCommand("BAM_GetPercentage_prc", MyGlobal.sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = key;
+                    cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric;
+                    cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
+                    reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; per = Convert.ToInt32(reader[0]); reader.Close();
+
+                    cmd = new SqlCommand("BAM_GetDisplayColour_prc", MyGlobal.sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
+                    cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = key;
+                    cmd.Parameters.Add(new SqlParameter("@per", SqlDbType.Int)).Value = per;
+                    cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
+
+                    reader = cmd.ExecuteReader(); reader.Read();
+                    button.Background = reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ? System.Windows.Media.Brushes.Red : System.Windows.Media.Brushes.Orange);
+                    reader.Close();
+                    // Debug.WriteLine(key + " " + metric +  "  " + DateTime.Now);
+                    reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; reader.Close();
+                
+            }
+            MyGlobal.sqlConnection1.Close();
+        }
+
         public void RefreshQueues()
+        {
+            for (int s_id = 1; s_id < 6; s_id++)
+            {
+                Tuple<double, int> pending = GetPending(s_id);
+                if (GlobalClass.glob_pending.Count <= s_id)
+                    GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1))));
+                else
+                    GlobalClass.glob_pending[s_id] = new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1)));
+                //
+                if (pending.Item2 == -1)
+                {
+                    this.Dispatcher.Invoke((Action)(() =>
+                    {
+                        //pb_contentsearch.Foreground=S
+                        //pb_contentsearch.Background = System.Windows.Media.Brushes.Blue;
+                    }));
+
+                }
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+
+                    switch (s_id)
+                    {
+                        case 1:
+                            pb_contentsearch.Value = pending.Item1;
+                            pb_contentsearch.ToolTip = pending.Item2;
+                            break;
+                        case 2:
+                            pb_workflowloader.Value = pending.Item1;
+                            pb_workflowloader.ToolTip = pending.Item2;
+                            break;
+                        case 3:
+                            pb_contentsearchrep.Value = pending.Item1;
+                            pb_contentsearchrep.ToolTip = pending.Item2;
+                            break;
+                        case 4:
+                            pb_physicalfilerep.Value = pending.Item1;
+                            pb_physicalfilerep.ToolTip = pending.Item2;
+                            break;
+                        case 5:
+                            pb_versioncreation.Value = pending.Item1;
+                            pb_versioncreation.ToolTip = pending.Item2;
+                            break;
+
+
+
+
+
+                    }
+
+
+
+
+                }));
+
+
+
+
+            }
+
+
+        }
+
+          public void GetInitialQueues()
         {
             for (int s_id = 1; s_id < 6; s_id++)
             {
@@ -128,8 +249,7 @@ namespace DTM_WPF
                     }));
                    
                 }
-                this.Dispatcher.Invoke((Action)(() =>
-                {
+              
                     
                     switch (s_id)
                     {
@@ -163,7 +283,7 @@ namespace DTM_WPF
 
 
                     
-                }));
+                
                
 
 
@@ -450,6 +570,7 @@ namespace DTM_WPF
         public static MainWindow1 win1;
         public static List<Tuple<int, int>> glob_pending = new List<Tuple<int, int>>(){new Tuple<int, int>(0,0)};
         //public static List<int> test = new List<int>(){2, 3, 4, 5, 23, 43, 43, 43};
+        public static bool first = true;
         
     }
 
