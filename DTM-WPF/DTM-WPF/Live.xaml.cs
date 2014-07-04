@@ -34,6 +34,11 @@ namespace DTM_WPF
 
         public UserControl1()
         {
+            
+            InitializeComponent();
+           // InitializeComboBox();
+            //GetInitialGraph();
+
             if (GlobalClass.first == 1)
             {
                 GlobalClass.AR.StartTimer(myEvent, 0.05);
@@ -44,11 +49,6 @@ namespace DTM_WPF
                 GlobalClass.AR.ChangeTime(0.05);
             }
             GlobalClass.first = 2;
-            InitializeComponent();
-           // InitializeComboBox();
-            //GetInitialGraph();
-            
-           
            
         }
 
@@ -64,7 +64,7 @@ namespace DTM_WPF
             Debug.WriteLine(DateTime.Now);
             RefreshServices();
             RefreshQueues();
-            if (GlobalClass.first==2)
+            if (GlobalClass.first!=3)
             {
                 GlobalClass.AR.ChangeTime(1);
                 GlobalClass.first = 3;
@@ -120,11 +120,12 @@ namespace DTM_WPF
             for (int s_id = 1; s_id < 6; s_id++)
             {
                 Tuple<double, int> pending = GetPending(s_id);
-                if (GlobalClass.glob_pending.Count <= s_id)
-                    GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1))));
-                else
-                    GlobalClass.glob_pending[s_id] = new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1)));
-                //
+                int baseline = (int)(((pending.Item2) * 100) / (pending.Item1));
+                //if (GlobalClass.glob_pending.Count <= s_id)
+                //    GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1))));
+                //else
+                //    GlobalClass.glob_pending[s_id] = new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1)));
+                ////
                 if (pending.Item2 == -1)
                 {
                     this.Dispatcher.Invoke((Action)(() =>
@@ -141,23 +142,23 @@ namespace DTM_WPF
                     {
                         case 1:
                             pb_contentsearch.Value = pending.Item1;
-                            pb_contentsearch.ToolTip = pending.Item2;
+                            pb_contentsearch.ToolTip = ("Pending: "+pending.Item2.ToString()+"\nBaseline: " + baseline.ToString());
                             break;
                         case 2:
                             pb_workflowloader.Value = pending.Item1;
-                            pb_workflowloader.ToolTip = pending.Item2;
+                            pb_workflowloader.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
                         case 3:
                             pb_contentsearchrep.Value = pending.Item1;
-                            pb_contentsearchrep.ToolTip = pending.Item2;
+                            pb_contentsearchrep.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
                         case 4:
                             pb_physicalfilerep.Value = pending.Item1;
-                            pb_physicalfilerep.ToolTip = pending.Item2;
+                            pb_physicalfilerep.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
                         case 5:
                             pb_versioncreation.Value = pending.Item1;
-                            pb_versioncreation.ToolTip = pending.Item2;
+                            pb_versioncreation.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
 
 
