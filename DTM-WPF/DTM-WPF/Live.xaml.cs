@@ -30,7 +30,6 @@ namespace DTM_WPF
     public partial class UserControl1 : UserControl
     {
 
-<<<<<<< HEAD
         class AutoRefresh
         {
             System.Timers.Timer myTimer = new System.Timers.Timer();
@@ -100,10 +99,8 @@ namespace DTM_WPF
                     cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
 
                     reader = cmd.ExecuteReader(); reader.Read();
-                    button.Background = reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals                    ("Green") ? System.Windows.Media.Brushes.Red : System.Windows.Media.Brushes.Orange);
+                    button.Background = reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals                    ("Green") ? System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
                     reader.Close();
-                   // Debug.WriteLine(key + " " + metric +  "  " + DateTime.Now);
-                    reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; reader.Close();
                 }));
             }
             MyGlobal.sqlConnection1.Close();
@@ -257,12 +254,7 @@ namespace DTM_WPF
 
         public void GetDetails(int service_id)
         {
-            AutoRefresh AR = new AutoRefresh();
-            AR.StopTimer();
-            //AR.(myEvent, Convert.ToDouble(textBox1.Text));
-
-
-            contentControl1.Content = new Details(service_id);
+           contentControl1.Content = new Details(service_id);
 
             return;
         }
