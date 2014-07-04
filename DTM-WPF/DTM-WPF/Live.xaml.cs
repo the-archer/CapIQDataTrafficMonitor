@@ -98,7 +98,8 @@ namespace DTM_WPF
                     cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric;
                     cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
                     reader = cmd.ExecuteReader(); reader.Read();  button.Content = reader[0]; per = Convert.ToInt32(reader[0]);
-                    button.ToolTip = reader[1]; reader.Close();
+                    var baseline = Convert.ToDouble(reader[1]) * 100.0 / per;  
+                    button.ToolTip = "Processed : " + reader[1]+"\nBaseline : "+(int)baseline; reader.Close();
 
                     cmd = new SqlCommand("BAM_GetDisplayColour_prc", MyGlobal.sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
