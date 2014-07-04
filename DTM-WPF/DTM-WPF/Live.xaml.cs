@@ -69,7 +69,39 @@ namespace DTM_WPF
 
         public void RefreshGraph()
         {
-            RefreshQueues();
+            RefreshServices();
+            //RefreshQueues();
+        }
+
+        public void RefreshServices()
+        {
+            Dictionary<int, string> services = new Dictionary<int, string>();
+
+            MyGlobal.sqlConnection1.Open();
+            SqlCommand cmd = new SqlCommand("select * from BAM_service_tbl", MyGlobal.sqlConnection1);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read()) services.Add(Convert.ToInt32(reader[0]), reader[1].ToString().Replace(" ", "_")); reader.Close();
+
+            cmd = new SqlCommand("BAM_GetMetricId_prc", MyGlobal.sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@metric_name", SqlDbType.VarChar)).Value="Processed";
+            reader = cmd.ExecuteReader(); reader.Read(); int metric = Convert.ToInt32(reader[0]); reader.Close();
+
+            foreach (int key in services.Keys)
+            {
+                var name = services[key];
+                
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    var button = FindChild<Button>(Application.Current.MainWindow, name);
+                    cmd = new SqlCommand("BAM_GetPercentage_prc", MyGlobal.sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = key;
+                    cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric;
+                    cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
+                    Debug.WriteLine(key + " " + metric +  "  " + DateTime.Now);
+                    reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; reader.Close();
+                }));
+            }
+            MyGlobal.sqlConnection1.Close();
         }
 
         public void RefreshQueues()
@@ -323,6 +355,51 @@ namespace DTM_WPF
             int id = Convert.ToInt32(reader[0]);
             MyGlobal.sqlConnection1.Close();
             GetDetails(id);
+        }
+
+
+        public static T FindChild<T>(DependencyObject parent, string childName)
+   where T : DependencyObject
+        {
+            // Confirm parent and childName are valid. 
+            if (parent == null) return null;
+
+            T foundChild = null;
+
+            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childrenCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                // If the child is not of the request child type child
+                T childType = child as T;
+                if (childType == null)
+                {
+                    // recursively drill down the tree
+                    foundChild = FindChild<T>(child, childName);
+
+                    // If the child is found, break so we do not overwrite the found child. 
+                    if (foundChild != null) break;
+                }
+                else if (!string.IsNullOrEmpty(childName))
+                {
+                    var frameworkElement = child as FrameworkElement;
+                    // If the child's name is set for search
+                    if (frameworkElement != null && frameworkElement.Name == childName)
+                    {
+                        // if the child's name is of the request name
+                        foundChild = (T)child;
+                        break;
+                    }
+                }
+                else
+                {
+                    // child element found.
+                    foundChild = (T)child;
+                    break;
+                }
+            }
+
+            return foundChild;
         }
 
     }
