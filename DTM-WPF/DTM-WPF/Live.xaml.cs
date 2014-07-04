@@ -147,24 +147,6 @@ namespace DTM_WPF
              updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
         }
         
-        public void newWindow()
-        {
-            Dispatcher.BeginInvoke((Action)(() =>
-            {
-                try
-                {
-                    GlobalClass.win1.vm.ReLayoutGraph(GlobalClass.metric1, GlobalClass.time1);
-                }
-                catch (Exception e)
-                {
-                    GlobalClass.win1 = new MainWindow1(GlobalClass.metric1, GlobalClass.time1);
-                    GlobalClass.win1.Show();
-                }
-                
-            }));
-            
-        }
-
         public void updateLiveData(int metric, string metric_name)
         {
             Debug.WriteLine(metric);
@@ -187,7 +169,6 @@ namespace DTM_WPF
             }
             catch (Exception e)
             {
-                newWindow();
             }
             
             
@@ -302,6 +283,17 @@ namespace DTM_WPF
            GlobalClass.data.Clear();
            AutoRefresh AR = new AutoRefresh();
            AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+        }
+
+        private void service_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender; var name = button.Name.Replace("_"," "); 
+            MyGlobal.sqlConnection1.Open();
+            SqlCommand cmd = new SqlCommand("select service_id from bam_service_tbl where service_name = '"+name+"';",                                                   MyGlobal.sqlConnection1);
+            SqlDataReader reader = cmd.ExecuteReader(); reader.Read();
+            int id = Convert.ToInt32(reader[0]);
+            MyGlobal.sqlConnection1.Close();
+            GetDetails(id);
         }
 
     }
