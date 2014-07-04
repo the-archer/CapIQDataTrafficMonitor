@@ -173,85 +173,91 @@ namespace DTM_WPF
         private void fillRandomDataintoCollectedData()
         {
             Random r = new Random();
-            int baseline = 10000;
-            int per = 50;
+            
 
             MyGlobal.sqlConnection1.Open();
             DateTime dt = new DateTime();
-            dt = DateTime.Now;
-            dt = dt.AddDays(-15);
+           
 
 
-            int value = (per * baseline) / 100;
+            
 
 
             int service_id = 1;
             int metric_id = 2;
             bool flag = false;
-           
-            for (int i = 0; i < 30; i++)
+
+            for (int s_id = 3; s_id < 6; s_id++)
             {
-                
-                for (int j = 0; j < (24 * 12); j++)
+                int baseline = 10000;
+                int per = 50;
+                dt = DateTime.Now;
+                dt = dt.AddDays(-15);
+                int value = (per * baseline) / 100;
+                for (int i = 0; i < 30; i++)
                 {
-                    Debug.WriteLine(dt);
-                    value = (per * baseline) / 100;
 
-                    SqlCommand cmd = new SqlCommand("BAM_AddDatatoCollectedData_prc", MyGlobal.sqlConnection1);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    //cmd.Parameters.Add(new SqlParameter("@day", SqlDbType.NChar)).Value = days[i];
-                    cmd.Parameters.Add(new SqlParameter("@start_time", SqlDbType.DateTime)).Value = dt;
-                    cmd.Parameters.Add(new SqlParameter("@end_time", SqlDbType.DateTime)).Value = dt.AddMinutes(5);
-                    cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = service_id;
-                    cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric_id;
-                    cmd.Parameters.Add(new SqlParameter("@value", SqlDbType.Int)).Value = value;
-                    cmd.Parameters.Add(new SqlParameter("@baseline", SqlDbType.Int)).Value = baseline;
-                    cmd.Parameters.Add(new SqlParameter("@percentage", SqlDbType.Float)).Value = per;
-
-                    cmd.ExecuteNonQuery();
-                    if (j % 12 == 0)
+                    for (int j = 0; j < (24 * 12); j++)
                     {
+                        Debug.WriteLine(dt);
+                        value = (per * baseline) / 100;
 
-                        baseline += (r.Next(-500, 500));
-                        if (baseline < 0)
-                            baseline = 0;
-                    }
-                    per += (r.Next(-5, 5));
-                    if (per < 0)
-                        per = 0;
+                        SqlCommand cmd = new SqlCommand("BAM_AddDatatoCollectedData_prc", MyGlobal.sqlConnection1);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        //cmd.Parameters.Add(new SqlParameter("@day", SqlDbType.NChar)).Value = days[i];
+                        cmd.Parameters.Add(new SqlParameter("@start_time", SqlDbType.DateTime)).Value = dt;
+                        cmd.Parameters.Add(new SqlParameter("@end_time", SqlDbType.DateTime)).Value = dt.AddMinutes(5);
+                        cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = s_id;
+                        cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric_id;
+                        cmd.Parameters.Add(new SqlParameter("@value", SqlDbType.Int)).Value = value;
+                        cmd.Parameters.Add(new SqlParameter("@baseline", SqlDbType.Int)).Value = baseline;
+                        cmd.Parameters.Add(new SqlParameter("@percentage", SqlDbType.Float)).Value = per;
 
-                    if (r.Next(50) == 1)
-                    {
-                        per = 10;
-                    }
-                    if (r.Next(50) > 30 && per<20)
-                    {
-                        per = 80;
-                    }
-                    if (!flag)
-                    {
-
-                        if (dt.DayOfWeek == DayOfWeek.Saturday || dt.DayOfWeek == DayOfWeek.Sunday)
+                        cmd.ExecuteNonQuery();
+                        if (j % 12 == 0)
                         {
-                            flag = true;
-                            baseline = 2000;
-                        }
-                    }
-                    else
-                    {
-                        if (dt.DayOfWeek != DayOfWeek.Saturday && dt.DayOfWeek != DayOfWeek.Sunday)
-                        {
-                            flag = false;
-                            baseline = 10000;
-                        }
 
+                            baseline += (r.Next(-500, 500));
+                            if (baseline < 0)
+                                baseline = 0;
+                        }
+                        per += (r.Next(-5, 5));
+                        if (per < 0)
+                            per = 0;
+
+                        if (r.Next(50) == 1)
+                        {
+                            per = 10;
+                        }
+                        if (r.Next(50) > 30 && per < 20)
+                        {
+                            per = 80;
+                        }
+                        if (!flag)
+                        {
+
+                            if (dt.DayOfWeek == DayOfWeek.Saturday || dt.DayOfWeek == DayOfWeek.Sunday)
+                            {
+                                flag = true;
+                                baseline = 2000;
+                            }
+                        }
+                        else
+                        {
+                            if (dt.DayOfWeek != DayOfWeek.Saturday && dt.DayOfWeek != DayOfWeek.Sunday)
+                            {
+                                flag = false;
+                                baseline = 10000;
+                            }
+
+                        }
+                        dt = dt.AddMinutes(5);
                     }
-                    dt = dt.AddMinutes(5);
+
+
                 }
 
-
             }
-
 
 
             MyGlobal.sqlConnection1.Close();

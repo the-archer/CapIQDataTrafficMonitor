@@ -77,7 +77,8 @@ namespace DTM_WPF
             for (int s_id = 1; s_id < 6; s_id++)
             {
                 Tuple<float, int> pending =  GetPending(s_id);
-
+                GlobalClass.glob_pending[s_id] = new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1)));
+                //GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int) (((pending.Item2)*100)/(pending.Item1))));
                 if (pending.Item2 == -1)
                 {
                     this.Dispatcher.Invoke((Action)(() =>
@@ -172,6 +173,8 @@ namespace DTM_WPF
         {
              updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
         }
+
+
         
         public void newWindow()
         {
@@ -190,6 +193,8 @@ namespace DTM_WPF
             }));
             
         }
+
+        
 
         public void updateLiveData(int metric, string metric_name)
         {
@@ -340,6 +345,7 @@ namespace DTM_WPF
         public static int metric1;
         public static DateTime time1;
         public static MainWindow1 win1;
+        public static List<Tuple<int, int>> glob_pending=new List<Tuple<int,int>>(6);
     }
 
 }
