@@ -77,22 +77,49 @@ namespace DTM_WPF
             for (int s_id = 1; s_id < 6; s_id++)
             {
                 Tuple<float, int> pending =  GetPending(s_id);
-
+                GlobalClass.glob_pending[s_id] = new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1)));
+                //GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int) (((pending.Item2)*100)/(pending.Item1))));
                 if (pending.Item2 == -1)
                 {
                     this.Dispatcher.Invoke((Action)(() =>
                     {
-
-                        pb_contentsearch.Background = System.Windows.Media.Brushes.Gray;
+                        //pb_contentsearch.Foreground=S
+                        //pb_contentsearch.Background = System.Windows.Media.Brushes.Blue;
                     }));
                    
                 }
                 this.Dispatcher.Invoke((Action)(() =>
                 {
+                    switch (s_id)
+                    {
+                        case 1:
+                            pb_contentsearch.Value = pending.Item1;
+                            break;
+                        case 2:
+                          pb_workflowloader.Value = pending.Item1;
+                          break;
+                        case 3:
+                          pb_contentsearchrep.Value = pending.Item1;
+                          break;
+                        case 4:
+                          pb_physicalfilerep.Value = pending.Item1;
+                          break;
+                        case 5:
+                          pb_versioncreation.Value = pending.Item1;
+                          break;
 
-                    pb_contentsearch.Value = pending.Item1;
+
+                            
+
+
+                    }
+                    
+
+
+                    
                 }));
                
+
 
 
             }
@@ -146,6 +173,8 @@ namespace DTM_WPF
         {
              updateLiveData(Convert.ToInt32(comboBox1.SelectedValue), (comboBox1.Text.ToString()));
         }
+
+
         
         public void updateLiveData(int metric, string metric_name)
         {
@@ -306,6 +335,7 @@ namespace DTM_WPF
         public static int metric1;
         public static DateTime time1;
         public static MainWindow1 win1;
+        public static List<Tuple<int, int>> glob_pending=new List<Tuple<int,int>>(6);
     }
 
 }
