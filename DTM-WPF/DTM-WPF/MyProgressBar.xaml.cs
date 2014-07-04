@@ -46,7 +46,7 @@ namespace DTM_WPF
             set { SetValue(MinimumProperty, value); }
         }
 
-        private static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(MyProgressBar), new PropertyMetadata(50d, OnValueChanged));
+        private static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(MyProgressBar), new PropertyMetadata(0d, OnValueChanged));
         public double Value
         {
             get { return (double)GetValue(ValueProperty); }

@@ -51,15 +51,20 @@ namespace DTM_WPF
                 data.Add(new KeyValuePair<DateTime, double>(dt, per));
 
             }
+            SqlCommand cmd = new SqlCommand("SELECT service_name FROM BAM_Service_tbl WHERE service_id="+service_id.ToString()+";", MyGlobal.sqlConnection1);
+            SqlDataReader rd = cmd.ExecuteReader();
+            rd.Read();
 
             LineSeries t = new LineSeries();
             t.ItemsSource = data;
-            //t.Title = service_names[key];
+            t.Title = rd[0].ToString();
             t.DependentValuePath = "Value";
             t.IndependentValuePath = "Key";
+
             //(lineSeries1.Series[1] as DataPointSeries).ItemsSource = test[key];
             lineSeries1.Series.Add(t);
 
+            rd.Close();
 
             MyGlobal.sqlConnection1.Close();
 
@@ -86,6 +91,11 @@ namespace DTM_WPF
             return per;
             
         }
+
+       
+
+
+
 
         public static int GetMetricID(string metric_name)
         {
