@@ -26,8 +26,8 @@
                 <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Document_Metadata_Replication" Canvas.Left="542" Canvas.Top="437" />
                 <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Workflow_Loader" Canvas.Left="741" Canvas.Top="303" Click="service_Click"/>
                 <my:MyProgressBar Canvas.Left="31" Canvas.Top="351" x:Name="pb_versioncreation" Height="10" Width="40" />
-                <my:MyProgressBar Canvas.Left="168" Canvas.Top="351" Height="10" x:Name="myProgressBar2" Width="40" />
-                <my:MyProgressBar Canvas.Left="339" Canvas.Top="221" Height="10" x:Name="myProgressBar3" Width="40" />
+                <my:MyProgressBar Canvas.Left="168" Canvas.Top="351" Height="10" x:Name="myProgressBar2" Width="40"  />
+                <my:MyProgressBar Canvas.Left="339" Canvas.Top="221" Height="10" x:Name="myProgressBar3" Width="40"  />
                 <my:MyProgressBar Canvas.Left="542" Canvas.Top="221" Height="10" x:Name="pb_physicalfilerep" Width="40" />
                 <my:MyProgressBar Canvas.Left="339" Canvas.Top="351" Height="10" x:Name="pb_contentsearch" Width="40" />
                 <my:MyProgressBar Canvas.Left="542" Canvas.Top="351" Height="10" x:Name="pb_contentsearchrep" Width="40" />

@@ -93,22 +93,28 @@ namespace DTM_WPF
                 }
                 this.Dispatcher.Invoke((Action)(() =>
                 {
+                    
                     switch (s_id)
                     {
                         case 1:
                             pb_contentsearch.Value = pending.Item1;
+                            pb_contentsearch.ToolTip = pending.Item2;
                             break;
                         case 2:
                           pb_workflowloader.Value = pending.Item1;
+                          pb_workflowloader.ToolTip = pending.Item2;
                           break;
                         case 3:
                           pb_contentsearchrep.Value = pending.Item1;
+                          pb_contentsearchrep.ToolTip = pending.Item2;
                           break;
                         case 4:
                           pb_physicalfilerep.Value = pending.Item1;
+                          pb_physicalfilerep.ToolTip = pending.Item2;
                           break;
                         case 5:
                           pb_versioncreation.Value = pending.Item1;
+                          pb_versioncreation.ToolTip = pending.Item2;
                           break;
 
 
@@ -126,6 +132,8 @@ namespace DTM_WPF
 
 
             }
+
+           
 
             return;
         }
