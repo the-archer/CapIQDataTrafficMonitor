@@ -30,7 +30,7 @@ namespace DTM_WPF
             DateTime end = DateTime.Now;
             DateTime start = DateTime.Now;
             start = start.AddDays(-1);
-            //UpdateGraph(service_id, "Processed", start, end);
+            UpdateGraph(service_id, "Processed", start, end);
 
 
         }
@@ -41,12 +41,14 @@ namespace DTM_WPF
             int metric_id = GetMetricID(metric_name);
             MyGlobal.sqlConnection1.Open();
             TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
-            
-            List<KeyValuePair<DateTime, float>> data = new List<KeyValuePair<DateTime, float>>();
+
+            List<KeyValuePair<DateTime, double>> data = new List<KeyValuePair<DateTime, double>>();
             for (DateTime dt = start; dt <= end; dt = dt.Add(interval))
             {
-                float per = GetPerformance(service_id, metric_id, dt);
-                data.Add(new KeyValuePair<DateTime, float>(dt, per));
+                
+                double per = GetPerformance(service_id, metric_id, dt);
+                Debug.WriteLine(dt);
+                data.Add(new KeyValuePair<DateTime, double>(dt, per));
 
             }
 
@@ -64,9 +66,9 @@ namespace DTM_WPF
                 
         }
 
-        public float GetPerformance(int service_id, int metric_id, DateTime dt)
+        public double GetPerformance(int service_id, int metric_id, DateTime dt)
         {
-            float per = 0;
+            double per = 0;
             
             SqlCommand cmd = new SqlCommand("BAM_GetPercentage_prc", MyGlobal.sqlConnection1);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -76,8 +78,8 @@ namespace DTM_WPF
             SqlDataReader rd = cmd.ExecuteReader();
             while (rd.Read())
             {
-
-                per = (float)(rd[0]);
+                //Debug.WriteLine("Here");
+                per = (double)(rd[0]);
 
             }
             rd.Close();
@@ -107,12 +109,7 @@ namespace DTM_WPF
             return metric_id;
         }
 
-        private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            progressBar1.Value = Convert.ToDouble(textBox1.Text);
-            myProgressBar1.Value = Convert.ToDouble(textBox1.Text);
-        }
-
+      
         
     }
 }

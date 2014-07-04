@@ -13,10 +13,5 @@
 		 ItemsSource="{Binding}" 
 		IsSelectionEnabled="True"/>
         </chartingToolkit:Chart>
-        
-        <ProgressBar Height="23" HorizontalAlignment="Left" Margin="231,56,0,0" Name="progressBar1" VerticalAlignment="Top" Width="160" FlowDirection="LeftToRight" IsIndeterminate="False" Orientation="Horizontal" LargeChange="1" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="468,56,0,0" Name="textBox1" VerticalAlignment="Top" Width="120" TextChanged="textBox1_TextChanged" />
-        <my1:MyProgressBar HorizontalAlignment="Left" Margin="74,56,0,0" x:Name="myProgressBar1" VerticalAlignment="Top" Height="23" Width="81"/>
-        <my1:MyProgressBar HorizontalAlignment="Left" Margin="255,21,0,0" x:Name="myProgressBar2" VerticalAlignment="Top" Height="29" Width="106" />
     </Grid>
 </UserControl>
