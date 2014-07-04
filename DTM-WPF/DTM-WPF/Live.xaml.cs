@@ -122,6 +122,7 @@ namespace DTM_WPF
             for (int s_id = 1; s_id < 6; s_id++)
             {
                 Tuple<double, int> pending = GetPending(s_id);
+                //Debug.WriteLine(pending);
                 int baseline = (int)(((pending.Item2) * 100) / (pending.Item1));
                 //if (GlobalClass.glob_pending.Count <= s_id)
                 //    GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1))));
@@ -139,10 +140,14 @@ namespace DTM_WPF
                 }
                 this.Dispatcher.Invoke((Action)(() =>
                 {
+                    Debug.WriteLine(s_id);
 
                     switch (s_id)
                     {
                         case 1:
+                            //Random r = new Random();
+                            //pb_contentsearch.Value = r.Next(100);
+                            //pb_contentsearch.
                             pb_contentsearch.Value = pending.Item1;
                             pb_contentsearch.ToolTip = ("Pending: "+pending.Item2.ToString()+"\nBaseline: " + baseline.ToString());
                             break;
@@ -182,55 +187,7 @@ namespace DTM_WPF
 
         }
 
-          public void GetInitialQueues()
-        {
-            for (int s_id = 1; s_id < 6; s_id++)
-            {
-                Tuple<double, int> pending = GetPending(s_id);
-                if(GlobalClass.glob_pending.Count<=s_id)
-                    GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1))));
-                else
-                GlobalClass.glob_pending[s_id] = new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1)));
-                //
-                if (pending.Item2 == -1)
-                {
-                    this.Dispatcher.Invoke((Action)(() =>
-                    {
-                        //pb_contentsearch.Foreground=S
-                        //pb_contentsearch.Background = System.Windows.Media.Brushes.Blue;
-                    }));
-                   
-                }
-              
-                    
-                    switch (s_id)
-                    {
-                        case 1:
-                            pb_contentsearch.Value = pending.Item1;
-                            pb_contentsearch.ToolTip = pending.Item2;
-                            break;
-                        case 2:
-                          pb_workflowloader.Value = pending.Item1;
-                          pb_workflowloader.ToolTip = pending.Item2;
-                          break;
-                        case 3:
-                          pb_contentsearchrep.Value = pending.Item1;
-                          pb_contentsearchrep.ToolTip = pending.Item2;
-                          break;
-                        case 4:
-                          pb_physicalfilerep.Value = pending.Item1;
-                          pb_physicalfilerep.ToolTip = pending.Item2;
-                          break;
-                        case 5:
-                          pb_versioncreation.Value = pending.Item1;
-                          pb_versioncreation.ToolTip = pending.Item2;
-                          break;
-
-
-                            
-
-
-                    }
+        
                     
 
 
@@ -240,13 +197,8 @@ namespace DTM_WPF
 
 
 
-            }
-
-           
-
-            return;
-        }
-
+            
+       
         public Tuple<double, int> GetPending(int s_id)
         {
 
