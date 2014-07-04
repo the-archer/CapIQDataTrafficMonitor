@@ -61,7 +61,7 @@ namespace DTM_WPF
             t.DependentValuePath = "Value";
             t.IndependentValuePath = "Key";
 
-            //(lineSeries1.Series[1] as DataPointSeries).ItemsSource = test[key];
+          
             lineSeries1.Series.Add(t);
 
             rd.Close();
@@ -117,6 +117,13 @@ namespace DTM_WPF
             rd.Close();
             MyGlobal.sqlConnection1.Close();
             return metric_id;
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = System.Windows.Visibility.Collapsed;
+
+            
         }
 
       
