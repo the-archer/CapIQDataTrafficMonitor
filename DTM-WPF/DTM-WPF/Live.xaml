@@ -6,13 +6,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="750" d:DesignWidth="850" xmlns:my="clr-namespace:DTM_WPF">
     <Canvas>
-        <Label Content="Refresh after every " Height="28" Margin="0,33,229,0" Name="label2" VerticalAlignment="Top" HorizontalAlignment="Right" Width="186" Canvas.Left="328" Canvas.Top="-1" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="452,35,0,0" Name="textBox1" VerticalAlignment="Top" Width="39" Text="1" HorizontalContentAlignment="Center" TextChanged="textBox1_TextChanged" />
-        <Label Content="min(s)" Height="28" Margin="503,33,61,0" Name="label3" VerticalAlignment="Top" />
-        <DataGrid AutoGenerateColumns="True" Height="0" Margin="127,104,156,0" Name="dataGrid1" VerticalAlignment="Stretch" ItemsSource="{Binding}" CanUserSortColumns="False" Width="0" />
-        <Grid Height="0" HorizontalAlignment="Left" Margin="616,149,0,0" Name="grid1" VerticalAlignment="Top" Width="0" />
-        <ContentControl Height="671" HorizontalAlignment="Left" Margin="107,204,0,0" Name="contentControl1" VerticalAlignment="Top" Width="826" Canvas.Left="-95" Canvas.Top="-137">
+       <Grid Height="0" HorizontalAlignment="Left" Margin="616,149,0,0" Name="grid1" VerticalAlignment="Top" Width="0" />
+        <ContentControl Height="726" HorizontalAlignment="Left" Margin="107,204,0,0" Name="contentControl1" VerticalAlignment="Top" Width="826" Canvas.Left="-95" Canvas.Top="-192">
+           
+           
+
             <Canvas Height="572" Canvas.Left="127" Canvas.Top="112" Width="826">
+                <Label Content="Refresh after every " Height="28" Margin="0,33,229,0" Name="label2" VerticalAlignment="Top" HorizontalAlignment="Right" Width="186" Canvas.Left="328" Canvas.Top="-1" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="452,35,0,0" Name="textBox1" VerticalAlignment="Top" Width="39" Text="1" HorizontalContentAlignment="Center" TextChanged="textBox1_TextChanged" />
+                <Label Content="min(s)" Height="28" Margin="503,33,61,0" Name="label3" VerticalAlignment="Top" />
                 <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Version_Creation" Canvas.Left="31" Canvas.Top="303" Click="service_Click" Content="NA"/>
                 <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Metadata_Mapping" Canvas.Left="168" Canvas.Top="303" Content="NA"/>
                 <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Conversion_and_Translation" Canvas.Left="339" Canvas.Top="175" Content="NA"/>
@@ -33,8 +35,6 @@
                 <my:MyProgressBar Canvas.Left="741" Canvas.Top="351" Height="10" x:Name="pb_workflowloader" Width="40" />
             </Canvas>
         </ContentControl>
-        <Button Canvas.Left="717" Canvas.Top="33" Content="Test" Height="23" Name="button2" Width="76" Click="button2_Click" />
-        <TextBox Canvas.Left="800" Canvas.Top="35" Height="20" Name="textBox2" Width="38" />
     </Canvas>
 
     <UserControl.Resources>

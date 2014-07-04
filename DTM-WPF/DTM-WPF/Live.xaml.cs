@@ -328,49 +328,49 @@ namespace DTM_WPF
 
 
         
-        public void updateLiveData(int metric, string metric_name)
-        {
-            Debug.WriteLine(metric);
-            //Debug.WriteLine("Is it here?");
+        //public void updateLiveData(int metric, string metric_name)
+        //{
+        //    Debug.WriteLine(metric);
+        //    //Debug.WriteLine("Is it here?");
 
-            GlobalClass.data.Clear();
+        //    GlobalClass.data.Clear();
 
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                dataGrid1.ItemsSource = null;
-                dataGrid1.Items.Refresh();
-            }));
+        //    this.Dispatcher.Invoke((Action)(() =>
+        //    {
+        //        dataGrid1.ItemsSource = null;
+        //        dataGrid1.Items.Refresh();
+        //    }));
            
-            DateTime time = DateTime.Now;
+        //    DateTime time = DateTime.Now;
 
-            GlobalClass.data = getStats(metric, time); GlobalClass.metric1 = metric; GlobalClass.time1 = time;
-            try
-            {
-                if (GlobalClass.win1.IsEnabled) GlobalClass.win1.Close();
-            }
-            catch (Exception e)
-            {
-            }
+        //    GlobalClass.data = getStats(metric, time); GlobalClass.metric1 = metric; GlobalClass.time1 = time;
+        //    try
+        //    {
+        //        if (GlobalClass.win1.IsEnabled) GlobalClass.win1.Close();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //    }
             
             
             
             
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                Debug.WriteLine("Start");
-                ObservableCollection<Tuple<string, int, int, float, string>> list = new ObservableCollection<Tuple<string, int, int, float, string>>((from item in GlobalClass.data select item.Value));
-                dataGrid1.ItemsSource = list;
-                dataGrid1.Columns[0].Header = "Service Name";
-                dataGrid1.Columns[1].Header = metric_name;
-                dataGrid1.Columns[2].Header = "Baseline Value";
-                dataGrid1.Columns[3].Header = "Percentage";
-                dataGrid1.Columns[4].Header = "Colour";
-                dataGrid1.Items.Refresh();
-            }));
+        //    this.Dispatcher.Invoke((Action)(() =>
+        //    {
+        //        Debug.WriteLine("Start");
+        //        ObservableCollection<Tuple<string, int, int, float, string>> list = new ObservableCollection<Tuple<string, int, int, float, string>>((from item in GlobalClass.data select item.Value));
+        //        dataGrid1.ItemsSource = list;
+        //        dataGrid1.Columns[0].Header = "Service Name";
+        //        dataGrid1.Columns[1].Header = metric_name;
+        //        dataGrid1.Columns[2].Header = "Baseline Value";
+        //        dataGrid1.Columns[3].Header = "Percentage";
+        //        dataGrid1.Columns[4].Header = "Colour";
+        //        dataGrid1.Items.Refresh();
+        //    }));
          
-            Debug.WriteLine("Closing");
+        //    Debug.WriteLine("Closing");
             
-        }
+        //}
 
         public void GetDetails(int service_id)
         {
@@ -469,7 +469,7 @@ namespace DTM_WPF
 
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           BindingOperations.ClearAllBindings(dataGrid1); 
+           //BindingOperations.ClearAllBindings(dataGrid1); 
            GlobalClass.data.Clear();
            
         }
@@ -528,11 +528,7 @@ namespace DTM_WPF
 
             return foundChild;
         }
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-            GetDetails(Convert.ToInt32(textBox2.Text));
-
-        }
+       
 
     }
 
