@@ -30,24 +30,13 @@ namespace DTM_WPF
     public partial class UserControl1 : UserControl
     {
 
-        class AutoRefresh
-        {
-            System.Timers.Timer myTimer = new System.Timers.Timer();
-
-            public void StartTimer(ElapsedEventHandler myEvent, double time)
-            {
-                myTimer.Elapsed += new ElapsedEventHandler(myEvent);
-                myTimer.Interval = time * 1000 * 60;
-                myTimer.Enabled = true;
-            }
-
-          
-        }
+        
         public UserControl1()
         {
             InitializeComponent();
            // InitializeComboBox();
-            new AutoRefresh();
+            GlobalClass.AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+           
         }
 
         public void myEvent(object source, ElapsedEventArgs e)
@@ -69,8 +58,9 @@ namespace DTM_WPF
 
         public void RefreshGraph()
         {
+            Debug.WriteLine(DateTime.Now);
             RefreshServices();
-            //RefreshQueues();
+            RefreshQueues();
         }
 
         public void RefreshServices()
@@ -97,7 +87,7 @@ namespace DTM_WPF
                     cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = key;
                     cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric;
                     cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
-                    Debug.WriteLine(key + " " + metric +  "  " + DateTime.Now);
+                   // Debug.WriteLine(key + " " + metric +  "  " + DateTime.Now);
                     reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; reader.Close();
                 }));
             }
@@ -265,6 +255,10 @@ namespace DTM_WPF
 
         public void GetDetails(int service_id)
         {
+            AutoRefresh AR = new AutoRefresh();
+            AR.StopTimer();
+            //AR.(myEvent, Convert.ToDouble(textBox1.Text));
+
 
             contentControl1.Content = new Details(service_id);
 
@@ -343,8 +337,10 @@ namespace DTM_WPF
             {
                 if (time > 0)
                 {
-                    AutoRefresh AR = new AutoRefresh();
-                    AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+                    //AutoRefresh AR = new AutoRefresh();
+                   
+                    //GlobalClass.AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+                    GlobalClass.AR.ChangeTime(Convert.ToDouble(textBox1.Text));
                 }
             }
         }
@@ -353,8 +349,7 @@ namespace DTM_WPF
         {
            BindingOperations.ClearAllBindings(dataGrid1); 
            GlobalClass.data.Clear();
-           AutoRefresh AR = new AutoRefresh();
-           AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+           
         }
 
         private void service_Click(object sender, RoutedEventArgs e)
@@ -419,8 +414,32 @@ namespace DTM_WPF
 
     }
 
+
+    public class AutoRefresh
+    {
+        //System.Timers.Timer myTimer = new System.Timers.Timer();
+
+        public void StartTimer(ElapsedEventHandler myEvent, double time)
+        {
+            GlobalClass.myTimer.Elapsed += new ElapsedEventHandler(myEvent);
+            GlobalClass.myTimer.Interval = time * 1000 * 60;
+            GlobalClass.myTimer.Enabled = true;
+        }
+        public void ChangeTime(double time)
+        {
+            GlobalClass.myTimer.Interval = time * 1000 * 60;
+        }
+        public void StopTimer()
+        {
+            GlobalClass.myTimer.Enabled = false;
+        }
+
+
+    }
+
     public class GlobalClass
     {
+        public static AutoRefresh AR = new AutoRefresh();
         public static System.Timers.Timer myTimer = new System.Timers.Timer();
         public static Dictionary<int, Tuple<string, int, int, float, string>> data = new Dictionary<int, Tuple<string, int, int, float, string>>();
         public static ObservableCollection<Tuple<int, string, int, int, float, string>> dataobs = new ObservableCollection<Tuple<int,string,int,int,float,string>>();
@@ -429,6 +448,7 @@ namespace DTM_WPF
         public static MainWindow1 win1;
         public static List<Tuple<int, int>> glob_pending = new List<Tuple<int, int>>(){new Tuple<int, int>(0,0)};
         //public static List<int> test = new List<int>(){2, 3, 4, 5, 23, 43, 43, 43};
+        
     }
 
 }
