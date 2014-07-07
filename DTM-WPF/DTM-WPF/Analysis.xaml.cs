@@ -84,23 +84,23 @@ namespace DTM_WPF
         {
             lineSeries1.Series.Clear();
 
-            Dictionary<int, List<KeyValuePair<DateTime, float>>> test = new Dictionary<int, List<KeyValuePair<DateTime, float>>>();
+            Dictionary<int, List<KeyValuePair<DateTime, double>>> test = new Dictionary<int, List<KeyValuePair<DateTime, double>>>();
 
             Dictionary<int, string> service_names = new Dictionary<int, string>();
             for (DateTime dt = start; dt <= end; dt = dt.Add(interval))
             {
-                Dictionary<int, Tuple<string, int, int, float, string>> data = UserControl1.getStats(metric, dt);
+                Dictionary<int, Tuple<string, int, int, double, string>> data = UserControl1.getStats(metric, dt);
                 foreach (var item in data)
                 {
                     if(test.ContainsKey(item.Key))
                     {
-                        test[item.Key].Add(new KeyValuePair<DateTime, float>(dt, item.Value.Item4));
+                        test[item.Key].Add(new KeyValuePair<DateTime, double>(dt, item.Value.Item4));
                     }
                     else
                     {
 
-                        test.Add(item.Key, new List<KeyValuePair<DateTime, float>>());
-                        test[item.Key].Add(new KeyValuePair<DateTime, float>(dt, item.Value.Item4));
+                        test.Add(item.Key, new List<KeyValuePair<DateTime, double>>());
+                        test[item.Key].Add(new KeyValuePair<DateTime, double>(dt, item.Value.Item4));
                         service_names.Add(item.Key, item.Value.Item1);
 
                     }
@@ -130,7 +130,7 @@ namespace DTM_WPF
             }
             
             //lineSeries1.Series[1] as DataPointSeries).ItemsSource = test;
-           
+            Debug.WriteLine(test);
             Debug.Write("here");
             
         }
