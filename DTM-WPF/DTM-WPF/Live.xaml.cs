@@ -36,13 +36,10 @@ namespace DTM_WPF
         {
             
             InitializeComponent();
-           // InitializeComboBox();
-            //GetInitialGraph();
 
             if (GlobalClass.first == 1)
             {
                 GlobalClass.AR.StartTimer(myEvent, 0.05);
-
             }
             else
             {
@@ -55,7 +52,6 @@ namespace DTM_WPF
         public void myEvent(object source, ElapsedEventArgs e)
         {
             Debug.WriteLine("Timer working");
-            
             RefreshGraph();
         }
 
@@ -70,8 +66,6 @@ namespace DTM_WPF
                 GlobalClass.first = 3;
             }
         }
-
-       
 
         public void RefreshServices()
         {
@@ -101,7 +95,8 @@ namespace DTM_WPF
                     var baseline = Convert.ToDouble(reader[1]) * 100.0 / per;  
                     button.ToolTip = "Processed : " + reader[1]+"\nBaseline : "+(int)baseline; reader.Close();
 
-                    cmd = new SqlCommand("BAM_GetDisplayColour_prc", MyGlobal.sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
+                    cmd = new SqlCommand("BAM_GetDisplayColour_prc", MyGlobal.sqlConnection1); 
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
                     cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = key;
                     cmd.Parameters.Add(new SqlParameter("@per", SqlDbType.Int)).Value = per;
@@ -138,6 +133,7 @@ namespace DTM_WPF
                     }));
 
                 }
+                else
                 this.Dispatcher.Invoke((Action)(() =>
                 {
                     Debug.WriteLine(s_id);
@@ -167,38 +163,11 @@ namespace DTM_WPF
                             pb_versioncreation.Value = pending.Item1;
                             pb_versioncreation.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
-
-
-
-
-
                     }
-
-
-
-
                 }));
-
-
-
-
             }
-
-
         }
 
-        
-                    
-
-
-                    
-                
-               
-
-
-
-            
-       
         public Tuple<double, int> GetPending(int s_id)
         {
 
@@ -229,12 +198,6 @@ namespace DTM_WPF
             Debug.WriteLine("testing");
         }
 
-       
-
-       
-
-
-        
         //public void updateLiveData(int metric, string metric_name)
         //{
         //    Debug.WriteLine(metric);
@@ -281,23 +244,14 @@ namespace DTM_WPF
 
         public void GetDetails(int service_id)
         {
-            GlobalClass.AR.StopTimer();
-            
-           contentControl1.Content = new Details(service_id);
-
-            //AutoRefresh AR = new AutoRefresh();
-          
-            //AR.(myEvent, Convert.ToDouble(textBox1.Text));
-
-
-
-
-            return;
+            GlobalClass.AR.StopTimer();           
+            contentControl1.Content = new Details(service_id);
         }
 
         public static Dictionary<int, Tuple<string, int, int, float, string>> getStats(int metric, DateTime time)
         {
-            Dictionary<int, Tuple<string, int, int, float, string>> localdata = new Dictionary<int, Tuple<string, int, int, float, string>>();
+            Dictionary<int, Tuple<string, int, int, float, string>> localdata = 
+            new Dictionary<int, Tuple<string, int, int, float, string>>();
             MyGlobal.sqlConnection1.Open();
             SqlCommand cmd = new SqlCommand("get_service_tbl", MyGlobal.sqlConnection1);
             cmd.CommandType = CommandType.StoredProcedure;

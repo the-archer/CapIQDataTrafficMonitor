@@ -94,11 +94,6 @@ namespace DTM_WPF
             
         }
 
-       
-
-
-
-
         public static int GetMetricID(string metric_name)
         {
             int metric_id=0;
@@ -121,48 +116,32 @@ namespace DTM_WPF
             return metric_id;
         }
 
-       
-
         private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-        private void button1_Click_1(object sender, RoutedEventArgs e)
+        public void buttonClick(object sender, RoutedEventArgs e)
         {
-            
+            var button = (Button)sender;
             DateTime end = DateTime.Now;
             DateTime start = DateTime.Now;
-            start = start.AddDays(-1);
+            switch (button.Name)
+            {
+                case "day":
+                    start = start.AddDays(-1);
+                    break;
+                case "week":
+                    start = start.AddDays(-7);
+                    break;
+                case "month":
+                    start = start.AddMonths(-1);
+                    break;
+                case "year":
+                    start = start.AddYears(-1);
+                    break;
+            }
             UpdateGraph(s_id, "Processed", start, end);
-        }
-
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-            DateTime end = DateTime.Now;
-            DateTime start = DateTime.Now;
-            start = start.AddDays(-7);
-            UpdateGraph(s_id, "Processed", start, end);
-        }
-
-        private void button3_Click(object sender, RoutedEventArgs e)
-        {
-            DateTime end = DateTime.Now;
-            DateTime start = DateTime.Now;
-            start = start.AddMonths(-1);
-            UpdateGraph(s_id, "Processed", start, end); 
-        
-        }
-
-        private void button4_Click(object sender, RoutedEventArgs e)
-        {
-            DateTime end = DateTime.Now;
-            DateTime start = DateTime.Now;
-            start = start.AddYears(-1);
-            UpdateGraph(s_id, "Processed", start, end); 
-        }
-
-      
-        
+        }   
     }
 }
