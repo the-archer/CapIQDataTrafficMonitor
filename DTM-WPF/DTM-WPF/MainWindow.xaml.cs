@@ -340,8 +340,6 @@ namespace DTM_WPF
     public class MyGlobal
     {
         public static string connstring = @"Data Source=figo\ford;Initial Catalog=Dashboard;Integrated Security=True";
-        public static System.Data.SqlClient.SqlConnection sqlConnection1 =
-              new System.Data.SqlClient.SqlConnection(MyGlobal.connstring);
     }
 }
 
