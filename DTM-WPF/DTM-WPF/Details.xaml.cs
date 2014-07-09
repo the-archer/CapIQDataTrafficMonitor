@@ -41,78 +41,90 @@ namespace DTM_WPF
         {
 
             int metric_id = GetMetricID(metric_name);
-            MyGlobal.sqlConnection1.Open();
-            TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
-
-            List<KeyValuePair<DateTime, double>> data = new List<KeyValuePair<DateTime, double>>();
-            for (DateTime dt = start; dt <= end; dt = dt.Add(interval))
+            using (SqlConnection sqlconnection1 = new SqlConnection(MyGlobal.connstring))
             {
-                
-                double per = GetPerformance(service_id, metric_id, dt);
-                //Debug.WriteLine(dt);
-                data.Add(new KeyValuePair<DateTime, double>(dt, per));
+                sqlconnection1.Open();
+                TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
+
+                List<KeyValuePair<DateTime, double>> data = new List<KeyValuePair<DateTime, double>>();
+                for (DateTime dt = start; dt <= end; dt = dt.Add(interval))
+                {
+
+                    double per = GetPerformance(service_id, metric_id, dt);
+                    //Debug.WriteLine(dt);
+                    data.Add(new KeyValuePair<DateTime, double>(dt, per));
+
+                }
+                SqlCommand cmd = new SqlCommand("SELECT service_name FROM BAM_Service_tbl WHERE service_id=" + service_id.ToString() + ";", sqlconnection1);
+                SqlDataReader rd = cmd.ExecuteReader();
+                rd.Read();
+                lineSeries1.Series.Clear();
+                LineSeries t = new LineSeries();
+                t.ItemsSource = data;
+                t.Title = rd[0].ToString();
+                t.DependentValuePath = "Value";
+                t.IndependentValuePath = "Key";
+
+
+                lineSeries1.Series.Add(t);
+
+                rd.Close();
+
+               
 
             }
-            SqlCommand cmd = new SqlCommand("SELECT service_name FROM BAM_Service_tbl WHERE service_id="+service_id.ToString()+";", MyGlobal.sqlConnection1);
-            SqlDataReader rd = cmd.ExecuteReader();
-            rd.Read();
-            lineSeries1.Series.Clear();
-            LineSeries t = new LineSeries();
-            t.ItemsSource = data;
-            t.Title = rd[0].ToString();
-            t.DependentValuePath = "Value";
-            t.IndependentValuePath = "Key";
-
-          
-            lineSeries1.Series.Add(t);
-
-            rd.Close();
-
-            MyGlobal.sqlConnection1.Close();
-
-                
         }
 
         public double GetPerformance(int service_id, int metric_id, DateTime dt)
         {
             double per = 0;
-            
-            SqlCommand cmd = new SqlCommand("BAM_GetPercentage_prc", MyGlobal.sqlConnection1);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = service_id;
-            cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric_id;
-            cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = dt;
-            SqlDataReader rd = cmd.ExecuteReader();
-            while (rd.Read())
+            using (SqlConnection sqlconnection1 = new SqlConnection(MyGlobal.connstring))
             {
-                //Debug.WriteLine("Here");
-                per = (double)(rd[0]);
+                sqlconnection1.Open();
+                SqlCommand cmd = new SqlCommand("BAM_GetPercentage_prc", sqlconnection1);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = service_id;
+                cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric_id;
+                cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = dt;
+                SqlDataReader rd = cmd.ExecuteReader();
+                while (rd.Read())
+                {
+                    //Debug.WriteLine("Here");
+                    per = (double)(rd[0]);
+
+                }
+                rd.Close();
 
             }
-            rd.Close();
+               
             return per;
+            
             
         }
 
         public static int GetMetricID(string metric_name)
         {
             int metric_id=0;
-            MyGlobal.sqlConnection1.Open();
-            SqlCommand cmd = new SqlCommand("BAM_GetMetricID_prc", MyGlobal.sqlConnection1);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new SqlParameter("@metric_name", SqlDbType.VarChar)).Value = metric_name;
-            SqlDataReader rd = cmd.ExecuteReader();
-            while (rd.Read())
+            using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
             {
-                metric_id = Convert.ToInt32(rd[0]);
+                sqlConnection1.Open();
+                SqlCommand cmd = new SqlCommand("BAM_GetMetricID_prc", sqlConnection1);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@metric_name", SqlDbType.VarChar)).Value = metric_name;
+                SqlDataReader rd = cmd.ExecuteReader();
+                while (rd.Read())
+                {
+                    metric_id = Convert.ToInt32(rd[0]);
+                }
+                if (metric_id == 0)
+                {
+                    Debug.WriteLine("Failed to get metric_id");
+
+                }
+                rd.Close();
+               
+             
             }
-            if (metric_id == 0)
-            {
-                Debug.WriteLine("Failed to get metric_id");
-                
-            }
-            rd.Close();
-            MyGlobal.sqlConnection1.Close();
             return metric_id;
         }
 
