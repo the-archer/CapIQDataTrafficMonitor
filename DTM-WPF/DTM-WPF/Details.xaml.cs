@@ -116,11 +116,6 @@ namespace DTM_WPF
             return metric_id;
         }
 
-        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         public void buttonClick(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;

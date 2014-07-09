@@ -34,19 +34,9 @@ namespace DTM_WPF
 
         public UserControl1()
         {
-            
             InitializeComponent();
-
-            if (GlobalClass.first == 1)
-            {
-                GlobalClass.AR.StartTimer(myEvent, 0.05);
-            }
-            else
-            {
-                GlobalClass.AR.ChangeTime(0.05);
-            }
-            GlobalClass.first = 2;
-           
+            RefreshGraph();
+            GlobalClass.AR.StartTimer(myEvent, 0.1);
         }
 
         public void myEvent(object source, ElapsedEventArgs e)
@@ -58,13 +48,8 @@ namespace DTM_WPF
         public void RefreshGraph()
         {
             Debug.WriteLine(DateTime.Now);
-            RefreshServices();
             RefreshQueues();
-            if (GlobalClass.first!=3)
-            {
-                GlobalClass.AR.ChangeTime(1);
-                GlobalClass.first = 3;
-            }
+            RefreshServices();
         }
 
         public void RefreshServices()
@@ -86,7 +71,7 @@ namespace DTM_WPF
                 
                 this.Dispatcher.Invoke((Action)(() =>
                 {
-                    var button = FindChild<Button>(Application.Current.MainWindow, name);
+                    var button = getService(name);
                     cmd = new SqlCommand("BAM_GetPercentage_prc", MyGlobal.sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = key;
                     cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric;
@@ -110,42 +95,40 @@ namespace DTM_WPF
             MyGlobal.sqlConnection1.Close();
         }
 
-        
+        public Button getService(string name)
+        {
+            switch (name)
+            {
+                case "Version_Creation":
+                    return Version_Creation;
+                case "Content_Search":
+                    return Content_Search;
+                case "CS_Replication":
+                    return CS_Replication;
+                case "Physical_File_Replication":
+                    return Physical_File_Replication;
+                case "Workflow_Loader":
+                    return Workflow_Loader;
+            }
+            return null;
+        }
 
         public void RefreshQueues()
         {
             for (int s_id = 1; s_id < 6; s_id++)
             {
                 Tuple<double, int> pending = GetPending(s_id);
-                //Debug.WriteLine(pending);
+                if (pending.Item1 == -1) continue;
                 int baseline = (int)(((pending.Item2) * 100) / (pending.Item1));
-                //if (GlobalClass.glob_pending.Count <= s_id)
-                //    GlobalClass.glob_pending.Add(new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1))));
-                //else
-                //    GlobalClass.glob_pending[s_id] = new Tuple<int, int>(pending.Item2, (int)(((pending.Item2) * 100) / (pending.Item1)));
-                ////
-                if (pending.Item2 == -1)
-                {
-                    this.Dispatcher.Invoke((Action)(() =>
-                    {
-                        //pb_contentsearch.Foreground=S
-                        //pb_contentsearch.Background = System.Windows.Media.Brushes.Blue;
-                    }));
-
-                }
-                else
                 this.Dispatcher.Invoke((Action)(() =>
                 {
-                    Debug.WriteLine(s_id);
+                    var value = (double)pending.Item1;
 
                     switch (s_id)
                     {
                         case 1:
-                            //Random r = new Random();
-                            //pb_contentsearch.Value = r.Next(100);
-                            //pb_contentsearch.
-                            pb_contentsearch.Value = pending.Item1;
-                            pb_contentsearch.ToolTip = ("Pending: "+pending.Item2.ToString()+"\nBaseline: " + baseline.ToString());
+                            pb_contentsearch.Value = value;
+                            pb_contentsearch.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
                         case 2:
                             pb_workflowloader.Value = pending.Item1;
@@ -332,13 +315,6 @@ namespace DTM_WPF
             }
         }
 
-        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-           //BindingOperations.ClearAllBindings(dataGrid1); 
-           GlobalClass.data.Clear();
-           
-        }
-
         private void service_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender; var name = button.Name.Replace("_"," "); 
@@ -349,52 +325,6 @@ namespace DTM_WPF
             MyGlobal.sqlConnection1.Close();
             GetDetails(id);
         }
-
-        public static T FindChild<T>(DependencyObject parent, string childName)
-   where T : DependencyObject
-        {
-            // Confirm parent and childName are valid. 
-            if (parent == null) return null;
-
-            T foundChild = null;
-
-            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < childrenCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                // If the child is not of the request child type child
-                T childType = child as T;
-                if (childType == null)
-                {
-                    // recursively drill down the tree
-                    foundChild = FindChild<T>(child, childName);
-
-                    // If the child is found, break so we do not overwrite the found child. 
-                    if (foundChild != null) break;
-                }
-                else if (!string.IsNullOrEmpty(childName))
-                {
-                    var frameworkElement = child as FrameworkElement;
-                    // If the child's name is set for search
-                    if (frameworkElement != null && frameworkElement.Name == childName)
-                    {
-                        // if the child's name is of the request name
-                        foundChild = (T)child;
-                        break;
-                    }
-                }
-                else
-                {
-                    // child element found.
-                    foundChild = (T)child;
-                    break;
-                }
-            }
-
-            return foundChild;
-        }
-       
-
     }
 
 

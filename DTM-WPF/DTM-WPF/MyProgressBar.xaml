@@ -16,7 +16,7 @@
                             <GradientStop Color="White" Offset="1" />
                         </LinearGradientBrush>
                     </Grid.Background>
-                    <Grid Width="{Binding ProgressBarWidth, ElementName=uc}" HorizontalAlignment="Left">
+                    <Grid Width="{Binding ProgressBarWidth, Mode=TwoWay, ElementName=uc, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left">
                         <Grid.Background>
                             <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                                 <GradientStop Color="Tomato" Offset="0" />

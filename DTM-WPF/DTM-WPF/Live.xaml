@@ -5,35 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="750" d:DesignWidth="850" xmlns:my="clr-namespace:DTM_WPF">
-    <Canvas>
+    <Canvas Name="canvas1">
        <Grid Height="0" HorizontalAlignment="Left" Margin="616,149,0,0" Name="grid1" VerticalAlignment="Top" Width="0" />
         <ContentControl Height="726" HorizontalAlignment="Left" Margin="107,204,0,0" Name="contentControl1" VerticalAlignment="Top" Width="826" Canvas.Left="-95" Canvas.Top="-192">
-           
-           
-
             <Canvas Height="572" Canvas.Left="127" Canvas.Top="112" Width="826">
                 <Label Content="Refresh after every " Height="28" Margin="0,33,229,0" Name="label2" VerticalAlignment="Top" HorizontalAlignment="Right" Width="186" Canvas.Left="328" Canvas.Top="-1" />
                 <TextBox Height="23" HorizontalAlignment="Left" Margin="452,35,0,0" Name="textBox1" VerticalAlignment="Top" Width="39" Text="1" HorizontalContentAlignment="Center" TextChanged="textBox1_TextChanged" />
                 <Label Content="min(s)" Height="28" Margin="503,33,61,0" Name="label3" VerticalAlignment="Top" />
-                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Version_Creation" Canvas.Left="31" Canvas.Top="303" Click="service_Click" Content="NA"/>
-                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Metadata_Mapping" Canvas.Left="168" Canvas.Top="303" Content="NA"/>
-                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Conversion_and_Translation" Canvas.Left="339" Canvas.Top="175" Content="NA"/>
-                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Content_Search" Canvas.Left="339" Canvas.Top="303" Click="service_Click" Content="NA"/>
-                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Aggregation" Canvas.Left="339" Canvas.Top="437" Content="NA"/>
-                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Physical_File_Replication" Canvas.Left="542" Canvas.Top="175" Click="service_Click" Content="NA"/>
-                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="CS_Replication" Canvas.Left="542" Canvas.Top="303" Click="service_Click" Content="NA"/>
-                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Document_Metadata_Replication" Canvas.Left="542" Canvas.Top="437" Content="NA"/>
-                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Workflow_Loader" Canvas.Left="741" Canvas.Top="303" Click="service_Click" Content="NA"/>
-                
-                <my:MyProgressBar Canvas.Left="31" Canvas.Top="351" x:Name="pb_versioncreation" Height="10" Width="40" />
-                <my:MyProgressBar Canvas.Left="168" Canvas.Top="351" Height="10" x:Name="myProgressBar2" Width="40" Value="0" />
-                <my:MyProgressBar Canvas.Left="339" Canvas.Top="221" Height="10" x:Name="myProgressBar3" Width="40" Value="0" Background="#FF302727" BorderBrush="#FF241E1E" OpacityMask="#FF020101" OverridesDefaultStyle="True" IsManipulationEnabled="False" />
-                <my:MyProgressBar Canvas.Left="542" Canvas.Top="221" Height="10" x:Name="pb_physicalfilerep" Width="40" />
-                <my:MyProgressBar Canvas.Left="300" Canvas.Top="351" Height="10" x:Name="pb_contentsearch" Width="40" />
-                <my:MyProgressBar Canvas.Left="542" Canvas.Top="351" Height="10" x:Name="pb_contentsearchrep" Width="40" />
-                <my:MyProgressBar Canvas.Left="339" Canvas.Top="483" Height="10" x:Name="myProgressBar7" Width="40" Value="0" />
-                <my:MyProgressBar Canvas.Left="542" Canvas.Top="483" Height="10" x:Name="myProgressBar8" Width="40" Value="0" />
-                <my:MyProgressBar Canvas.Left="741" Canvas.Top="351" Height="10" x:Name="pb_workflowloader" Width="40" />
+                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Version_Creation" Canvas.Left="31" Canvas.Top="303" Click="service_Click" Content="NA" ToolTipService.ShowDuration="50000" />
+                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Metadata_Mapping" Canvas.Left="168" Canvas.Top="303" Content="NA" ToolTipService.ShowDuration="50000"/>
+                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Conversion_and_Translation" Canvas.Left="339" Canvas.Top="175" Content="NA" ToolTipService.ShowDuration="50000"/>
+                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Content_Search" Canvas.Left="339" Canvas.Top="303" Click="service_Click" Content="NA" ToolTipService.ShowDuration="50000"/>
+                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Aggregation" Canvas.Left="339" Canvas.Top="437" Content="NA" ToolTipService.ShowDuration="50000"/>
+                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Physical_File_Replication" Canvas.Left="542" Canvas.Top="175" Click="service_Click" Content="NA" ToolTipService.ShowDuration="50000"/>
+                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="CS_Replication" Canvas.Left="542" Canvas.Top="303" Click="service_Click" Content="NA" ToolTipService.ShowDuration="50000"/>
+                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Document_Metadata_Replication" Canvas.Left="542" Canvas.Top="437" Content="NA" ToolTipService.ShowDuration="50000"/>
+                <Button Style="{DynamicResource RoundButtonTemplate}" Height="40" Width="40" Opacity="0.5" BorderBrush="Red" Background="Gray" Name="Workflow_Loader" Canvas.Left="741" Canvas.Top="303" Click="service_Click" Content="NA" ToolTipService.ShowDuration="50000"/>
+
+                <my:MyProgressBar Canvas.Left="31" Canvas.Top="351" x:Name="pb_versioncreation" Height="10" Width="40" ToolTipService.ShowDuration="50000"/>
+                <my:MyProgressBar Canvas.Left="168" Canvas.Top="351" Height="10" x:Name="myProgressBar2" Width="40" Value="0" ToolTipService.ShowDuration="50000"/>
+                <my:MyProgressBar Canvas.Left="339" Canvas.Top="221" Height="10" x:Name="myProgressBar3" Width="40" Value="0" Background="#FF302727" BorderBrush="#FF241E1E" OpacityMask="#FF020101" OverridesDefaultStyle="True" IsManipulationEnabled="False" ToolTipService.ShowDuration="50000"/>
+                <my:MyProgressBar Canvas.Left="542" Canvas.Top="221" Height="10" x:Name="pb_physicalfilerep" Width="40" ToolTipService.ShowDuration="50000"/>
+                <my:MyProgressBar Canvas.Left="300" Canvas.Top="351" Height="10" x:Name="pb_contentsearch" Width="40" ToolTipService.ShowDuration="50000"/>
+                <my:MyProgressBar Canvas.Left="542" Canvas.Top="351" Height="10" x:Name="pb_contentsearchrep" Width="40" ToolTipService.ShowDuration="50000"/>
+                <my:MyProgressBar Canvas.Left="339" Canvas.Top="483" Height="10" x:Name="myProgressBar7" Width="40" Value="0" ToolTipService.ShowDuration="50000"/>
+                <my:MyProgressBar Canvas.Left="542" Canvas.Top="483" Height="10" x:Name="myProgressBar8" Width="40" Value="0" ToolTipService.ShowDuration="50000"/>
+                <my:MyProgressBar Canvas.Left="741" Canvas.Top="351" Height="10" x:Name="pb_workflowloader" Width="40" ToolTipService.ShowDuration="50000"/>
                 
                 <Label Style ="{DynamicResource myLabelStyle}" Canvas.Left="6" Canvas.Top="269" Content="Version Creation" Height="28" Name="labelA" />
                 <Label Style ="{DynamicResource myLabelStyle}" Canvas.Left="108" Canvas.Top="268" Content="Metadata Mapping" Height="28" Name="labelB" />

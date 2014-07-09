@@ -11,18 +11,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
+using System.ComponentModel;
 
 namespace DTM_WPF
 {
     /// <summary>
     /// Interaction logic for MyProgressBar.xaml
     /// </summary>
-    public partial class MyProgressBar : UserControl
+    public partial class MyProgressBar : UserControl,INotifyPropertyChanged
     {
         public MyProgressBar()
         {
             InitializeComponent();
-
+            this.DataContext = this;
             Loaded += new RoutedEventHandler(MyProgressBar_Loaded);
         }
 
@@ -31,7 +33,7 @@ namespace DTM_WPF
             Update();
         }
 
-        private static readonly DependencyProperty MaximumProperty = DependencyProperty.Register("Maximum", typeof(double), typeof(MyProgressBar), new PropertyMetadata(100d, OnMaximumChanged));
+        public static DependencyProperty MaximumProperty = DependencyProperty.Register("Maximum", typeof(double), typeof(MyProgressBar), new PropertyMetadata(100d, OnMaximumChanged));
         public double Maximum
         {
             get { return (double)GetValue(MaximumProperty); }
@@ -39,24 +41,24 @@ namespace DTM_WPF
         }
 
 
-        private static readonly DependencyProperty MinimumProperty = DependencyProperty.Register("Minimum", typeof(double), typeof(MyProgressBar), new PropertyMetadata(0d, OnMinimumChanged));
+        public static DependencyProperty MinimumProperty = DependencyProperty.Register("Minimum", typeof(double), typeof(MyProgressBar), new PropertyMetadata(0d, OnMinimumChanged));
         public double Minimum
         {
             get { return (double)GetValue(MinimumProperty); }
             set { SetValue(MinimumProperty, value); }
         }
 
-        private static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(MyProgressBar), new PropertyMetadata(0d, OnValueChanged));
+        public static DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(double), typeof(MyProgressBar), new PropertyMetadata(0d, OnValueChanged));
         public double Value
         {
             get { return (double)GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
+            set { SetValue(ValueProperty,value); }
         }
 
 
 
-        private static readonly DependencyProperty ProgressBarWidthProperty = DependencyProperty.Register("ProgressBarWidth", typeof(double), typeof(MyProgressBar), null);
-        private double ProgressBarWidth
+        public static DependencyProperty ProgressBarWidthProperty = DependencyProperty.Register("ProgressBarWidth", typeof(double), typeof(MyProgressBar), null);
+        public double ProgressBarWidth
         {
             get { return (double)GetValue(ProgressBarWidthProperty); }
             set { SetValue(ProgressBarWidthProperty, value); }
@@ -77,6 +79,15 @@ namespace DTM_WPF
             (o as MyProgressBar).Update();
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
 
         void Update()
         {
@@ -84,7 +95,7 @@ namespace DTM_WPF
             // may want your template to have variable bits like border width etc which you'd use
             // TemplateBinding for
             ProgressBarWidth = Math.Min((Value / (Maximum + Minimum) * this.ActualWidth) - 2, this.ActualWidth - 2);
-
+            NotifyPropertyChanged("ProgressBarWidth");
 
         }
     }
