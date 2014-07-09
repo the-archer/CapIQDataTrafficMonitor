@@ -157,7 +157,7 @@ namespace DTM_WPF
         public Tuple<double, int> GetPending(int s_id)
         {
 
-            int metric_id = Details.GetMetricID("Pending"), value = -1; double per=0;
+            int metric_id = Details.GetMetricID("Pending"), value = 10; double per=0;
 
             using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
             {
@@ -176,7 +176,6 @@ namespace DTM_WPF
 
                     per = (double)(rd[0]);
                     value = Convert.ToInt32(rd[1]);
-
                 }
                 rd.Close();
             }
@@ -348,7 +347,7 @@ namespace DTM_WPF
         public static ObservableCollection<Tuple<int, string, int, int, float, string>> dataobs = new ObservableCollection<Tuple<int,string,int,int,float,string>>();
         public static int metric1;
         public static DateTime time1;
-        public static MainWindow1 win1;
+        //public static MainWindow1 win1;
         public static List<Tuple<int, int>> glob_pending = new List<Tuple<int, int>>(){new Tuple<int, int>(0,0)};
         //public static List<int> test = new List<int>(){2, 3, 4, 5, 23, 43, 43, 43};
         public static int first = 1;

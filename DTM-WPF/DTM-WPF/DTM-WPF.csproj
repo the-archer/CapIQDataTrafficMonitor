@@ -96,25 +96,14 @@
     <Compile Include="Details.xaml.cs">
       <DependentUpon>Details.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Graph.xaml.cs">
-      <DependentUpon>Graph.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GraphBits\PocEdge.cs" />
-    <Compile Include="GraphBits\PocGraph.cs" />
-    <Compile Include="GraphBits\PocVertex.cs" />
     <Compile Include="Live.xaml.cs">
       <DependentUpon>Live.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GraphBits\MainwindowViewmodel.cs" />
     <Page Include="Analysis.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Details.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Graph.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -34,15 +34,17 @@ namespace DTM_WPF
 
         private void InitializeComboBox()
         {
-            SqlDataAdapter da = new SqlDataAdapter("SELECT metric_name, metric_id from BAM_Metric_tbl", MyGlobal.sqlConnection1);
-            DataSet ds = new DataSet();
+            using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT metric_name, metric_id from BAM_Metric_tbl", sqlConnection1);
+                DataSet ds = new DataSet();
 
-            da.Fill(ds, "Metric");
-            comboBox1.ItemsSource = ds.Tables[0].DefaultView;
-            comboBox1.DisplayMemberPath = ds.Tables[0].Columns["metric_name"].ToString();
-            comboBox1.SelectedValuePath = ds.Tables[0].Columns["metric_id"].ToString();
-            comboBox1.SelectedIndex = 0;
-
+                da.Fill(ds, "Metric");
+                comboBox1.ItemsSource = ds.Tables[0].DefaultView;
+                comboBox1.DisplayMemberPath = ds.Tables[0].Columns["metric_name"].ToString();
+                comboBox1.SelectedValuePath = ds.Tables[0].Columns["metric_id"].ToString();
+                comboBox1.SelectedIndex = 0;
+            }
 
         }
 
