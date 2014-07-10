@@ -1,7 +1,7 @@
 ﻿<Window x:Class="DTM_WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="750" Width="1000">
+        Title="Data Traffic Monitoring in Capital IQ" Height="750" Width="1000">
     
     <Canvas Height="787" Width="998">
         <ContentControl Grid.ColumnSpan="4" Height="662" HorizontalAlignment="Left" Margin="24,52,0,0" Name="contentControl1" VerticalAlignment="Top" Width="962"></ContentControl>
