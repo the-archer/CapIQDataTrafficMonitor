@@ -33,12 +33,12 @@
             </TabControl.Resources>
             <TabItem Width="490" Height="22">
                 <TabItem.Header>
-                    <Label Content="Live" MouseLeftButtonDown="button1_Click_1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Height="22" Width="43" />
+                    <Label Content="Live" HorizontalContentAlignment="Center" MouseLeftButtonDown="button1_Click_1" HorizontalAlignment="Stretch" Height="27" Width="488" />
                 </TabItem.Header>
             </TabItem>
             <TabItem Width="490" Height="22">
                 <TabItem.Header>
-                    <Label Content="Analysis" MouseLeftButtonDown="button2_Click" HorizontalAlignment="Stretch" Margin="0,0,0,0" Height="22" Width="74" />
+                    <Label Content="Analysis" HorizontalContentAlignment="Center" MouseLeftButtonDown="button2_Click" HorizontalAlignment="Stretch" Height="27" Width="492" />
                 </TabItem.Header>
             </TabItem>
         </TabControl>
