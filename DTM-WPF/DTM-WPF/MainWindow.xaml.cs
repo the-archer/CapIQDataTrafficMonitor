@@ -160,7 +160,7 @@ namespace DTM_WPF
 
 
 
-                int service_id = 1;
+                //int service_id = 1;
                 int metric_id = 1;
                 bool flag = false;
 

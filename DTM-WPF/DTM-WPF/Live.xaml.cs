@@ -32,9 +32,9 @@ namespace DTM_WPF
         public UserControl1()
         {
             InitializeComponent();
-            RefreshGraph(); 
+            RefreshGraph();
         }
-
+       
         public void myEvent(object source, ElapsedEventArgs e)
         {
             Debug.WriteLine("Timer working");
@@ -181,7 +181,7 @@ namespace DTM_WPF
         {
             try { MyGlobal.myTimer.Dispose(); }
             catch (Exception exp) { } 
-            contentControl1.Content = new Details(service_id);
+            contentControl1.Content = new Details(service_id,"Processed");
         }
 
         public static Dictionary<int, Tuple<string, int, int, double, string>> getStats(int metric, DateTime time)
