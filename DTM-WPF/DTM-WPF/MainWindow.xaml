@@ -5,9 +5,43 @@
     
     <Canvas Height="787" Width="998">
         <ContentControl Grid.ColumnSpan="4" Height="662" HorizontalAlignment="Left" Margin="24,52,0,0" Name="contentControl1" VerticalAlignment="Top" Width="962"></ContentControl>
-        <Button Content="Live" Height="23" Name="button1" Width="75" Margin="81,12,0,394" Click="button1_Click_1" Canvas.Left="232" Canvas.Top="0" />
-
-        <Button Content="Analysis" Height="23" Margin="53,12,134,394" Name="button2" Width="75" Grid.Column="1" Click="button2_Click" Grid.ColumnSpan="2" Canvas.Left="40" Canvas.Top="0" />
+        <TabControl Height="24" Width="986" Canvas.Top="12" Canvas.Left="0">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Width="490" Height="22">
+                <TabItem.Header>
+                    <Label Content="Live" MouseLeftButtonDown="button1_Click_1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Height="22" Width="43" />
+                </TabItem.Header>
+            </TabItem>
+            <TabItem Width="490" Height="22">
+                <TabItem.Header>
+                    <Label Content="Analysis" MouseLeftButtonDown="button2_Click" HorizontalAlignment="Stretch" Margin="0,0,0,0" Height="22" Width="74" />
+                </TabItem.Header>
+            </TabItem>
+        </TabControl>
     </Canvas>
 
 </Window>

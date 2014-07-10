@@ -31,13 +31,26 @@ namespace DTM_WPF
     {
         public MainWindow()
         {
-            Debug.WriteLine("Before init");
             InitializeComponent();
-            //MainWindow.fillRandomDataintoCollectedData();
-           
-
-                //caller();
         }
+
+        private void button1_Click_1(object sender, RoutedEventArgs e)
+        {
+            contentControl1.Content = new UserControl1();
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            contentControl1.Content = new Analysis();
+        }
+    }
+
+    public class MyGlobal
+    {
+        public static string connstring = @"Data Source=figo\ford;Initial Catalog=Dashboard;Integrated Security=True";
+        public static AutoRefresh AR = new AutoRefresh();
+        public static System.Timers.Timer myTimer = new System.Timers.Timer();
+    }
 
    
 
@@ -136,108 +149,100 @@ namespace DTM_WPF
     //            }
     //    }
 
-        private void button1_Click_1(object sender, RoutedEventArgs e)
-        {
-            contentControl1.Content = new UserControl1();
-        }
-
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-            contentControl1.Content = new Analysis();
-        }
-        public static void fillRandomDataintoCollectedData()
-        {
-            Random r = new Random();
+        
+        //public static void fillRandomDataintoCollectedData()
+        //{
+        //    Random r = new Random();
 
 
-            using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
-            {
-                sqlConnection1.Open();
-                DateTime dt = new DateTime();
+        //    using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
+        //    {
+        //        sqlConnection1.Open();
+        //        DateTime dt = new DateTime();
 
 
 
 
 
 
-                //int service_id = 1;
-                int metric_id = 1;
-                bool flag = false;
+        //        //int service_id = 1;
+        //        int metric_id = 1;
+        //        bool flag = false;
 
-                for (int s_id = 1; s_id < 6; s_id++)
-                {
-                    int baseline = 1000;
-                    int per = 50;
-                    dt = DateTime.Now;
-                    dt = dt.AddDays(0);
-                    int value = (per * baseline) / 100;
-                    for (int i = 0; i < 10; i++)
-                    {
+        //        for (int s_id = 1; s_id < 6; s_id++)
+        //        {
+        //            int baseline = 1000;
+        //            int per = 50;
+        //            dt = DateTime.Now;
+        //            dt = dt.AddDays(0);
+        //            int value = (per * baseline) / 100;
+        //            for (int i = 0; i < 10; i++)
+        //            {
 
-                        for (int j = 0; j < (24 * 12); j++)
-                        {
-                            Debug.WriteLine(dt);
-                            value = (per * baseline) / 100;
+        //                for (int j = 0; j < (24 * 12); j++)
+        //                {
+        //                    Debug.WriteLine(dt);
+        //                    value = (per * baseline) / 100;
 
-                            SqlCommand cmd = new SqlCommand("BAM_AddDatatoCollectedData_prc", sqlConnection1);
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            //cmd.Parameters.Add(new SqlParameter("@day", SqlDbType.NChar)).Value = days[i];
-                            cmd.Parameters.Add(new SqlParameter("@start_time", SqlDbType.DateTime)).Value = dt;
-                            cmd.Parameters.Add(new SqlParameter("@end_time", SqlDbType.DateTime)).Value = dt.AddMinutes(5);
-                            cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = s_id;
-                            cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric_id;
-                            cmd.Parameters.Add(new SqlParameter("@value", SqlDbType.Int)).Value = value;
-                            cmd.Parameters.Add(new SqlParameter("@baseline", SqlDbType.Int)).Value = baseline;
-                            cmd.Parameters.Add(new SqlParameter("@percentage", SqlDbType.Float)).Value = per;
+        //                    SqlCommand cmd = new SqlCommand("BAM_AddDatatoCollectedData_prc", sqlConnection1);
+        //                    cmd.CommandType = CommandType.StoredProcedure;
+        //                    //cmd.Parameters.Add(new SqlParameter("@day", SqlDbType.NChar)).Value = days[i];
+        //                    cmd.Parameters.Add(new SqlParameter("@start_time", SqlDbType.DateTime)).Value = dt;
+        //                    cmd.Parameters.Add(new SqlParameter("@end_time", SqlDbType.DateTime)).Value = dt.AddMinutes(5);
+        //                    cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = s_id;
+        //                    cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric_id;
+        //                    cmd.Parameters.Add(new SqlParameter("@value", SqlDbType.Int)).Value = value;
+        //                    cmd.Parameters.Add(new SqlParameter("@baseline", SqlDbType.Int)).Value = baseline;
+        //                    cmd.Parameters.Add(new SqlParameter("@percentage", SqlDbType.Float)).Value = per;
 
-                            cmd.ExecuteNonQuery();
-                            if (j % 12 == 0)
-                            {
+        //                    cmd.ExecuteNonQuery();
+        //                    if (j % 12 == 0)
+        //                    {
 
-                                baseline += (r.Next(-50, 50));
-                                if (baseline < 0)
-                                    baseline = 0;
-                            }
-                            per += (r.Next(-5, 5));
-                            if (per < 0)
-                                per = 0;
+        //                        baseline += (r.Next(-50, 50));
+        //                        if (baseline < 0)
+        //                            baseline = 0;
+        //                    }
+        //                    per += (r.Next(-5, 5));
+        //                    if (per < 0)
+        //                        per = 0;
 
-                            if (r.Next(50) == 1)
-                            {
-                                per = 10;
-                            }
-                            if (r.Next(50) > 30 && per < 20)
-                            {
-                                per = 80;
-                            }
-                            if (!flag)
-                            {
+        //                    if (r.Next(50) == 1)
+        //                    {
+        //                        per = 10;
+        //                    }
+        //                    if (r.Next(50) > 30 && per < 20)
+        //                    {
+        //                        per = 80;
+        //                    }
+        //                    if (!flag)
+        //                    {
 
-                                if (dt.DayOfWeek == DayOfWeek.Saturday || dt.DayOfWeek == DayOfWeek.Sunday)
-                                {
-                                    flag = true;
-                                    baseline = 200;
-                                }
-                            }
-                            else
-                            {
-                                if (dt.DayOfWeek != DayOfWeek.Saturday && dt.DayOfWeek != DayOfWeek.Sunday)
-                                {
-                                    flag = false;
-                                    baseline = 1000;
-                                }
+        //                        if (dt.DayOfWeek == DayOfWeek.Saturday || dt.DayOfWeek == DayOfWeek.Sunday)
+        //                        {
+        //                            flag = true;
+        //                            baseline = 200;
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        if (dt.DayOfWeek != DayOfWeek.Saturday && dt.DayOfWeek != DayOfWeek.Sunday)
+        //                        {
+        //                            flag = false;
+        //                            baseline = 1000;
+        //                        }
 
-                            }
-                            dt = dt.AddMinutes(5);
-                        }
+        //                    }
+        //                    dt = dt.AddMinutes(5);
+        //                }
 
 
-                    }
+        //            }
 
-                }
-            }
+        //        }
+        //    }
 
-        }
+        //}
 
 
 
@@ -287,14 +292,6 @@ namespace DTM_WPF
 
 
     //        MyGlobal.sqlConnection1.Close();
-    }
-
-    public class MyGlobal
-    {
-        public static string connstring = @"Data Source=figo\ford;Initial Catalog=Dashboard;Integrated Security=True";
-        public static AutoRefresh AR = new AutoRefresh();
-        public static System.Timers.Timer myTimer = new System.Timers.Timer();
-    }
 }
 
 
