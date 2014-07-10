@@ -34,75 +34,50 @@ namespace DTM_WPF
             DateTime end = DateTime.Now;
             DateTime start = DateTime.Now;
             start = start.AddDays(-1);
-            UpdateGraph(service_id, metric_name, start, end);
+            //UpdateGraph(service_id, metric_name, start, end);
 
             
         }
 
-        public void UpdateGraph(int service_id, string metric_name, DateTime start, DateTime end)
-        {
+        //public void UpdateGraph(int service_id, string metric_name, DateTime start, DateTime end)
+        //{
 
-            int metric_id = GetMetricID(metric_name);
-            using (SqlConnection sqlconnection1 = new SqlConnection(MyGlobal.connstring))
-            {
-                sqlconnection1.Open();
-                TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
+        //    int metric_id = GetMetricID(metric_name);
+        //    using (SqlConnection sqlconnection1 = new SqlConnection(MyGlobal.connstring))
+        //    {
+        //        sqlconnection1.Open();
+        //        TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
 
-                List<KeyValuePair<DateTime, double>> data = new List<KeyValuePair<DateTime, double>>();
-                for (DateTime dt = start; dt <= end; dt = dt.Add(interval))
-                {
+        //        List<KeyValuePair<DateTime, double>> data = new List<KeyValuePair<DateTime, double>>();
+        //        for (DateTime dt = start; dt <= end; dt = dt.Add(interval))
+        //        {
 
-                    double per = GetPerformance(service_id, metric_id, dt);
-                    //Debug.WriteLine(dt);
-                    data.Add(new KeyValuePair<DateTime, double>(dt, per));
+        //            double per = GetPerformance(service_id, metric_id, dt);
+        //            //Debug.WriteLine(dt);
+        //            data.Add(new KeyValuePair<DateTime, double>(dt, per));
 
-                }
-                SqlCommand cmd = new SqlCommand("SELECT service_name FROM BAM_Service_tbl WHERE service_id=" + service_id.ToString() + ";", sqlconnection1);
-                SqlDataReader rd = cmd.ExecuteReader();
-                rd.Read();
-                lineSeries1.Series.Clear();
-                LineSeries t = new LineSeries();
-                t.ItemsSource = data;
-                t.Title = rd[0].ToString();
-                t.DependentValuePath = "Value";
-                t.IndependentValuePath = "Key";
+        //        }
+        //        SqlCommand cmd = new SqlCommand("SELECT service_name FROM BAM_Service_tbl WHERE service_id=" + service_id.ToString() + ";", sqlconnection1);
+        //        SqlDataReader rd = cmd.ExecuteReader();
+        //        rd.Read();
+        //        lineSeries1.Series.Clear();
+        //        LineSeries t = new LineSeries();
+        //        t.ItemsSource = data;
+        //        t.Title = rd[0].ToString();
+        //        t.DependentValuePath = "Value";
+        //        t.IndependentValuePath = "Key";
 
 
-                lineSeries1.Series.Add(t);
+        //        lineSeries1.Series.Add(t);
 
-                rd.Close();
+        //        rd.Close();
 
                
 
-            }
-        }
+        //    }
+        //}
 
-        public double GetPerformance(int service_id, int metric_id, DateTime dt)
-        {
-            double per = 0;
-            using (SqlConnection sqlconnection1 = new SqlConnection(MyGlobal.connstring))
-            {
-                sqlconnection1.Open();
-                SqlCommand cmd = new SqlCommand("BAM_GetPercentage_prc", sqlconnection1);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = service_id;
-                cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric_id;
-                cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = dt;
-                SqlDataReader rd = cmd.ExecuteReader();
-                while (rd.Read())
-                {
-                    //Debug.WriteLine("Here");
-                    per = (double)(rd[0]);
-
-                }
-                rd.Close();
-
-            }
-               
-            return per;
-            
-            
-        }
+        
 
         public static int GetMetricID(string metric_name)
         {
@@ -150,7 +125,7 @@ namespace DTM_WPF
                     start = start.AddYears(-1);
                     break;
             }
-            UpdateGraph(s_id, m_name, start, end);
+            //UpdateGraph(s_id, m_name, start, end);
         }   
     }
 }

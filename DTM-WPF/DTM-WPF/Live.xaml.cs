@@ -181,7 +181,10 @@ namespace DTM_WPF
         {
             try { MyGlobal.myTimer.Dispose(); }
             catch (Exception exp) { } 
-            contentControl1.Content = new Details(service_id,"Processed");
+          //  contentControl1.Content = new Details(service_id,"Processed");
+            contentControl1.Content = new Analysis(service_id, "Processed");
+
+          
         }
 
         public static Dictionary<int, Tuple<string, int, int, double, string>> getStats(int metric, DateTime time)
