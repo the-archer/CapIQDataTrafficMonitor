@@ -25,14 +25,16 @@ namespace DTM_WPF
     {
 
         int s_id;
-        public Details(int service_id)
+        string m_name;
+        public Details(int service_id, string metric_name)
         {
             InitializeComponent();
             s_id = service_id;
+            m_name = metric_name;
             DateTime end = DateTime.Now;
             DateTime start = DateTime.Now;
             start = start.AddDays(-1);
-            UpdateGraph(service_id, "Processed", start, end);
+            UpdateGraph(service_id, metric_name, start, end);
 
             
         }
@@ -148,7 +150,7 @@ namespace DTM_WPF
                     start = start.AddYears(-1);
                     break;
             }
-            UpdateGraph(s_id, "Processed", start, end);
+            UpdateGraph(s_id, m_name, start, end);
         }   
     }
 }

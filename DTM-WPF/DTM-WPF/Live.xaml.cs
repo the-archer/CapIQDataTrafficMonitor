@@ -37,8 +37,9 @@ namespace DTM_WPF
             InitializeComponent();
             RefreshGraph();
             GlobalClass.AR.StartTimer(myEvent, 0.1);
+            
         }
-
+       
         public void myEvent(object source, ElapsedEventArgs e)
         {
             Debug.WriteLine("Timer working");
@@ -184,8 +185,15 @@ namespace DTM_WPF
         public void Testing()
         {
             Debug.WriteLine("testing");
+
+
+            
         }
 
+       
+
+
+        
         //public void updateLiveData(int metric, string metric_name)
         //{
         //    Debug.WriteLine(metric);
@@ -233,7 +241,7 @@ namespace DTM_WPF
         public void GetDetails(int service_id)
         {
             GlobalClass.AR.StopTimer();           
-            contentControl1.Content = new Details(service_id);
+            contentControl1.Content = new Details(service_id, "Processed");
         }
 
         public static Dictionary<int, Tuple<string, int, int, double, string>> getStats(int metric, DateTime time)
