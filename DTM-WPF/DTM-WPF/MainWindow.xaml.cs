@@ -136,26 +136,9 @@ namespace DTM_WPF
     //            }
     //    }
 
-    //    private void dataGrid1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    //    {
-
-    //    }
-
         private void button1_Click_1(object sender, RoutedEventArgs e)
         {
-            //Live livepage = new Live();
-
-
             contentControl1.Content = new UserControl1();
-
-            //DTMClass dtmclass = new DTMClass();
-
-
-
-            //caller();
-
-            // Dictionary<int, Tuple<string, int, int, double, string>> data = dtmclass.getStats(DateTime.Now);
-
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
@@ -304,29 +287,13 @@ namespace DTM_WPF
 
 
     //        MyGlobal.sqlConnection1.Close();
-
-
-
-                   
-
-            
-    //    }
-
-    //    private void button4_Click(object sender, RoutedEventArgs e)
-    //    {
-    //        contentControl1.Content = new Details(2);
-    //    }
-
-       
-
-      
-
-
     }
 
     public class MyGlobal
     {
         public static string connstring = @"Data Source=figo\ford;Initial Catalog=Dashboard;Integrated Security=True";
+        public static AutoRefresh AR = new AutoRefresh();
+        public static System.Timers.Timer myTimer = new System.Timers.Timer();
     }
 }
 

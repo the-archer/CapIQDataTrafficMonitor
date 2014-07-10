@@ -29,14 +29,10 @@ namespace DTM_WPF
 
     public partial class UserControl1 : UserControl
     {
-
-        
-
         public UserControl1()
         {
             InitializeComponent();
-            RefreshGraph();
-            GlobalClass.AR.StartTimer(myEvent, 0.1);
+            RefreshGraph(); 
         }
 
         public void myEvent(object source, ElapsedEventArgs e)
@@ -59,7 +55,7 @@ namespace DTM_WPF
             using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
             {
                 sqlConnection1.Open();
-                SqlCommand cmd = new SqlCommand("select * from BAM_service_tbl", sqlConnection1);
+                SqlCommand cmd = new SqlCommand("BAM_GetAllServices_prc", sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read()) services.Add(Convert.ToInt32(reader[0]), reader[1].ToString().Replace(" ", "_")); reader.Close();
 
@@ -73,7 +69,7 @@ namespace DTM_WPF
 
                     this.Dispatcher.Invoke((Action)(() =>
                     {
-                        var button = getService(name);
+                        var button = getServiceButton(name);
                         cmd = new SqlCommand("BAM_GetPercentage_prc", sqlConnection1); 
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = key;
@@ -91,14 +87,14 @@ namespace DTM_WPF
                         cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
 
                         reader = cmd.ExecuteReader(); reader.Read();
-                        button.Background = reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ? System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
+                        button.Background = reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ?                                          System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
                         reader.Close();
                     }));
                 }
             }
         }
 
-        public Button getService(string name)
+        public Button getServiceButton(string name)
         {
             switch (name)
             {
@@ -156,7 +152,6 @@ namespace DTM_WPF
 
         public Tuple<double, int> GetPending(int s_id)
         {
-
             int metric_id = Details.GetMetricID("Pending"), value = 10; double per=0;
 
             using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
@@ -181,58 +176,11 @@ namespace DTM_WPF
             }
             return new Tuple<double, int>(per, value);
         }
-        public void Testing()
-        {
-            Debug.WriteLine("testing");
-        }
-
-        //public void updateLiveData(int metric, string metric_name)
-        //{
-        //    Debug.WriteLine(metric);
-        //    //Debug.WriteLine("Is it here?");
-
-        //    GlobalClass.data.Clear();
-
-        //    this.Dispatcher.Invoke((Action)(() =>
-        //    {
-        //        dataGrid1.ItemsSource = null;
-        //        dataGrid1.Items.Refresh();
-        //    }));
-           
-        //    DateTime time = DateTime.Now;
-
-        //    GlobalClass.data = getStats(metric, time); GlobalClass.metric1 = metric; GlobalClass.time1 = time;
-        //    try
-        //    {
-        //        if (GlobalClass.win1.IsEnabled) GlobalClass.win1.Close();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //    }
-            
-            
-            
-            
-        //    this.Dispatcher.Invoke((Action)(() =>
-        //    {
-        //        Debug.WriteLine("Start");
-        //        ObservableCollection<Tuple<string, int, int, float, string>> list = new ObservableCollection<Tuple<string, int, int, float, string>>((from item in GlobalClass.data select item.Value));
-        //        dataGrid1.ItemsSource = list;
-        //        dataGrid1.Columns[0].Header = "Service Name";
-        //        dataGrid1.Columns[1].Header = metric_name;
-        //        dataGrid1.Columns[2].Header = "Baseline Value";
-        //        dataGrid1.Columns[3].Header = "Percentage";
-        //        dataGrid1.Columns[4].Header = "Colour";
-        //        dataGrid1.Items.Refresh();
-        //    }));
-         
-        //    Debug.WriteLine("Closing");
-            
-        //}
 
         public void GetDetails(int service_id)
         {
-            GlobalClass.AR.StopTimer();           
+            try { MyGlobal.myTimer.Dispose(); }
+            catch (Exception exp) { } 
             contentControl1.Content = new Details(service_id);
         }
 
@@ -265,7 +213,7 @@ namespace DTM_WPF
                     while (rd.Read())
                     {
                         Debug.WriteLine("{0} {1}", rd[0], rd[1]);
-                        localdata[item] = Tuple.Create(localdata[item].Item1, Convert.ToInt32(rd[1]), localdata[item].Item3,                                        Convert.ToDouble(rd[0]), localdata[item].Item5);
+                        localdata[item] = Tuple.Create(localdata[item].Item1, Convert.ToInt32(rd[1]), localdata[item].Item3,                                                                         Convert.ToDouble(rd[0]), localdata[item].Item5);
                         per = Convert.ToDouble(rd[0]);
                     }
                     rd.Close();
@@ -295,7 +243,10 @@ namespace DTM_WPF
             {
                 if (time > 0)
                 {
-                    GlobalClass.AR.ChangeTime(Convert.ToDouble(textBox1.Text));
+                    try { MyGlobal.myTimer.Dispose(); }
+                    catch (Exception exp) { } 
+                    MyGlobal.myTimer = new System.Timers.Timer();
+                    MyGlobal.AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
                 }
             }
         }
@@ -306,7 +257,8 @@ namespace DTM_WPF
             using(SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
             {
                 sqlConnection1.Open();
-                SqlCommand cmd = new SqlCommand("select service_id from bam_service_tbl where service_name = '"+name+"';",                                                   sqlConnection1);
+                SqlCommand cmd = new SqlCommand("BAM_GetService_prc", sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@serviceName", SqlDbType.VarChar)).Value = name;
                 SqlDataReader reader = cmd.ExecuteReader(); reader.Read();
                 int id = Convert.ToInt32(reader[0]); reader.Close();
                 GetDetails(id);
@@ -314,44 +266,23 @@ namespace DTM_WPF
         }
     }
 
-
     public class AutoRefresh
     {
-        //System.Timers.Timer myTimer = new System.Timers.Timer();
-
         public void StartTimer(ElapsedEventHandler myEvent, double time)
         {
-            GlobalClass.myTimer.Elapsed += new ElapsedEventHandler(myEvent);
-            GlobalClass.myTimer.Interval = time * 1000 * 60;
-            GlobalClass.myTimer.Enabled = true;
+            MyGlobal.myTimer.Elapsed += new ElapsedEventHandler(myEvent);
+            MyGlobal.myTimer.Interval = time * 1000 * 60;
+            MyGlobal.myTimer.Enabled = true;
         }
         public void ChangeTime(double time)
         {
-            GlobalClass.myTimer.Interval = time * 1000 * 60;
-            GlobalClass.myTimer.Enabled = true;
+            MyGlobal.myTimer.Interval = time * 1000 * 60;
+            MyGlobal.myTimer.Enabled = true;
         }
         public void StopTimer()
         {
-            GlobalClass.myTimer.Enabled = false;
-            
+            MyGlobal.myTimer.Enabled = false;
+            MyGlobal.myTimer.Close();
         }
-
-
     }
-
-    public class GlobalClass
-    {
-        public static AutoRefresh AR = new AutoRefresh();
-        public static System.Timers.Timer myTimer = new System.Timers.Timer();
-        public static Dictionary<int, Tuple<string, int, int, float, string>> data = new Dictionary<int, Tuple<string, int, int, float, string>>();
-        public static ObservableCollection<Tuple<int, string, int, int, float, string>> dataobs = new ObservableCollection<Tuple<int,string,int,int,float,string>>();
-        public static int metric1;
-        public static DateTime time1;
-        //public static MainWindow1 win1;
-        public static List<Tuple<int, int>> glob_pending = new List<Tuple<int, int>>(){new Tuple<int, int>(0,0)};
-        //public static List<int> test = new List<int>(){2, 3, 4, 5, 23, 43, 43, 43};
-        public static int first = 1;
-        
-    }
-
 }
