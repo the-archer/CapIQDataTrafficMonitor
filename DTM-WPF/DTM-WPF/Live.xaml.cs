@@ -127,23 +127,23 @@ namespace DTM_WPF
                     {
                         case 1:
                             pb_contentsearch.Value = value;
-                            pb_contentsearch.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_contentsearch.ToolTip = ("Percentage: " + (value).ToString()  + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
                         case 2:
                             pb_workflowloader.Value = pending.Item1;
-                            pb_workflowloader.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_workflowloader.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
                         case 3:
                             pb_contentsearchrep.Value = pending.Item1;
-                            pb_contentsearchrep.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_contentsearchrep.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
                         case 4:
                             pb_physicalfilerep.Value = pending.Item1;
-                            pb_physicalfilerep.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_physicalfilerep.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
                         case 5:
                             pb_versioncreation.Value = pending.Item1;
-                            pb_versioncreation.ToolTip = ("Pending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_versioncreation.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
                     }
                 }));
