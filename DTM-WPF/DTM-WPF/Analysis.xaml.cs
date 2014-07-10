@@ -141,5 +141,10 @@ namespace DTM_WPF
         {
             throw new NotImplementedException();
         }
+
+        private void datePicker1_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
