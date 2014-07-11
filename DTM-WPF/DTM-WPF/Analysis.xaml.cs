@@ -27,7 +27,6 @@ namespace DTM_WPF
     {
 
         public ObservableCollection<BoolStringClass> TheList { get; set; }
-
         public ObservableCollection<BoolStringClass> TheList2 { get; set; }
 
         public class BoolStringClass
@@ -37,8 +36,9 @@ namespace DTM_WPF
             public bool Checked { get; set; }
 
         }
-        public Analysis()
+        public Analysis(TabItem analysisTab, TabItem liveTab)
         {
+            analysisTab.IsSelected = true; liveTab.IsSelected = false;
             InitializeComponent();
             InitializeDateTimePickers();
 
@@ -47,8 +47,9 @@ namespace DTM_WPF
         }
 
 
-        public Analysis(int service_id, string metric_name)
+        public Analysis(int service_id, string metric_name, TabItem ti, TabItem ti2)
         {
+            ti.IsSelected = true; ti2.IsSelected = false;
             InitializeComponent();
             
             
@@ -172,7 +173,7 @@ namespace DTM_WPF
         {
             List<Tuple<int, string>> services = new List<Tuple<int, string>>();
 
-            using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
+            using (SqlConnection sqlConnection1 = new SqlConnection(Global.connstring))
             {
 
                 SqlCommand cmd = new SqlCommand("BAM_GetAllServices_prc", sqlConnection1);
@@ -196,7 +197,7 @@ namespace DTM_WPF
         {
             List<Tuple<int, string>> metrics = new List<Tuple<int, string>>();
 
-            using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
+            using (SqlConnection sqlConnection1 = new SqlConnection(Global.connstring))
             {
 
                 SqlCommand cmd = new SqlCommand("BAM_GetAllMetrics_prc", sqlConnection1);
@@ -334,7 +335,7 @@ namespace DTM_WPF
         public double GetPerformance(int service_id, int metric_id, DateTime dt)
         {
             double per = 0;
-            using (SqlConnection sqlconnection1 = new SqlConnection(MyGlobal.connstring))
+            using (SqlConnection sqlconnection1 = new SqlConnection(Global.connstring))
             {
                 sqlconnection1.Open();
                 SqlCommand cmd = new SqlCommand("BAM_GetPercentage_prc", sqlconnection1);

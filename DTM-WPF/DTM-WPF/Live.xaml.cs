@@ -29,8 +29,12 @@ namespace DTM_WPF
 
     public partial class UserControl1 : UserControl
     {
-        public UserControl1()
+        TabItem liveTab, analysisTab;
+        public UserControl1(TabItem _liveTab, TabItem _analysisTab)
         {
+            _liveTab.IsSelected = true; _analysisTab.IsSelected = false;
+            liveTab = _liveTab; analysisTab = _analysisTab;
+
             InitializeComponent();
             RefreshGraph();
         }
@@ -52,16 +56,16 @@ namespace DTM_WPF
         {
             Dictionary<int, string> services = new Dictionary<int, string>();
 
-            using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
+            using (SqlConnection sqlConnection1 = new SqlConnection(Global.connstring))
             {
-                sqlConnection1.Open();
                 SqlCommand cmd = new SqlCommand("BAM_GetAllServices_prc", sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read()) services.Add(Convert.ToInt32(reader[0]), reader[1].ToString().Replace(" ", "_")); reader.Close();
+                sqlConnection1.Open(); SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read()) services.Add(Convert.ToInt32(reader[0]), reader[1].ToString().Replace(" ", "_")); reader.Close(); sqlConnection1.Close();
 
                 cmd = new SqlCommand("BAM_GetMetricId_prc", sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@metric_name", SqlDbType.VarChar)).Value = "Processed";
-                reader = cmd.ExecuteReader(); reader.Read(); int metric = Convert.ToInt32(reader[0]); reader.Close();
+                sqlConnection1.Open(); reader = cmd.ExecuteReader();
+                reader.Read(); int metric = Convert.ToInt32(reader[0]); reader.Close(); sqlConnection1.Close();
 
                 foreach (int key in services.Keys)
                 {
@@ -75,9 +79,9 @@ namespace DTM_WPF
                         cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = key;
                         cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric;
                         cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
-                        reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; per = Convert.ToInt32(reader[0]);
+                        sqlConnection1.Open(); reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; per = Convert.ToInt32(reader[0]);
                         var baseline = Convert.ToDouble(reader[1]) * 100.0 / per;
-                        button.ToolTip = "Processed : " + reader[1] + "\nBaseline : " + (int)baseline; reader.Close();
+                        button.ToolTip = "Processed : " + reader[1] + "\nBaseline : " + (int)baseline; reader.Close(); sqlConnection1.Close();
 
                         cmd = new SqlCommand("BAM_GetDisplayColour_prc", sqlConnection1);
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -86,12 +90,12 @@ namespace DTM_WPF
                         cmd.Parameters.Add(new SqlParameter("@per", SqlDbType.Int)).Value = per;
                         cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
 
-                        reader = cmd.ExecuteReader(); reader.Read();
-                        button.Background= reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ?                                          System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
+                        sqlConnection1.Open(); reader = cmd.ExecuteReader(); reader.Read();
+                        button.Background= reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ?                                           System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
                        
                         button.Opacity = 1;
-                       
-                        reader.Close();
+
+                        reader.Close(); sqlConnection1.Close();
                     }));
                 }
             }
@@ -130,23 +134,23 @@ namespace DTM_WPF
                     {
                         case 1:
                             pb_contentsearch.Value = value;
-                            pb_contentsearch.ToolTip = ("Percentage: " + (value).ToString()  + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_contentsearch.ToolTip = ("Percentage: " + (value).ToString()  + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString                             ());
                             break;
                         case 2:
                             pb_workflowloader.Value = pending.Item1;
-                            pb_workflowloader.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_workflowloader.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString                             ());
                             break;
                         case 3:
                             pb_contentsearchrep.Value = pending.Item1;
-                            pb_contentsearchrep.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_contentsearchrep.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " +                                             baseline.ToString());
                             break;
                         case 4:
                             pb_physicalfilerep.Value = pending.Item1;
-                            pb_physicalfilerep.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_physicalfilerep.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString                            ());
                             break;
                         case 5:
                             pb_versioncreation.Value = pending.Item1;
-                            pb_versioncreation.ToolTip = ("Percentage: " + (value).ToString()  + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_versioncreation.ToolTip = ("Percentage: " + (value).ToString()  + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " +                                             baseline.ToString());
                             break;
                     }
                 }));
@@ -157,9 +161,8 @@ namespace DTM_WPF
         {
             int metric_id = GetMetricID("Pending"), value = -1; double per=0;
 
-            using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
+            using (SqlConnection sqlConnection1 = new SqlConnection(Global.connstring))
             {
-                sqlConnection1.Open();
                 per = 0;
 
                 SqlCommand cmd = new SqlCommand("BAM_GetPercentage_prc", sqlConnection1);
@@ -167,7 +170,7 @@ namespace DTM_WPF
                 cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = s_id;
                 cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric_id;
                 cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
-                SqlDataReader rd = cmd.ExecuteReader();
+                sqlConnection1.Open(); SqlDataReader rd = cmd.ExecuteReader();
                 value = -1;
                 while (rd.Read())
                 {
@@ -175,28 +178,32 @@ namespace DTM_WPF
                     per = (double)(rd[0]);
                     value = Convert.ToInt32(rd[1]);
                 }
-                rd.Close();
+                rd.Close(); sqlConnection1.Close();
             }
             return new Tuple<double, int>(per, value);
         }
 
+
         public int GetMetricID(string metric_name)
         {
             int metric_id = 0;
-            using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
+            using (SqlConnection sqlConnection1 = new SqlConnection(Global.connstring))
             {
                 sqlConnection1.Open();
                 SqlCommand cmd = new SqlCommand("BAM_GetMetricID_prc", sqlConnection1);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@metric_name", SqlDbType.VarChar)).Value = metric_name;
                 SqlDataReader rd = cmd.ExecuteReader();
-                while (rd.Read())
+
+                 while (rd.Read())
                 {
                     metric_id = Convert.ToInt32(rd[0]);
                 }
+
                 if (metric_id == 0)
                 {
                     Debug.WriteLine("Failed to get metric_id");
+
 
                 }
                 rd.Close();
@@ -208,41 +215,41 @@ namespace DTM_WPF
 
         public void GetDetails(int service_id)
         {
-            try { MyGlobal.myTimer.Dispose(); }
-            catch (Exception exp) { } 
-          
-            contentControl1.Content = new Analysis(service_id, "Processed");
-
-          
+            try { Global.myTimer.Dispose(); }
+            catch (Exception exp) { }
+            contentControl1.Content = new Analysis(service_id, "Processed", analysisTab, liveTab);
         }
 
-        
+       
 
-        private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
+              
+
+       
+
+        private void refreshPeriodChanged(object sender, TextChangedEventArgs e)
         {
             double time;
-            if (Double.TryParse(textBox1.Text, out time))
+            if (Double.TryParse(refreshPeriod.Text, out time))
             {
                 if (time > 0)
                 {
-                    try { MyGlobal.myTimer.Dispose(); }
+                    try { Global.myTimer.Dispose(); }
                     catch (Exception exp) { } 
-                    MyGlobal.myTimer = new System.Timers.Timer();
-                    MyGlobal.AR.StartTimer(myEvent, Convert.ToDouble(textBox1.Text));
+                    Global.myTimer = new System.Timers.Timer();
+                    Global.AR.StartTimer(myEvent, Convert.ToDouble(refreshPeriod.Text));
                 }
             }
         }
 
-        private void service_Click(object sender, RoutedEventArgs e)
+        private void serviceClick(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender; var name = button.Name.Replace("_"," ");
-            using(SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
+            using(SqlConnection sqlConnection1 = new SqlConnection(Global.connstring))
             {
-                sqlConnection1.Open();
                 SqlCommand cmd = new SqlCommand("BAM_GetService_prc", sqlConnection1); cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@serviceName", SqlDbType.VarChar)).Value = name;
-                SqlDataReader reader = cmd.ExecuteReader(); reader.Read();
-                int id = Convert.ToInt32(reader[0]); reader.Close();
+                sqlConnection1.Open(); SqlDataReader reader = cmd.ExecuteReader(); reader.Read();
+                int id = Convert.ToInt32(reader[0]); reader.Close(); sqlConnection1.Close();
                 GetDetails(id);
             }
         }
@@ -252,19 +259,19 @@ namespace DTM_WPF
     {
         public void StartTimer(ElapsedEventHandler myEvent, double time)
         {
-            MyGlobal.myTimer.Elapsed += new ElapsedEventHandler(myEvent);
-            MyGlobal.myTimer.Interval = time * 1000 * 60;
-            MyGlobal.myTimer.Enabled = true;
+            Global.myTimer.Elapsed += new ElapsedEventHandler(myEvent);
+            Global.myTimer.Interval = time * 1000 * 60;
+            Global.myTimer.Enabled = true;
         }
         public void ChangeTime(double time)
         {
-            MyGlobal.myTimer.Interval = time * 1000 * 60;
-            MyGlobal.myTimer.Enabled = true;
+            Global.myTimer.Interval = time * 1000 * 60;
+            Global.myTimer.Enabled = true;
         }
         public void StopTimer()
         {
-            MyGlobal.myTimer.Enabled = false;
-            MyGlobal.myTimer.Close();
+            Global.myTimer.Enabled = false;
+            Global.myTimer.Close();
         }
     }
 }

@@ -5,7 +5,7 @@
     
     <Canvas Height="787" Width="998">
         <ContentControl Grid.ColumnSpan="4" Height="662" HorizontalAlignment="Left" Margin="24,52,0,0" Name="contentControl1" VerticalAlignment="Top" Width="962"></ContentControl>
-        <TabControl Height="24" Width="986" Canvas.Top="12" Canvas.Left="0">
+        <TabControl Height="24" Width="986" Canvas.Top="12" Canvas.Left="0" Name="Tab">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
@@ -31,14 +31,14 @@
                     </Setter>
                 </Style>
             </TabControl.Resources>
-            <TabItem Width="490" Height="22">
+            <TabItem Width="490" Height="22" Name="liveTab">
                 <TabItem.Header>
-                    <Label Content="Live" HorizontalContentAlignment="Center" MouseLeftButtonDown="button1_Click_1" HorizontalAlignment="Stretch" Height="27" Width="488" />
+                    <Label Content="Live" HorizontalContentAlignment="Center" MouseLeftButtonDown="getLive" HorizontalAlignment="Stretch" Height="27" Width="488" />
                 </TabItem.Header>
             </TabItem>
-            <TabItem Width="490" Height="22">
+            <TabItem Width="490" Height="22" Name="analysisTab">
                 <TabItem.Header>
-                    <Label Content="Analysis" HorizontalContentAlignment="Center" MouseLeftButtonDown="button2_Click" HorizontalAlignment="Stretch" Height="27" Width="492" />
+                    <Label Content="Analysis" HorizontalContentAlignment="Center" MouseLeftButtonDown="getAnalysis" HorizontalAlignment="Stretch" Height="27" Width="492" />
                 </TabItem.Header>
             </TabItem>
         </TabControl>

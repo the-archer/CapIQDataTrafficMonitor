@@ -11,10 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 using System.Diagnostics;
-
-
 using System.Data.SqlClient;
 using System.Data;
 
@@ -34,18 +31,18 @@ namespace DTM_WPF
             InitializeComponent();
         }
 
-        private void button1_Click_1(object sender, RoutedEventArgs e)
+        private void getLive(object sender, RoutedEventArgs e)
         {
-            contentControl1.Content = new UserControl1();
+            contentControl1.Content = new UserControl1(liveTab,analysisTab);
         }
 
-        private void button2_Click(object sender, RoutedEventArgs e)
+        private void getAnalysis(object sender, RoutedEventArgs e)
         {
-            contentControl1.Content = new Analysis();
+            contentControl1.Content = new Analysis(analysisTab,liveTab);
         }
     }
 
-    public class MyGlobal
+    public class Global
     {
         public static string connstring = @"Data Source=figo\ford;Initial Catalog=Dashboard;Integrated Security=True";
         public static AutoRefresh AR = new AutoRefresh();
