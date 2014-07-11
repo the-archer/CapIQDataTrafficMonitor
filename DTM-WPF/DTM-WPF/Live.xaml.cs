@@ -89,7 +89,8 @@ namespace DTM_WPF
                         reader = cmd.ExecuteReader(); reader.Read();
                         button.Background= reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ?                                          System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
                        
-                        button.Opacity = 80;
+                        button.Opacity = 1;
+                       
                         reader.Close();
                     }));
                 }
