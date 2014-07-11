@@ -63,8 +63,7 @@ namespace DTM_WPF
         private void CheckBoxZone_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox chkZone = (CheckBox)sender;
-            //ZoneText.Text = "Selected Zone Name= " + chkZone.Content.ToString();
-            //ZoneValue.Text = "Selected Zone Value= " + chkZone.Tag.ToString();
+           
             foreach (var item in TheList)
             {
                 if (item.TheValue == Convert.ToInt32(chkZone.Tag))
@@ -74,14 +73,13 @@ namespace DTM_WPF
                 }
                 
             }
-            //Debug.WriteLine(TheList[Convert.ToInt32(chkZone.Tag)]);
+           
         }
 
         private void CheckBoxZone_Checked2(object sender, RoutedEventArgs e)
         {
             CheckBox chkZone = (CheckBox)sender;
-            //ZoneText.Text = "Selected Zone Name= " + chkZone.Content.ToString();
-            //ZoneValue.Text = "Selected Zone Value= " + chkZone.Tag.ToString();
+           
             foreach (var item in TheList2)
             {
                 if (item.TheValue == Convert.ToInt32(chkZone.Tag))
@@ -91,15 +89,14 @@ namespace DTM_WPF
                 }
 
             }
-            //Debug.WriteLine(TheList[Convert.ToInt32(chkZone.Tag)]);
+            
         }
 
 
         private void CheckBoxZone_UnChecked(object sender, RoutedEventArgs e)
         {
             CheckBox chkZone = (CheckBox)sender;
-            //ZoneText.Text = "Selected Zone Name= " + chkZone.Content.ToString();
-            //ZoneValue.Text = "Selected Zone Value= " + chkZone.Tag.ToString();
+           
             foreach (var item in TheList)
             {
                 if (item.TheValue == Convert.ToInt32(chkZone.Tag))
@@ -109,15 +106,14 @@ namespace DTM_WPF
                 }
 
             }
-            //Debug.WriteLine(TheList[Convert.ToInt32(chkZone.Tag)]);
+            
         }
 
 
         private void CheckBoxZone_UnChecked2(object sender, RoutedEventArgs e)
         {
             CheckBox chkZone = (CheckBox)sender;
-            //ZoneText.Text = "Selected Zone Name= " + chkZone.Content.ToString();
-            //ZoneValue.Text = "Selected Zone Value= " + chkZone.Tag.ToString();
+           
             foreach (var item in TheList2)
             {
                 if (item.TheValue == Convert.ToInt32(chkZone.Tag))
@@ -127,7 +123,7 @@ namespace DTM_WPF
                 }
 
             }
-            //Debug.WriteLine(TheList[Convert.ToInt32(chkZone.Tag)]);
+           
         } 
 
         private void InitializeServicesCheckBox(int service_id)
@@ -307,11 +303,11 @@ namespace DTM_WPF
 
         private void displayHistory(DateTime start, DateTime end, int metric_id, string metric_name, int service_id, string service_name, TimeSpan interval)
         {
-            //lineSeries1.Series.Clear();
+            
 
 
             List<KeyValuePair<DateTime, double>> data = new List<KeyValuePair<DateTime, double>>();
-            //Dictionary<int, string> service_names = new Dictionary<int, string>();
+            
             for (DateTime dt = start; dt <= end; dt = dt.Add(interval))
             {
 
@@ -349,7 +345,7 @@ namespace DTM_WPF
                 SqlDataReader rd = cmd.ExecuteReader();
                 while (rd.Read())
                 {
-                    //Debug.WriteLine("Here");
+                   
                     per = (double)(rd[0]);
 
                 }
@@ -364,15 +360,9 @@ namespace DTM_WPF
 
 
 
-        private object var(DateTime dt, float p)
-        {
-            throw new NotImplementedException();
-        }
+       
 
-        private void datePicker1_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
 
         private void buttonClick(object sender, RoutedEventArgs e)
         {
@@ -399,10 +389,7 @@ namespace DTM_WPF
             datePicker2.Text = end.Date.ToString();
         }
 
-        private void comboBox2_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
 
        
     }
