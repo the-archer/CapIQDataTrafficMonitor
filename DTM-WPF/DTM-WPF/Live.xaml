@@ -7,7 +7,7 @@
              d:DesignHeight="750" d:DesignWidth="850" xmlns:my="clr-namespace:DTM_WPF">
     <Canvas Name="canvas1">
        <Grid Height="0" HorizontalAlignment="Left" Margin="616,149,0,0" Name="grid1" VerticalAlignment="Top" Width="0" />
-        <ContentControl Height="726" HorizontalAlignment="Left" Margin="107,204,0,0" Name="contentControl1" VerticalAlignment="Top" Width="826" Canvas.Left="-95" Canvas.Top="-192">
+        <ContentControl Height="726" HorizontalAlignment="Left" Margin="107,204,0,0" Name="contentControl1" VerticalAlignment="Top" Width="962" Canvas.Left="-95" Canvas.Top="-192">
             <Canvas Height="572" Canvas.Left="127" Canvas.Top="112" Width="826">
                 <Label Content="Refresh after every " Height="28" Margin="0,33,229,0" Name="label2" VerticalAlignment="Top" HorizontalAlignment="Right" Width="186" Canvas.Left="328" Canvas.Top="-1" />
                 <TextBox Height="23" HorizontalAlignment="Left" Margin="452,35,0,0" Name="refreshPeriod" VerticalAlignment="Top" Width="39" Text="1" HorizontalContentAlignment="Center" TextChanged="refreshPeriodChanged" />
