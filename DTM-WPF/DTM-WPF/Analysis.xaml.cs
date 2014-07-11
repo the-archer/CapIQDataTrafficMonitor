@@ -25,148 +25,135 @@ namespace DTM_WPF
     /// </summary>
     public partial class Analysis : UserControl
     {
-
-        public ObservableCollection<BoolStringClass> TheList { get; set; }
-        public ObservableCollection<BoolStringClass> TheList2 { get; set; }
+        public ObservableCollection<BoolStringClass> checkedServices { get; set; }
+        public ObservableCollection<BoolStringClass> checkedMetrics { get; set; }
 
         public class BoolStringClass
         {
             public string TheText { get; set; }
             public int TheValue { get; set; }
             public bool Checked { get; set; }
-
         }
+
         public Analysis(TabItem analysisTab, TabItem liveTab)
         {
             analysisTab.IsSelected = true; liveTab.IsSelected = false;
+
             InitializeComponent();
             InitializeDateTimePickers();
-
             InitializeServicesCheckBox(-1);
             InitializeMetricsCheckBox("None");
         }
 
-
-        public Analysis(int service_id, string metric_name, TabItem ti, TabItem ti2)
+        public Analysis(int service_id, string metric_name, TabItem anaylsisTab, TabItem liveTab)
         {
-            ti.IsSelected = true; ti2.IsSelected = false;
+            anaylsisTab.IsSelected = true; liveTab.IsSelected = false;
+
             InitializeComponent();
-            
-            
             InitializeDateTimePickersLast24();
-            
             InitializeServicesCheckBox(service_id);
             InitializeMetricsCheckBox(metric_name);
+
             Analyse();
-
         }
 
-        private void CheckBoxZone_Checked(object sender, RoutedEventArgs e)
+        private void InitializeDateTimePickers()
         {
-            CheckBox chkZone = (CheckBox)sender;
-           
-            foreach (var item in TheList)
-            {
-                if (item.TheValue == Convert.ToInt32(chkZone.Tag))
-                {
-                    item.Checked = true;
-                    break;
-                }
-                
-            }
-           
+            startDate.Text = endDate.Text = DateTime.Now.Date.ToString();
         }
 
-        private void CheckBoxZone_Checked2(object sender, RoutedEventArgs e)
+        private void InitializeDateTimePickersLast24()
         {
-            CheckBox chkZone = (CheckBox)sender;
-           
-            foreach (var item in TheList2)
-            {
-                if (item.TheValue == Convert.ToInt32(chkZone.Tag))
-                {
-                    item.Checked = true;
-                    break;
-                }
-
-            }
-            
+            endDate.Text = DateTime.Now.Date.ToString();
+            startDate.Text = (DateTime.Now.AddDays(-1)).Date.ToString();
         }
-
-
-        private void CheckBoxZone_UnChecked(object sender, RoutedEventArgs e)
-        {
-            CheckBox chkZone = (CheckBox)sender;
-           
-            foreach (var item in TheList)
-            {
-                if (item.TheValue == Convert.ToInt32(chkZone.Tag))
-                {
-                    item.Checked = false;
-                    break;
-                }
-
-            }
-            
-        }
-
-
-        private void CheckBoxZone_UnChecked2(object sender, RoutedEventArgs e)
-        {
-            CheckBox chkZone = (CheckBox)sender;
-           
-            foreach (var item in TheList2)
-            {
-                if (item.TheValue == Convert.ToInt32(chkZone.Tag))
-                {
-                    item.Checked = false;
-                    break;
-                }
-
-            }
-           
-        } 
 
         private void InitializeServicesCheckBox(int service_id)
         {
             List<Tuple<int, string>> services = GetAllServices();
+            checkedServices = new ObservableCollection<BoolStringClass>();
 
-            TheList = new ObservableCollection<BoolStringClass>();
             foreach (var item in services)
             {
                 if (item.Item1 == service_id)
                 {
-                    TheList.Add(new BoolStringClass { TheText = item.Item2, TheValue = item.Item1, Checked=true});
+                    checkedServices.Add(new BoolStringClass { TheText = item.Item2, TheValue = item.Item1, Checked=true});
                 }
                 else
-                TheList.Add(new BoolStringClass { TheText = item.Item2, TheValue = item.Item1 });
-
+                    checkedServices.Add(new BoolStringClass { TheText = item.Item2, TheValue = item.Item1 });
             }
-           
             this.DataContext = this;
-
         }
-
 
         private void InitializeMetricsCheckBox(string metric_name)
         {
             List<Tuple<int, string>> services = GetAllMetrics();
+            checkedMetrics = new ObservableCollection<BoolStringClass>();
 
-            TheList2 = new ObservableCollection<BoolStringClass>();
             foreach (var item in services)
             {
                 if (item.Item2 == metric_name)
                 {
                     Debug.WriteLine(item.Item2);
-                    TheList2.Add(new BoolStringClass { TheText = item.Item2, TheValue = item.Item1, Checked=true });
+                    checkedMetrics.Add(new BoolStringClass { TheText = item.Item2, TheValue = item.Item1, Checked=true });
                 }
                 else
-                TheList2.Add(new BoolStringClass { TheText = item.Item2, TheValue = item.Item1 });
+                    checkedMetrics.Add(new BoolStringClass { TheText = item.Item2, TheValue = item.Item1 });
             }
-           
-            
             this.DataContext = this;
+        }
 
+        private void CheckService(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkZone = (CheckBox)sender;
+            foreach (var item in checkedServices)
+            {
+                if (item.TheValue == Convert.ToInt32(chkZone.Tag))
+                {
+                    item.Checked = true;
+                    break;
+                }
+            }
+        }
+
+        private void CheckMetric(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkZone = (CheckBox)sender;
+            foreach (var item in checkedMetrics)
+            {
+                if (item.TheValue == Convert.ToInt32(chkZone.Tag))
+                {
+                    item.Checked = true;
+                    break;
+                }
+            }
+        }
+
+        private void UnCheckService(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkZone = (CheckBox)sender;
+            foreach (var item in checkedServices)
+            {
+                if (item.TheValue == Convert.ToInt32(chkZone.Tag))
+                {
+                    item.Checked = false;
+                    break;
+                }
+            }
+        }
+
+        private void UnCheckMetric(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkZone = (CheckBox)sender;
+
+            foreach (var item in checkedMetrics)
+            {
+                if (item.TheValue == Convert.ToInt32(chkZone.Tag))
+                {
+                    item.Checked = false;
+                    break;
+                }
+            }
         }
 
         private List<Tuple<int, string>> GetAllServices()
@@ -175,23 +162,17 @@ namespace DTM_WPF
 
             using (SqlConnection sqlConnection1 = new SqlConnection(Global.connstring))
             {
-
                 SqlCommand cmd = new SqlCommand("BAM_GetAllServices_prc", sqlConnection1);
                 cmd.CommandType = CommandType.StoredProcedure;
-                sqlConnection1.Open();
-                SqlDataReader rd = cmd.ExecuteReader();
+                sqlConnection1.Open(); SqlDataReader rd = cmd.ExecuteReader();
                 while (rd.Read())
-                {
-                   
+                {                  
                     services.Add(new Tuple<int, string>(Convert.ToInt32(rd[0]), Convert.ToString(rd[1])));
-
                 }
+                rd.Close();
             }
-
             return services;
         }
-
-
 
         private List<Tuple<int, string>> GetAllMetrics()
         {
@@ -199,62 +180,37 @@ namespace DTM_WPF
 
             using (SqlConnection sqlConnection1 = new SqlConnection(Global.connstring))
             {
-
                 SqlCommand cmd = new SqlCommand("BAM_GetAllMetrics_prc", sqlConnection1);
                 cmd.CommandType = CommandType.StoredProcedure;
                 sqlConnection1.Open();
                 SqlDataReader rd = cmd.ExecuteReader();
                 while (rd.Read())
                 {
-
                     metrics.Add(new Tuple<int, string>(Convert.ToInt32(rd[0]), Convert.ToString(rd[1])));
-
                 }
+                rd.Close();
             }
-
             return metrics;
-        }
-
-      
-
-        private void InitializeDateTimePickers()
-        {
-            datePicker1.Text = DateTime.Now.Date.ToString();
-            datePicker2.Text = DateTime.Now.Date.ToString();
-        }
-
-        private void InitializeDateTimePickersLast24()
-        {
-
-            datePicker2.Text = DateTime.Now.Date.ToString();
-            
-            datePicker1.Text = (DateTime.Now.AddDays(-1)).Date.ToString();
         }
 
         public void Analyse()
         {
             lineSeries1.Series.Clear();
 
-            Debug.WriteLine(datePicker1.Text);
-            DateTime start = Convert.ToDateTime(datePicker1.SelectedDate);
-            start = start.AddHours(timePicker1.SelectedHour);
-            start = start.AddMinutes(timePicker1.SelectedMinute);
-            start = start.AddSeconds(timePicker1.SelectedSecond);
+            Debug.WriteLine(startDate.Text);
+            DateTime start = Convert.ToDateTime(startDate.SelectedDate);
+            start = start.AddHours(startTime.SelectedHour);
+            start = start.AddMinutes(startTime.SelectedMinute);
+            start = start.AddSeconds(startTime.SelectedSecond);
             Debug.WriteLine(start.ToString());
 
-
-
-            Debug.WriteLine(datePicker2.Text);
-            DateTime end = Convert.ToDateTime(datePicker2.SelectedDate);
-            end = end.AddHours(timePicker2.SelectedHour);
-            end = end.AddMinutes(timePicker2.SelectedMinute);
-            end = end.AddSeconds(timePicker2.SelectedSecond);
-
-
+            Debug.WriteLine(endDate.Text);
+            DateTime end = Convert.ToDateTime(endDate.SelectedDate);
+            end = end.AddHours(endTime.SelectedHour);
+            end = end.AddMinutes(endTime.SelectedMinute);
+            end = end.AddSeconds(endTime.SelectedSecond);
 
             Debug.WriteLine(end.ToString());
-
-
             if (end <= start)
             {
                 MessageBoxResult error = MessageBox.Show("Start time should be less than the end time.", "Error");
@@ -264,17 +220,18 @@ namespace DTM_WPF
             TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
             int count_services = 0;
             int count_metrics = 0;
-            foreach (var item in TheList)
+            foreach (var item in checkedServices)
             {
                 if (item.Checked)
                 {
                     count_services += 1;
-                    foreach (var item2 in TheList2)
+                    foreach (var item2 in checkedMetrics)
                     {
                         if (item2.Checked)
                         {
                             count_metrics += 1;
-                            displayHistory(start, end, Convert.ToInt32(item2.TheValue), item2.TheText.ToString(), Convert.ToInt32(item.TheValue), item.TheText.ToString(), interval);
+                            displayHistory
+                            (start, end, Convert.ToInt32(item2.TheValue), item2.TheText.ToString(), Convert.ToInt32(item.TheValue), item.TheText.ToString(), interval);
                         }
                     }
                 }
@@ -284,52 +241,37 @@ namespace DTM_WPF
             {
                 MessageBoxResult error = MessageBox.Show("Please select atleast one service.", "Error");
                 return;
-
             }
+
             if (count_metrics == 0)
             {
                 MessageBoxResult error = MessageBox.Show("Please select atleast one metric.", "Error");
                 return;
-
             }
 
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-
             Analyse();
-
         }
 
         private void displayHistory(DateTime start, DateTime end, int metric_id, string metric_name, int service_id, string service_name, TimeSpan interval)
         {
-            
-
-
             List<KeyValuePair<DateTime, double>> data = new List<KeyValuePair<DateTime, double>>();
             
             for (DateTime dt = start; dt <= end; dt = dt.Add(interval))
             {
-
                 double per = GetPerformance(service_id, metric_id, dt);
                 data.Add(new KeyValuePair<DateTime, double>(dt, per));
-
-               
-                
-                
-
             }
            
-
             LineSeries t = new LineSeries();
             t.ItemsSource = data;
             t.DependentValuePath = "Value";
             t.IndependentValuePath = "Key";
             t.Title = service_name + " - " + metric_name;
             lineSeries1.Series.Add(t);
-            
-            
         }
 
         public double GetPerformance(int service_id, int metric_id, DateTime dt)
@@ -346,24 +288,12 @@ namespace DTM_WPF
                 SqlDataReader rd = cmd.ExecuteReader();
                 while (rd.Read())
                 {
-                   
                     per = (double)(rd[0]);
-
                 }
                 rd.Close();
-
             }
-
             return per;
-
-
         }
-
-
-
-       
-
-        
 
         private void buttonClick(object sender, RoutedEventArgs e)
         {
@@ -385,13 +315,8 @@ namespace DTM_WPF
                     start = start.AddYears(-1);
                     break;
             }
-
-            datePicker1.Text = start.Date.ToString();
-            datePicker2.Text = end.Date.ToString();
-        }
-
-        
-
-       
+            startDate.Text = start.Date.ToString();
+            endDate.Text = end.Date.ToString();
+        } 
     }
 }

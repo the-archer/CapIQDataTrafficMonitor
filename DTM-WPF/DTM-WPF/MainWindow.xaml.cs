@@ -16,10 +16,7 @@ using System.Data.SqlClient;
 using System.Data;
 
 namespace DTM_WPF
-{
-
-   
-       
+{  
      /// <summary>  
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -48,10 +45,6 @@ namespace DTM_WPF
         public static AutoRefresh AR = new AutoRefresh();
         public static System.Timers.Timer myTimer = new System.Timers.Timer();
     }
-
-   
-
-   
 }
 
 

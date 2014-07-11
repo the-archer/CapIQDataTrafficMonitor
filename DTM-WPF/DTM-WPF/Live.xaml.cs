@@ -79,23 +79,38 @@ namespace DTM_WPF
                         cmd.Parameters.Add(new SqlParameter("@service_id", SqlDbType.Int)).Value = key;
                         cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric;
                         cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
-                        sqlConnection1.Open(); reader = cmd.ExecuteReader(); reader.Read(); button.Content = reader[0]; per = Convert.ToInt32(reader[0]);
-                        var baseline = Convert.ToDouble(reader[1]) * 100.0 / per;
-                        button.ToolTip = "Processed : " + reader[1] + "\nBaseline : " + (int)baseline; reader.Close(); sqlConnection1.Close();
-
-                        cmd = new SqlCommand("BAM_GetDisplayColour_prc", sqlConnection1);
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
-                        cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = key;
-                        cmd.Parameters.Add(new SqlParameter("@per", SqlDbType.Int)).Value = per;
-                        cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
-
                         sqlConnection1.Open(); reader = cmd.ExecuteReader(); reader.Read();
-                        button.Background= reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ?                                           System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
-                       
-                        button.Opacity = 1;
 
-                        reader.Close(); sqlConnection1.Close();
+                        double value=0, baseline=0;
+                        try
+                        {
+                            button.Content = reader[0];
+                            per = Convert.ToInt32(button.Content);
+                            value = Convert.ToDouble(reader[1]);
+                            baseline = Convert.ToDouble(value) * 100.0 / per;
+                        }
+                        catch (Exception e)
+                        {
+                            button.Content = "NA";
+                        }
+                        button.ToolTip = "Processed : " + value + "\nBaseline : " + (int)baseline; reader.Close(); sqlConnection1.Close();
+
+                        if (!button.Content.ToString().Equals("NA"))
+                        {
+                            cmd = new SqlCommand("BAM_GetDisplayColour_prc", sqlConnection1);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
+                            cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = key;
+                            cmd.Parameters.Add(new SqlParameter("@per", SqlDbType.Int)).Value = per;
+                            cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
+
+                            sqlConnection1.Open(); reader = cmd.ExecuteReader(); reader.Read();
+                            button.Background = reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ?                                          System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
+                            reader.Close(); sqlConnection1.Close();
+                        }
+                        else 
+                            button.Background = System.Windows.Media.Brushes.Gray;
+                        button.Opacity = 1;
                     }));
                 }
             }
@@ -171,7 +186,7 @@ namespace DTM_WPF
                 cmd.Parameters.Add(new SqlParameter("@metric_id", SqlDbType.Int)).Value = metric_id;
                 cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
                 sqlConnection1.Open(); SqlDataReader rd = cmd.ExecuteReader();
-                value = -1;
+                value = 0;
                 while (rd.Read())
                 {
 
@@ -195,7 +210,7 @@ namespace DTM_WPF
                 cmd.Parameters.Add(new SqlParameter("@metric_name", SqlDbType.VarChar)).Value = metric_name;
                 SqlDataReader rd = cmd.ExecuteReader();
 
-                 while (rd.Read())
+                while (rd.Read())
                 {
                     metric_id = Convert.ToInt32(rd[0]);
                 }
@@ -203,12 +218,8 @@ namespace DTM_WPF
                 if (metric_id == 0)
                 {
                     Debug.WriteLine("Failed to get metric_id");
-
-
                 }
                 rd.Close();
-
-
             }
             return metric_id;
         }
@@ -219,12 +230,6 @@ namespace DTM_WPF
             catch (Exception exp) { }
             contentControl1.Content = new Analysis(service_id, "Processed", analysisTab, liveTab);
         }
-
-       
-
-              
-
-       
 
         private void refreshPeriodChanged(object sender, TextChangedEventArgs e)
         {

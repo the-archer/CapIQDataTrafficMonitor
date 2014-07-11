@@ -11,10 +11,10 @@
             <ColumnDefinition Width="682*" />
             <ColumnDefinition Width="168*" />
         </Grid.ColumnDefinitions>
-        <DatePicker Height="25" HorizontalAlignment="Left" Margin="49,377,0,0" Name="datePicker1" VerticalAlignment="Top" Width="115"  />
-        <my:TimePicker HorizontalAlignment="Left" Margin="49,408,0,0" Name="timePicker1" VerticalAlignment="Top" Height="30" />
-        <DatePicker Height="25" HorizontalAlignment="Left" Margin="192,377,0,0" Name="datePicker2" VerticalAlignment="Top" Width="115" />
-        <my:TimePicker Height="30" HorizontalAlignment="Left" Margin="192,409,0,0" Name="timePicker2" VerticalAlignment="Top" />
+        <DatePicker Height="25" HorizontalAlignment="Left" Margin="49,377,0,0" Name="startDate" VerticalAlignment="Top" Width="115"  />
+        <my:TimePicker HorizontalAlignment="Left" Margin="49,408,0,0" Name="startTime" VerticalAlignment="Top" Height="30" />
+        <DatePicker Height="25" HorizontalAlignment="Left" Margin="192,377,0,0" Name="endDate" VerticalAlignment="Top" Width="115" />
+        <my:TimePicker Height="30" HorizontalAlignment="Left" Margin="192,409,0,0" Name="endTime" VerticalAlignment="Top" />
         <Label Content="From" Height="28" HorizontalAlignment="Left" Margin="49,344,0,0" Name="label1" VerticalAlignment="Top" />
         <Label Content="To" Height="28" HorizontalAlignment="Left" Margin="192,344,0,0" Name="label2" VerticalAlignment="Top" />
         <Button Content="Analyse" Height="62" HorizontalAlignment="Left" Margin="20,364,0,0" Name="button1" VerticalAlignment="Top" Width="92" Click="button1_Click" Grid.Column="1" />
@@ -30,10 +30,10 @@
         <Button Content="Last Year" Height="23" HorizontalAlignment="Left" Margin="219,547,0,0" Name="year" VerticalAlignment="Top" Width="88" Click="buttonClick" />
         <GroupBox Header="Services" Height="184" HorizontalAlignment="Left" Margin="393,351,0,0" Name="groupBox1" VerticalAlignment="Top" Width="272">
             <Grid>
-                <ListBox Name="listBoxZone" ItemsSource="{Binding TheList}" Background="Azure" Margin="6,14,25,0" Height="167" VerticalAlignment="Top">
+                <ListBox Name="listBoxZone" ItemsSource="{Binding checkedServices}" Background="Azure" Margin="6,14,25,0" Height="167" VerticalAlignment="Top">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox Name="CheckBoxZone" IsChecked="{Binding Checked}" Content="{Binding TheText}" Tag="{Binding TheValue}" Unchecked="CheckBoxZone_UnChecked" Checked="CheckBoxZone_Checked" Margin="0,5,0,0" IsThreeState="False" />
+                            <CheckBox Name="CheckBoxZone" IsChecked="{Binding Checked}" Content="{Binding TheText}" Tag="{Binding TheValue}" Unchecked="UnCheckService" Checked="CheckService" Margin="0,5,0,0" IsThreeState="False" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -52,10 +52,10 @@
                     <RowDefinition Height="25*" />
                     <RowDefinition Height="43*" />
                 </Grid.RowDefinitions>
-                <ListBox Background="Azure" ItemsSource="{Binding TheList2}" Margin="6,14,25,0" Name="listBox1" Grid.RowSpan="2" Grid.ColumnSpan="5" Height="64" VerticalAlignment="Top">
+                <ListBox Background="Azure" ItemsSource="{Binding checkedMetrics}" Margin="6,14,25,0" Name="listBox1" Grid.RowSpan="2" Grid.ColumnSpan="5" Height="64" VerticalAlignment="Top">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox Checked="CheckBoxZone_Checked2" IsChecked="{Binding Checked}" Content="{Binding TheText}" IsThreeState="False" Margin="0,5,0,0" Name="CheckBoxZone" Tag="{Binding TheValue}" Unchecked="CheckBoxZone_UnChecked2" />
+                            <CheckBox Checked="CheckMetric" IsChecked="{Binding Checked}" Content="{Binding TheText}" IsThreeState="False" Margin="0,5,0,0" Name="CheckBoxZone" Tag="{Binding TheValue}" Unchecked="UnCheckMetric" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
