@@ -95,10 +95,10 @@
                 <GroupBox Canvas.Left="38" Canvas.Top="417" Header="Legend" Height="129" Name="groupBox1" Width="199">
                     <Canvas Height="94" Width="170">
                     <Rectangle Height="14" Name="rectangle1" Stroke="Black" Width="14" Fill="Green" Canvas.Left="16" Canvas.Top="9" />
-                        <Rectangle Canvas.Left="16" Canvas.Top="33" Fill="Orange" Height="14" Name="rectangle2" Stroke="Black" Width="14" />
+                        <Rectangle Canvas.Left="16" Canvas.Top="35" Fill="Orange" Height="14" Name="rectangle2" Stroke="Black" Width="14" />
                         <Rectangle Canvas.Left="16" Canvas.Top="61" Fill="Red" Height="14" Name="rectangle3" Stroke="Black" Width="14" />
                         <Label Canvas.Left="56" Canvas.Top="6" Content="Excellent" Height="34" Name="label1" Width="87" />
-                        <Label Canvas.Left="56" Canvas.Top="29" Content="Moderate" Height="26" Name="label4" Width="76" />
+                        <Label Canvas.Left="56" Canvas.Top="31" Content="Moderate" Height="26" Name="label4" Width="76" />
                         <Label Canvas.Left="58" Canvas.Top="56" Content="Poor" Height="25" Name="label5" Width="76" />
                     </Canvas>
                 </GroupBox>
