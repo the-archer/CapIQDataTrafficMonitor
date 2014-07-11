@@ -82,7 +82,7 @@ namespace DTM_WPF
         public static int GetMetricID(string metric_name)
         {
             int metric_id=0;
-            using (SqlConnection sqlConnection1 = new SqlConnection(MyGlobal.connstring))
+            using (SqlConnection sqlConnection1 = new SqlConnection(Global.connstring))
             {
                 sqlConnection1.Open();
                 SqlCommand cmd = new SqlCommand("BAM_GetMetricID_prc", sqlConnection1);

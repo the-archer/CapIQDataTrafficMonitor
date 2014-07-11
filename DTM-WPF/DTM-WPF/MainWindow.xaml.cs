@@ -11,10 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 using System.Diagnostics;
-
-
 using System.Data.SqlClient;
 using System.Data;
 
@@ -45,7 +42,7 @@ namespace DTM_WPF
         }
     }
 
-    public class MyGlobal
+    public class Global
     {
         public static string connstring = @"Data Source=figo\ford;Initial Catalog=Dashboard;Integrated Security=True";
         public static AutoRefresh AR = new AutoRefresh();
