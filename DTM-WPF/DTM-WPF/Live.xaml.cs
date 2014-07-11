@@ -29,8 +29,11 @@ namespace DTM_WPF
 
     public partial class UserControl1 : UserControl
     {
-        public UserControl1()
+        TabItem liveTab, analysisTab;
+        public UserControl1(TabItem _liveTab, TabItem _analysisTab)
         {
+            _liveTab.IsSelected = true; _analysisTab.IsSelected = false;
+            liveTab = _liveTab; analysisTab = _analysisTab;
             InitializeComponent();
             RefreshGraph();
         }
@@ -183,11 +186,8 @@ namespace DTM_WPF
         public void GetDetails(int service_id)
         {
             try { MyGlobal.myTimer.Dispose(); }
-            catch (Exception exp) { } 
-          //  contentControl1.Content = new Details(service_id,"Processed");
-            contentControl1.Content = new Analysis(service_id, "Processed");
-
-          
+            catch (Exception exp) { }
+            contentControl1.Content = new Analysis(service_id, "Processed", analysisTab, liveTab);
         }
 
         public static Dictionary<int, Tuple<string, int, int, double, string>> getStats(int metric, DateTime time)

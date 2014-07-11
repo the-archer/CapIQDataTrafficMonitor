@@ -37,8 +37,9 @@ namespace DTM_WPF
             public bool Checked { get; set; }
 
         }
-        public Analysis()
+        public Analysis(TabItem analysisTab, TabItem liveTab)
         {
+            analysisTab.IsSelected = true; liveTab.IsSelected = false;
             InitializeComponent();
             InitializeDateTimePickers();
 
@@ -47,8 +48,9 @@ namespace DTM_WPF
         }
 
 
-        public Analysis(int service_id, string metric_name)
+        public Analysis(int service_id, string metric_name, TabItem ti, TabItem ti2)
         {
+            ti.IsSelected = true; ti2.IsSelected = false;
             InitializeComponent();
             
             
