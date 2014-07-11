@@ -257,22 +257,45 @@ namespace DTM_WPF
 
             Debug.WriteLine(end.ToString());
 
-            TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
 
+            if (end <= start)
+            {
+                MessageBoxResult error = MessageBox.Show("Start time should be less than the end time.", "Error");
+                return;
+            }
+
+            TimeSpan interval = new TimeSpan(0, 0, 0, 0, (int)((end - start).TotalMilliseconds / 20));
+            int count_services = 0;
+            int count_metrics = 0;
             foreach (var item in TheList)
             {
                 if (item.Checked)
                 {
+                    count_services += 1;
                     foreach (var item2 in TheList2)
                     {
                         if (item2.Checked)
                         {
+                            count_metrics += 1;
                             displayHistory(start, end, Convert.ToInt32(item2.TheValue), item2.TheText.ToString(), Convert.ToInt32(item.TheValue), item.TheText.ToString(), interval);
                         }
                     }
                 }
             }
-            
+
+            if (count_services == 0)
+            {
+                MessageBoxResult error = MessageBox.Show("Please select atleast one service.", "Error");
+                return;
+
+            }
+            if (count_metrics == 0)
+            {
+                MessageBoxResult error = MessageBox.Show("Please select atleast one metric.", "Error");
+                return;
+
+            }
+
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
