@@ -87,7 +87,9 @@ namespace DTM_WPF
                         cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
 
                         reader = cmd.ExecuteReader(); reader.Read();
-                        button.Background = reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ?                                          System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
+                        button.Background= reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ?                                          System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
+                       
+                        button.Opacity = 80;
                         reader.Close();
                     }));
                 }
@@ -143,7 +145,7 @@ namespace DTM_WPF
                             break;
                         case 5:
                             pb_versioncreation.Value = pending.Item1;
-                            pb_versioncreation.ToolTip = ("Percentage: " + (value).ToString() + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
+                            pb_versioncreation.ToolTip = ("Percentage: " + (value).ToString()  + "\nPending: " + pending.Item2.ToString() + "\nBaseline: " + baseline.ToString());
                             break;
                     }
                 }));
