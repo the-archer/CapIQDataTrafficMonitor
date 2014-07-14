@@ -17,17 +17,17 @@
         <my:TimePicker Height="30" HorizontalAlignment="Left" Margin="192,409,0,0" Name="endTime" VerticalAlignment="Top" />
         <Label Content="From" Height="28" HorizontalAlignment="Left" Margin="49,344,0,0" Name="label1" VerticalAlignment="Top" />
         <Label Content="To" Height="28" HorizontalAlignment="Left" Margin="192,344,0,0" Name="label2" VerticalAlignment="Top" />
-        <Button Content="Analyse" Height="62" HorizontalAlignment="Left" Margin="20,364,0,0" Name="button1" VerticalAlignment="Top" Width="92" Click="button1_Click" Grid.Column="1" />
+        <Button Style="{DynamicResource Flat}" Content="Analyse" Height="62" HorizontalAlignment="Left" Margin="20,364,0,0" Name="button1" VerticalAlignment="Top" Width="92" Click="button1_Click" Grid.Column="1" />
         <chartingToolkit:Chart  Name="lineSeries1" VerticalAlignment="Top" Margin="51,127,56,0" Height="211" Grid.ColumnSpan="2">
             <chartingToolkit:LineSeries  
 		 ItemsSource="{Binding}" 
 		IsSelectionEnabled="True"/>
         </chartingToolkit:Chart>
         <Separator Height="6" HorizontalAlignment="Left" Margin="49,463,0,0" Name="separator1" VerticalAlignment="Top" Width="258" />
-        <Button Content="Last 24 hours" Height="23" HorizontalAlignment="Left" Margin="49,496,0,0" Name="day" VerticalAlignment="Top" Width="88" Click="buttonClick" />
-        <Button Content="Last Week" Height="23" HorizontalAlignment="Left" Margin="219,496,0,0" Name="week" VerticalAlignment="Top" Width="88" Click="buttonClick" />
-        <Button Content="Last Month" Height="23" HorizontalAlignment="Left" Margin="49,547,0,0" Name="month" VerticalAlignment="Top" Width="88" Click="buttonClick" />
-        <Button Content="Last Year" Height="23" HorizontalAlignment="Left" Margin="219,547,0,0" Name="year" VerticalAlignment="Top" Width="88" Click="buttonClick" />
+        <Button Style="{DynamicResource Flat}" Content="Last 24 hours" Height="23" HorizontalAlignment="Left" Margin="49,496,0,0" Name="day" VerticalAlignment="Top" Width="88" Click="buttonClick" />
+        <Button Style="{DynamicResource Flat}" Content="Last Week" Height="23" HorizontalAlignment="Left" Margin="219,496,0,0" Name="week" VerticalAlignment="Top" Width="88" Click="buttonClick" />
+        <Button Style="{DynamicResource Flat}" Content="Last Month" Height="23" HorizontalAlignment="Left" Margin="49,547,0,0" Name="month" VerticalAlignment="Top" Width="88" Click="buttonClick" />
+        <Button Style="{DynamicResource Flat}" Content="Last Year" Height="23" HorizontalAlignment="Left" Margin="219,547,0,0" Name="year" VerticalAlignment="Top" Width="88" Click="buttonClick" />
         <GroupBox Header="Services" Height="184" HorizontalAlignment="Left" Margin="393,351,0,0" Name="groupBox1" VerticalAlignment="Top" Width="272">
             <Grid>
                 <ListBox Name="listBoxZone" ItemsSource="{Binding checkedServices}" Background="Azure" Margin="6,14,25,0" Height="167" VerticalAlignment="Top">
@@ -62,5 +62,22 @@
             </Grid>
         </GroupBox>
     </Grid>
-        
+    
+    
+    <UserControl.Resources>
+        <Style x:Key="Flat">
+            <Setter Property="Control.Background" Value="LightSkyBlue" />
+            <Setter Property="Control.BorderBrush" Value="LightSkyBlue" />
+            <Style.Triggers>
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter Property="Control.Background" Value="LightSkyBlue" />
+                    <Setter Property="Control.BorderBrush" Value="LightSkyBlue" />
+                    <Setter Property="Control.FontWeight" Value="Bold" />
+                </Trigger>
+                <Trigger Property="Control.IsFocused" Value="True">
+                    <Setter Property="Control.FontWeight" Value="Bold" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
 </UserControl>

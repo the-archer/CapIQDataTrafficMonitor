@@ -317,6 +317,7 @@ namespace DTM_WPF
             }
             startDate.Text = start.Date.ToString();
             endDate.Text = end.Date.ToString();
+            Analyse();
         } 
     }
 }
