@@ -26,6 +26,8 @@ namespace DTM_WPF
         public MainWindow()
         {
             InitializeComponent();
+            contentControl1.Content = new UserControl1(liveTab, analysisTab);
+            
         }
 
         private void getLive(object sender, RoutedEventArgs e)
