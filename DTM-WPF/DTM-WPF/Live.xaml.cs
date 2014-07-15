@@ -93,22 +93,23 @@ namespace DTM_WPF
                         {
                             button.Content = "NA";
                         }
-                        button.ToolTip = "Processed : " + value + "\nBaseline : " + (int)baseline; reader.Close(); sqlConnection1.Close();
+                        reader.Close(); sqlConnection1.Close();
 
                         if (!button.Content.ToString().Equals("NA"))
                         {
+                            button.ToolTip = "Processed : " + value + "\nBaseline : " + (int)baseline;
                             cmd = new SqlCommand("BAM_GetDisplayColour_prc", sqlConnection1);
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.Add(new SqlParameter("@m_id", SqlDbType.Int)).Value = metric;
                             cmd.Parameters.Add(new SqlParameter("@s_id", SqlDbType.Int)).Value = key;
                             cmd.Parameters.Add(new SqlParameter("@per", SqlDbType.Int)).Value = per;
                             cmd.Parameters.Add(new SqlParameter("@date", SqlDbType.DateTime)).Value = DateTime.Now;
-
+                            
                             sqlConnection1.Open(); reader = cmd.ExecuteReader(); reader.Read();
-                            button.Background = reader[0].ToString().Equals("Red") ? System.Windows.Media.Brushes.Red : (reader[0].ToString().Equals("Green") ?                                          System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
-                            reader.Close(); sqlConnection1.Close();
-                        }
-                        else 
+                            var color = reader[0]; reader.Close(); sqlConnection1.Close();
+                            button.Background = color.Equals("Red") ? System.Windows.Media.Brushes.Red : (color.Equals("Green") ?                                                                        System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Orange);
+                       }
+                       else 
                             button.Background = System.Windows.Media.Brushes.Gray;
                         button.Opacity = 1;
                     }));
